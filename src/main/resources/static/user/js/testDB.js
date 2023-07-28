@@ -1,11 +1,10 @@
-// #userIcon 요소를 클릭 했을 때의 이벤트 핸들러 설정
-$(document).on('click', '#buttonTest', () => {
+$(document).on('click', '#DBbtn', () => {
     // Axios 사용해 Post 요청
     axios({
         method: "post",
-        url: "/alert", // "/alert" URL 로 요청
+        url: "/dbAlert", // "/alert" URL 로 요청
         data: {
-            "title": "title 테스트", // 전송할 데이터의 제목 필드
+            "result": "title 테스트", // 전송할 데이터의 제목 필드
             "msg": "msg 테스트" // 전송할 데이터의 메시지 필드
         },
         dataType: "JSON", // 응답 데이터 타입
@@ -16,9 +15,4 @@ $(document).on('click', '#buttonTest', () => {
         // 응답 데이터(res.data)에 포함된 "alert.html"을 페이지에 추가
         $("body").append(res.data);
     });
-
-
-    $(document).on('click', '#confirmBtn', () => {
-        $('.txt04').remove();
-    });
-})
+});
