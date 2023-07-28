@@ -1,25 +1,30 @@
 package com.shop.fruitshop.user;
 
+import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-//@RequestMapping("/user")
+@RequestMapping("/user")
 public class UserController {
 
 
     private final UserService userService;
 
-    @GetMapping("user/{pathName}")
+    @GetMapping("{pathName}")
     public String login(@PathVariable String pathName) {
         return "user/"+pathName;
     }
 
-    @GetMapping("user/favicon.ico")
+    @GetMapping("favicon.ico")
     @ResponseBody
     void noFavicon() {
     }
@@ -31,10 +36,19 @@ public class UserController {
 //        return "user/joinConfirm";
 //    }
 
-    @PostMapping("user/join")
-    public String join(UserVo userVo){
+    @PostMapping("/join")
+    public String join(@Valid User user,
+                       BindingResult bindingResult,
+                       @RequestParam(required = false) List<String> termStatus,
+                       Model model){
 
-        userService.joinUser(userVo);
+        if (bindingResult.hasErrors()) {
+            return "user/join";
+        }
+
+        String joinEmail = userService.join(user, termStatus);
+
+        model.addAttribute("email", joinEmail);
 
         return "user/joinConfirm";
     }

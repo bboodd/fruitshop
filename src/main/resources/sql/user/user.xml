@@ -5,8 +5,19 @@
 <mapper namespace="com.shop.fruitshop.user.UserMapper">
 
 <!--    회원가입    -->
-    <insert id="joinUser" parameterType="Map">
+    <insert id="joinUser" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user (email, nickname, password)
         VALUES (#{email}, #{nickname}, #{password})
+    </insert>
+
+    <!-- 회원-약관 맵핑 -->
+    <insert id="joinUserTerm">
+        INSERT INTO user_term
+        (user_id,
+         term_id)
+        VALUES (
+        #{userId},
+        (SELECT id FROM term WHERE title = #{termStatus})
+        )
     </insert>
 </mapper>
