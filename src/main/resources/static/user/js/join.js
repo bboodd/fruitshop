@@ -1,4 +1,4 @@
-// $(function(){
+$(function(){
 
     //아이디 중복 체크
 
@@ -17,6 +17,24 @@
         }).then(res => {
             // 서버로부터의 응답 데이터는 res 변수에 저장
             $("#emailCheck").text(res.data);
+        });
+    })
+
+    $(document).on('blur', '#nickname', () => {
+
+        let nickname = document.getElementById("nickname").value;
+
+        axios({
+            method: "post",
+            url: "/user/nicknameCheck",
+            data: {
+                "nickname" : nickname
+            },
+            dataType: "JSON", // 응답 데이터 타입
+            headers: {'Content-Type': 'application/json'} // 요청 헤더에 JSON 형식으로 데이터 전송
+        }).then(res => {
+            // 서버로부터의 응답 데이터는 res 변수에 저장
+            $("#nicknameCheck").text(res.data);
         });
     })
 
@@ -58,4 +76,4 @@
         // }
     });
     // PW 검증 끝
-// });
+});

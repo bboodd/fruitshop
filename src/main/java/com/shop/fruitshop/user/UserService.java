@@ -73,5 +73,10 @@ public class UserService implements UserMapper {
         return userMapper.emailCheck(param);
     }
 
+    @Override
+    public int nicknameCheck(HashMap<String, String> param){
+        return userMapper.nicknameCheck(param);
+    }
+
 
 }

@@ -23,5 +23,7 @@ public interface UserMapper {
 
     int emailCheck(HashMap<String, String> param);
 
+    int nicknameCheck(HashMap<String, String> param);
+
 
 }

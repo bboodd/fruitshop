@@ -86,6 +86,19 @@ public class UserController {
         }
     }
 
+    @RequestMapping("nicknameCheck")
+    @ResponseBody
+    public String nicknameCheck(@RequestBody HashMap<String, String> param){
+
+        int result = userService.nicknameCheck(param);
+
+        if (result == 1) {
+            return "해당 닉네임은 이미 사용 중입니다.";
+        } else {
+            return null;
+        }
+    }
+
 //    @RequestMapping("/testSelect")
 //    @ResponseBody
 //    public HashMap<String, Object> testSelect() {
