@@ -68,5 +68,10 @@ public class UserService implements UserMapper {
     public void joinUserTerm(Long userId, String termStatus){
     }
 
+    @Override
+    public int emailCheck(HashMap<String, String> param){
+        return userMapper.emailCheck(param);
+    }
+
 
 }

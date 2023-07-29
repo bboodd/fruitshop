@@ -21,5 +21,7 @@ public interface UserMapper {
 
     void joinUserTerm(@Param("userId") Long userId, @Param("termStatus") String termStatus);
 
+    int emailCheck(HashMap<String, String> param);
+
 
 }

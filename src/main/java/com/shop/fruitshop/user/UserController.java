@@ -72,6 +72,20 @@ public class UserController {
         return "redirect:/";
     }
 
+//    @PostMapping("/emailCheck")
+    @RequestMapping("emailCheck")
+    @ResponseBody
+    public String emailCheck(@RequestBody HashMap<String, String> param){
+
+        int result = userService.emailCheck(param);
+
+        if (result == 1) {
+            return "이미 가입된 계정입니다.";
+        } else {
+            return null;
+        }
+    }
+
 //    @RequestMapping("/testSelect")
 //    @ResponseBody
 //    public HashMap<String, Object> testSelect() {
