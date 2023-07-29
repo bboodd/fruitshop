@@ -36,6 +36,14 @@ public class UserService implements UserMapper {
 //        userMapper.joinUser(userVo);
 //    }
 
+    @Override
+    public User login(UserLoginForm form){
+        System.out.println("---------------------------");
+        System.out.println("form = " + form);
+        System.out.println("---------------------------");
+        return userMapper.login(form);
+    }
+
     @Transactional
     public String join(User user, List<String> termStatus){
         //유저 조인

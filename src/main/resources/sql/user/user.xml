@@ -10,14 +10,17 @@
         VALUES (#{email}, #{nickname}, #{password})
     </insert>
 
-    <!-- 회원-약관 맵핑 -->
+<!--    회원 약관 매핑   -->
     <insert id="joinUserTerm">
-        INSERT INTO user_term
-        (user_id,
-         term_id)
-        VALUES (
-        #{userId},
-        (SELECT id FROM term WHERE title = #{termStatus})
-        )
+        INSERT INTO user_term(user_id, term_id)
+        VALUES (#{userId},
+                (SELECT id FROM term WHERE title = #{termStatus}))
     </insert>
+
+<!--    회원 로그인    -->
+    <select id="login" resultType="com.shop.fruitshop.domain.User">
+        SELECT email, password
+        FROM user
+        WHERE email = #{email} AND password = #{password}
+    </select>
 </mapper>

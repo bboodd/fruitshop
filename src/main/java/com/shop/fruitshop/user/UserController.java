@@ -2,6 +2,7 @@ package com.shop.fruitshop.user;
 
 import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
 
@@ -53,6 +55,22 @@ public class UserController {
         return "user/joinConfirm";
     }
 
+    @PostMapping("/login")
+    public String login(@Valid UserLoginForm form,
+                        BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "user/login";
+        }
+
+        User loginUser = userService.login(form);
+
+        if (loginUser == null) {
+            bindingResult.reject("loginFail", "이메일과 비밀번호가 일치하지 않습니다.");
+            return "user/login";
+        }
+
+        return "redirect:/";
+    }
 
 //    @RequestMapping("/testSelect")
 //    @ResponseBody

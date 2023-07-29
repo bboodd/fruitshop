@@ -14,7 +14,12 @@ public interface UserMapper {
 
 //        void joinUser(HashMap<String, Object> requestData);
 //        void joinUser(UserVo userVo);
+
+    User login(UserLoginForm form);
+
     void joinUser(User user);
 
     void joinUserTerm(@Param("userId") Long userId, @Param("termStatus") String termStatus);
+
+
 }
