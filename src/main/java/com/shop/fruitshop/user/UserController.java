@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +55,9 @@ public class UserController {
     //로그인
     @PostMapping("/login")
     public String login(@Valid UserLoginForm form,
-                        BindingResult bindingResult){
+                        BindingResult bindingResult,
+                        Model model,
+                        HttpServletRequest request){
         if (bindingResult.hasErrors()){
             return "user/login";
         }
@@ -61,10 +65,27 @@ public class UserController {
         User loginUser = userService.login(form);
 
         if (loginUser == null) {
-            bindingResult.reject("loginFail", "이메일과 비밀번호가 일치하지 않습니다.");
+            model.addAttribute("loginCheck", "이메일과 비밀번호가 일치하지 않습니다.");
             return "user/login";
         }
 
+        //로그인 성공 처리
+        //세션이 있으면 세션을 반환하고 없으면 신규 세션을 생성
+        HttpSession session = request.getSession();
+
+        //세션에 로그인 회원정보를 보관
+        session.setAttribute("loginUser", loginUser);
+
+        return "redirect:/";
+    }
+
+    //로그아웃
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
         return "redirect:/";
     }
 

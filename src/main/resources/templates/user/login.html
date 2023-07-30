@@ -45,7 +45,7 @@
                     <label for="password">
                         <p>비밀번호</p>
                         <input type="textbox" name="password" placeholder="영문, 숫자, 특수문자 (8자-20자 이내)" id="password">
-                        <p class="wrong__pw">아이디와 비밀번호가 일치하지 않습니다.</p>
+                        <p class="wrong__pw" th:text="${loginCheck}"></p>
                     </label>
 
                 </div>

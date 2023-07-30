@@ -2,12 +2,10 @@ package com.shop.fruitshop.user;
 
 import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,22 +17,6 @@ public class UserService implements UserMapper {
 
     private final UserMapper userMapper;
 
-    @Override
-    public HashMap<String, Object> testSelect() {
-        return userMapper.testSelect();
-    }
-
-//    @Override
-//    public void joinUser(HashMap<String, Object> requestData) {
-//
-//        userMapper.joinUser(requestData);
-//    }
-
-//    @Override
-//    public void joinUser(UserVo userVo) {
-//
-//        userMapper.joinUser(userVo);
-//    }
 
     @Override
     public User login(UserLoginForm form){

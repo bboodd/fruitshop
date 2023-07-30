@@ -13,10 +13,13 @@
         <div class="sub-menu">
             <ul class="menu">
                 <li>
-                    <a href="/user/login">Sign In</a>
+                    <a th:if="${session.loginUser != null}" href="/user/logout">Logout</a>
                 </li>
                 <li>
-                    <a href="/user/join">Join</a>
+                    <a th:if="${session.loginUser == null}" href="/user/login">Login</a>
+                </li>
+                <li>
+                    <a th:if="${session.loginUser == null}" href="/user/join">Join</a>
                 </li>
                 <li>
                     <a href="javascript:void(0)">language</a>

@@ -4,7 +4,6 @@ import com.shop.fruitshop.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 @Mapper
