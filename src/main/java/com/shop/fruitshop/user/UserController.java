@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -31,18 +32,12 @@ public class UserController {
     void noFavicon() {
     }
 
-//    @PostMapping("user/join")
-//    public String join(@RequestParam HashMap<String, Object> requestData){
-//        userService.joinUser(requestData);
-//
-//        return "user/joinConfirm";
-//    }
-
+    //회원가입
     @PostMapping("/join")
     public String join(@Valid User user,
                        BindingResult bindingResult,
                        @RequestParam(required = false) List<String> termStatus,
-                       Model model){
+                       RedirectAttributes re){
 
         if (bindingResult.hasErrors()) {
             return "user/join";
@@ -50,11 +45,12 @@ public class UserController {
 
         String joinEmail = userService.join(user, termStatus);
 
-        model.addAttribute("email", joinEmail);
+        re.addFlashAttribute("email", joinEmail);
 
-        return "user/joinConfirm";
+        return "redirect:/user/joinConfirm?email={email}";
     }
 
+    //로그인
     @PostMapping("/login")
     public String login(@Valid UserLoginForm form,
                         BindingResult bindingResult){
@@ -72,7 +68,7 @@ public class UserController {
         return "redirect:/";
     }
 
-//    @PostMapping("/emailCheck")
+    //이메일 중복 체크
     @RequestMapping("emailCheck")
     @ResponseBody
     public String emailCheck(@RequestBody HashMap<String, String> param){
@@ -86,48 +82,18 @@ public class UserController {
         }
     }
 
-//    @RequestMapping("nicknameCheck")
-//    @ResponseBody
-//    public String nicknameCheck(@RequestBody HashMap<String, String> param){
-//
-//        int result = userService.nicknameCheck(param);
-//
-//        if (result == 1) {
-//            return "해당 닉네임은 이미 사용 중입니다.";
-//        } else {
-//            return null;
-//        }
-//    }
-
+    //닉네임 중복 체크
     @RequestMapping("nicknameCheck")
     @ResponseBody
-    public int nicknameCheck(@RequestBody HashMap<String, String> param){
+    public String nicknameCheck(@RequestBody HashMap<String, String> param){
 
         int result = userService.nicknameCheck(param);
 
-        return result;
+        if (result == 1) {
+            return "해당 닉네임은 이미 사용 중입니다.";
+        } else {
+            return null;
+        }
     }
-
-//    @RequestMapping("/testSelect")
-//    @ResponseBody
-//    public HashMap<String, Object> testSelect() {
-//        return userService.testSelect();
-//    }
-
-
-//    @GetMapping("/testSelect")
-//    public String test(Model model){
-//        model.addAttribute("result",userService.testSelect());
-//        return "test";
-//    }
-
-//    @RequestMapping("dbAlert")
-//    public String alertModal(@RequestBody HashMap<String, Object> param,
-//                             Model model){
-//        model.addAttribute("title", param.get("title"));
-//        model.addAttribute("msg", param.get("msg"));
-//
-//        return "modal/alert";
-//    }
 
 }

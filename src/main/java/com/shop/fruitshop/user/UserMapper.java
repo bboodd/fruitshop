@@ -10,11 +10,6 @@ import java.util.HashMap;
 @Mapper
 public interface UserMapper {
 
-    HashMap<String, Object> testSelect();
-
-//        void joinUser(HashMap<String, Object> requestData);
-//        void joinUser(UserVo userVo);
-
     User login(UserLoginForm form);
 
     void joinUser(User user);

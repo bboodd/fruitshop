@@ -38,9 +38,6 @@ public class UserService implements UserMapper {
 
     @Override
     public User login(UserLoginForm form){
-        System.out.println("---------------------------");
-        System.out.println("form = " + form);
-        System.out.println("---------------------------");
         return userMapper.login(form);
     }
 
@@ -48,9 +45,6 @@ public class UserService implements UserMapper {
     public String join(User user, List<String> termStatus){
         //유저 조인
         userMapper.joinUser(user);
-        System.out.println("-------------------------------");
-        System.out.println(user.getId());
-        System.out.println("-----------------------------");
 
         //선택 약관 추가
         if (termStatus != null){

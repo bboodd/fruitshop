@@ -14,13 +14,5 @@ public class MainController {
     @GetMapping("/")
     public String home(){return "index";}
 
-//    @RequestMapping("alert")
-//    public String alertModal(@RequestBody HashMap<String, Object> param,
-//                             Model model){
-//        model.addAttribute("title", param.get("title"));
-//        model.addAttribute("msg", param.get("msg"));
-//
-//        return "modal/alert";
-//    }
 
 }

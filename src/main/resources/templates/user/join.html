@@ -54,9 +54,9 @@
                         <input type="textbox" name="password" id="password" placeholder="영문, 숫자, 특수문자 (8자-20자 이내)">
                         <p class="wrong__pw" id="pwdCheck"></p>
                     </label>
-                    <label for="pw2">
+                    <label for="password2">
                         <p>비밀번호 확인</p>
-                        <input type="textbox" name="pw2" value="비밀번호를 한번 더 입력해주세요." id="pw2" class="wrong__pw__input">
+                        <input type="textbox" name="password2" id="password2" placeholder="비밀번호를 한번 더 입력해주세요.">
                         <p class="wrong__pw" id="pwdCheck2"></p>
                     </label>
                 </div>
@@ -84,17 +84,17 @@
                     </label>
 
                     <label for="chk1">
-                        <input type="checkbox" name="termStatus" value="over14" id="chk1">
+                        <input type="checkbox" name="termStatus" value="over14" id="chk1" class="required_term">
                         <p>[필수] 만 14세 이상입니다.</p>
                     </label>
 
                     <label for="chk2">
-                        <input type="checkbox" name="termStatus" value="termOfUse" id="chk2">
+                        <input type="checkbox" name="termStatus" value="termOfUse" id="chk2"class="required_term">
                         <p>[필수] 이용약관 <span>보기</span></p>
                     </label>
 
                     <label for="chk3">
-                        <input type="checkbox" name="termStatus" value="requiredPersonalInfo" id="chk3">
+                        <input type="checkbox" name="termStatus" value="requiredPersonalInfo" id="chk3" class="required_term">
                         <p>[필수] 개인정보수집·이용동의서 <span>보기</span></p>
                     </label>
 
@@ -118,7 +118,7 @@
         <div class="button">
             <div class="inner">
                 <a>
-                    <button type="submit">회원가입</button>
+                    <button type="submit" id="submit">회원가입</button>
                 </a>
             </div>
 
