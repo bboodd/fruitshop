@@ -17,6 +17,11 @@ $(function(){
         }).then(res => {
             // 서버로부터의 응답 데이터는 res 변수에 저장
             $("#emailCheck").text(res.data);
+            if (res.data == "이미 가입된 계정입니다."){
+                $("#email").attr('class','wrong__pw__input')
+            } else{
+                $("#email").attr('class', 'NoClass');
+            }
         });
     })
 
@@ -34,8 +39,14 @@ $(function(){
             headers: {'Content-Type': 'application/json'} // 요청 헤더에 JSON 형식으로 데이터 전송
         }).then(res => {
             // 서버로부터의 응답 데이터는 res 변수에 저장
-            $("#nicknameCheck").text(res.data);
-        });
+            if(res.data == 1) {
+                $("#nicknameCheck").text("해당 닉네임은 이미 사용 중입니다.");
+                $("#nickname").attr('class', 'wrong__pw__input');
+            } else{
+                $("#nicknameCheck").text("");
+                $("#nickname").attr('class', 'NoClass');
+            }
+            });
     })
 
 
