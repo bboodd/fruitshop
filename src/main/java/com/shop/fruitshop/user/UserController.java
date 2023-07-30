@@ -3,6 +3,7 @@ package com.shop.fruitshop.user;
 import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ public class UserController {
 
 
     private final UserService userService;
+    private final PasswordEncoder pwEncoder;
 
     @GetMapping("{pathName}")
     public String login(@PathVariable String pathName) {
@@ -39,11 +41,18 @@ public class UserController {
     public String join(@Valid User user,
                        BindingResult bindingResult,
                        @RequestParam(required = false) List<String> termStatus,
-                       RedirectAttributes re){
+                       RedirectAttributes re) {
 
         if (bindingResult.hasErrors()) {
             return "user/join";
         }
+
+        String rawPw = "";
+        String encodePw = "";
+
+        rawPw = user.getPassword();
+        encodePw = pwEncoder.encode(rawPw);
+        user.setPassword(encodePw);
 
         String joinEmail = userService.join(user, termStatus);
 
@@ -58,25 +67,34 @@ public class UserController {
                         BindingResult bindingResult,
                         Model model,
                         HttpServletRequest request){
+
         if (bindingResult.hasErrors()){
             return "user/login";
         }
 
-        User loginUser = userService.login(form);
-
-        if (loginUser == null) {
-            model.addAttribute("loginCheck", "이메일과 비밀번호가 일치하지 않습니다.");
-            return "user/login";
-        }
-
-        //로그인 성공 처리
-        //세션이 있으면 세션을 반환하고 없으면 신규 세션을 생성
         HttpSession session = request.getSession();
 
-        //세션에 로그인 회원정보를 보관
-        session.setAttribute("loginUser", loginUser);
+        String rawPw = "";
+        String encodePw = "";
 
-        return "redirect:/";
+        User loginUser = userService.login(form);
+
+        if (loginUser != null) {
+            rawPw = form.getPassword();
+            encodePw = loginUser.getPassword();
+
+            if (true == pwEncoder.matches(rawPw, encodePw)) {   //비밀번호 일치 여부 판단
+                loginUser.setPassword("");    // 인코딩된 비밀번호 정보 지움
+                session.setAttribute("loginUser", loginUser);    // session에 사용자 정보 저장
+                return "redirect:/";
+            } else {
+                model.addAttribute("loginCheck", "비밀번호가 일치하지 않습니다.");
+                return "user/login";
+            }
+        } else {
+            model.addAttribute("loginCheck", "아이디가 일치하지 않습니다.");
+            return "user/login";
+        }
     }
 
     //로그아웃

@@ -38,13 +38,13 @@
             <div class="login__input">
                 <label for="email">
                     <p>이메일주소(ID)</p>
-                    <input type="textbox" name="email" placeholder="이메일 주소 입력" id="email">
+                    <input type="text" name="email" placeholder="이메일 주소 입력" id="email">
                 </label>
 
                 <div class="input__pw">
                     <label for="password">
                         <p>비밀번호</p>
-                        <input type="textbox" name="password" placeholder="영문, 숫자, 특수문자 (8자-20자 이내)" id="password">
+                        <input type="password" name="password" placeholder="영문, 숫자, 특수문자 (8자-20자 이내)" id="password">
                         <p class="wrong__pw" th:text="${loginCheck}"></p>
                     </label>
 
