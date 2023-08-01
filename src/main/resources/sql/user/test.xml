@@ -33,6 +33,26 @@
         accepted_at
     </sql>
 
+    <!--    product 테이블 전체 컬럼-->
+    <sql id="productColumns">
+        id,
+        category_id,
+        name,
+        price,
+        status,
+        stock_quantity,
+        content,
+        created_at,
+        updated_at
+    </sql>
+
+    <!--    category 테이블 전체 컬럼-->
+    <sql id="categoryColumns">
+        id,
+        category_name
+    </sql>
+
+
     <!--    SELECT <include refid="userColumns"/>  -->
 
 
