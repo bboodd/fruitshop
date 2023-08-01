@@ -19,8 +19,8 @@ public class UserService implements UserMapper {
 
 
     @Override
-    public User login(UserLoginForm form){
-        return userMapper.login(form);
+    public User findByEmail(String email){
+        return userMapper.findByEmail(email);
     }
 
     @Transactional
@@ -53,6 +53,9 @@ public class UserService implements UserMapper {
     public int nicknameCheck(HashMap<String, String> param){
         return userMapper.nicknameCheck(param);
     }
+
+    @Override
+    public int changePassword(String email, String newPassword){ return userMapper.changePassword(email, newPassword);}
 
 
 }

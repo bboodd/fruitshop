@@ -43,15 +43,14 @@ $(function(){
                 headers: {'Content-Type': 'application/json'} // 요청 헤더에 JSON 형식으로 데이터 전송
             }).then(res => {
                 // 서버로부터의 응답 데이터는 res 변수에 저장
-                $("#emailCheck").text(res.data);
-                if (res.data == "이미 가입된 계정입니다.") {
-
-                    $("#email").attr('class', 'wrong__pw__input');
-                    chk1 = false;
-                } else {
-
+                if (!res.data) {
+                    $("#emailCheck").text("");
                     $("#email").attr('class', 'NoClass');
                     chk1 = true;
+                } else {
+                    $("#emailCheck").text("이미 가입된 계정입니다.");
+                    $("#email").attr('class', 'wrong__pw__input');
+                    chk1 = false;
                 }
             });
         }
@@ -91,15 +90,14 @@ $(function(){
                 headers: {'Content-Type': 'application/json'} // 요청 헤더에 JSON 형식으로 데이터 전송
             }).then(res => {
                 // 서버로부터의 응답 데이터는 res 변수에 저장
-                $("#nicknameCheck").text(res.data);
-                if (res.data == "해당 닉네임은 이미 사용 중입니다.") {
-
-                    $("#nickname").attr('class', 'wrong__pw__input');
-                    chk2 = false;
-                } else {
-
+                if (!res.data) {
+                    $("#nicknameCheck").text("");
                     $("#nickname").attr('class', 'NoClass');
                     chk2 = true;
+                } else {
+                    $("#nicknameCheck").text("해당 닉네임은 이미 사용 중입니다.");
+                    $("#nickname").attr('class', 'wrong__pw__input');
+                    chk2 = false;
                 }
             });
         }

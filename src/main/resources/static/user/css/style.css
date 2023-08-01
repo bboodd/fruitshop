@@ -565,7 +565,15 @@
   border: none;
   position: relative;
   background-color: #FFF3EB;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
+}
+.changePw_wrap .inner .txt03 label .wrong__pw__input {
+  border: 1px solid red;
+}
+.changePw_wrap .inner .txt03 label .wrong__pw {
+  color: red;
+  font: normal 11px/1 "Nanum Gothic";
+  margin-top: 7px;
 }
 .changePw_wrap .inner .txt03 a {
   display: flex;
@@ -3011,6 +3019,7 @@ header .inner .main-menu .item .red .material-icons {
   top: 0;
   right: 0;
   width: 120px;
+  z-index: 100;
 }
 #aside .sidebar ul {
   display: flex;

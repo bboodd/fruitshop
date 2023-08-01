@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프룻프룻 쇼핑몰</title>
+
+    <!--Open Graph-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="프룻프룻 Shopping Mall" />
+    <meta property="og:title" content="프룻프룻 Shopping Mall" />
+    <meta property="og:description" content="프룻프룻 Shopping Mall 입니다." />
+    <meta property="og:image" content="./img/openGraph.png" />
+    <meta property="og:url" content="https://prpr-shopping-mall.co.kr" />
+
+    <!--파비콘-->
+    <link rel="icon" href="./favicon.ico" />
+
+    <th:block th:insert="~{includes/library}"></th:block>
+    <th:block th:insert="~{includes/style}"></th:block>
+    <th:block th:insert="~{includes/scripts}"></th:block>
+
+<body>
+
+<div th:insert="~{fragment/header.html :: copy}"></div>
+
+    <div class="changePw_wrap">
+        <div class="inner box-shadow">
+            <div class="txt01">
+                <p>비밀번호 변경</p>
+            </div>
+
+            <div class="txt02">
+                <p>비밀번호는
+                    <span>영문자 + 숫자 + 특수문자 포함 최소 8자리 이상 <br> 20자리 이내</span>로 설정해주세요.
+                </p>
+            </div>
+
+            <div class="txt03">
+                <label for="newPw">
+                    <p>새비밀번호</p>
+                    <input type="password" name="newPw" placeholder="비밀번호를 입력해주세요. (특수문자포함 8자리 이상)" id="newPw">
+                    <p class="wrong__pw" id="pwdCheck"></p>
+                </label>
+
+                <label for="newPw2">
+                    <p>새비밀번호 확인</p>
+                    <input type="password" name="newPw2" placeholder="비밀번호를 한번 더 입력해주세요." id="newPw2">
+                    <p class="wrong__pw" id="pwdCheck2"></p>
+                </label>
+
+
+                <a>
+                    <button id="changePw">비밀번호 변경</button>
+                </a>
+            </div>
+
+            <!-- 비밀번호가 정상적으로 변경되었습니다. 모달 창 -->
+            <div class="txt04" style="display: none;">
+                <div class="inner">
+
+                    <h4>알림</h4>
+
+                    <h5>비밀번호가 정상적으로 변경되었습니다. <br>
+                        로그인 화면으로 이동합니다.
+                        <a href="/user/login">확인</a>
+                    </h5>
+
+                </div>
+            </div>
+
+            <!-- 비밀번호가 변경 실패 모달 -->
+            <div class="txt05" style="display: none;">
+                <div class="inner">
+
+                    <h4>알림</h4>
+
+                    <h5>비밀번호가 변경에 실패했습니다.<br>
+                        <a href="javascript:location.reload()">확인</a>
+                    </h5>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div th:insert="~{fragment/footer.html :: copy}"></div>
+
+</body>
+
+</html>

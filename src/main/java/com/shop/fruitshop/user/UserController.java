@@ -27,7 +27,7 @@ public class UserController {
     private final PasswordEncoder pwEncoder;
 
     @GetMapping("{pathName}")
-    public String login(@PathVariable String pathName) {
+    public String path(@PathVariable String pathName) {
         return "user/"+pathName;
     }
 
@@ -77,7 +77,7 @@ public class UserController {
         String rawPw = "";
         String encodePw = "";
 
-        User loginUser = userService.login(form);
+        User loginUser = userService.findByEmail(form.getEmail());
 
         if (loginUser != null) {
             rawPw = form.getPassword();
@@ -110,29 +110,30 @@ public class UserController {
     //이메일 중복 체크
     @RequestMapping("emailCheck")
     @ResponseBody
-    public String emailCheck(@RequestBody HashMap<String, String> param){
+    public int emailCheck(@RequestBody HashMap<String, String> param){
 
-        int result = userService.emailCheck(param);
-
-        if (result == 1) {
-            return "이미 가입된 계정입니다.";
-        } else {
-            return null;
-        }
+        return userService.emailCheck(param);
     }
 
     //닉네임 중복 체크
     @RequestMapping("nicknameCheck")
     @ResponseBody
-    public String nicknameCheck(@RequestBody HashMap<String, String> param){
+    public int nicknameCheck(@RequestBody HashMap<String, String> param){
 
-        int result = userService.nicknameCheck(param);
-
-        if (result == 1) {
-            return "해당 닉네임은 이미 사용 중입니다.";
-        } else {
-            return null;
-        }
+        return userService.nicknameCheck(param);
     }
+
+    @RequestMapping("/changePassword")
+    @ResponseBody
+    public int changePassword(@RequestBody HashMap<String, String> param){
+
+        String rawPw = param.get("newPassword");
+        String encodePw = pwEncoder.encode(rawPw);
+
+        return userService.changePassword(param.get("email"), encodePw);
+    }
+
+
+
 
 }

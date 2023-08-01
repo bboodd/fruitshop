@@ -9,7 +9,7 @@ import java.util.HashMap;
 @Mapper
 public interface UserMapper {
 
-    User login(UserLoginForm form);
+    User findByEmail(String email);
 
     void joinUser(User user);
 
@@ -18,6 +18,8 @@ public interface UserMapper {
     int emailCheck(HashMap<String, String> param);
 
     int nicknameCheck(HashMap<String, String> param);
+
+    int changePassword(@Param("email") String email, @Param("newPassword") String newPassword);
 
 
 }
