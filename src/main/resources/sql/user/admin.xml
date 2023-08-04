@@ -11,4 +11,12 @@
         WHERE id = #{id} AND password = #{password}
     </select>
 
+<!--    상품 등록   -->
+    <insert id="addProduct" keyProperty="id">
+        INSERT INTO product (category_id, name, price, discount_rate, stock_quantity, content)
+        VALUES ((SELECT id FROM category WHERE category_name = #{categoryName}),
+                #{name}, #{price}, #{discountRate}, #{stockQuantity}, #{content})
+    </insert>
+
+
 </mapper>

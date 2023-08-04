@@ -1,6 +1,7 @@
 package com.shop.fruitshop.admin;
 
 import com.shop.fruitshop.domain.Admin;
+import com.shop.fruitshop.domain.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
@@ -57,5 +59,16 @@ public class AdminController {
             }
         }
         return "redirect:/admin";
+    }
+
+    @PostMapping("/addProduct")
+    public String addProduct(@Valid addProductForm form, BindingResult bindingResult, Model model){
+
+        if(bindingResult.hasErrors()){
+            return "admin/addProduct";
+        }
+        adminService.addProduct(form);
+
+        return "admin/product";
     }
 }

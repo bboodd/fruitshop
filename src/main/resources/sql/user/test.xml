@@ -39,6 +39,7 @@
         category_id,
         name,
         price,
+        discount_rate,
         status,
         stock_quantity,
         content,
@@ -51,6 +52,34 @@
         id,
         category_name
     </sql>
+
+<!--    likes 테이블 전체 컬럼-->
+    <sql id="likesColumns">
+        id,
+        user_id,
+        productid
+    </sql>
+
+<!--    product_image 테이블 전체 컬림-->
+    <sql id="productImageColumns">
+        id,
+        product_id,
+        origin_name,
+        file_name,
+        file_size,
+        create_at,
+        update_at
+    </sql>
+
+<!--    review 테이블 전체 컬림-->
+    <sql id="reviewColumns">
+        id,
+        user_id,
+        product_id,
+        content
+    </sql>
+
+
 
 
     <!--    SELECT <include refid="userColumns"/>  -->

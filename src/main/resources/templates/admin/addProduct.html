@@ -30,20 +30,21 @@
     <div th:insert="~{fragment/admin/header :: copy}"></div>
 
     <section id="admin_product02">
+        <form action="/admin/addProduct" method="post">
         <div class="inner">
             <div class="title">
                 <h2>상품등록</h2>
             </div>
 
             <div class="admin_product02__wrap">
-                <label for="productName" class="productName">
+                <label for="name" class="productName">
                     <p> <span>*</span> 상품명</p>
-                    <input type="textbox" name="productName" value="상품명을 입력해주세요." id="productName">
+                    <input type="text" name="name" placeholder="상품명을 입력해주세요." id="name">
                 </label>
 
-                <label for="sort">
+                <label for="categoryName">
                     <p> <span>*</span> 분류</p>
-                    <select name="sort" id="sort">
+                    <select name="categoryName" id="categoryName">
                         <p>분류</p>
                         <option value="봄과일">봄과일</option>
                         <option value="여름과일">여름과일</option>
@@ -54,26 +55,26 @@
 
                 <label for="price">
                     <p> <span>*</span> 상품금액</p>
-                    <input type="textbox" name="price" value="0" id="price">
+                    <input type="number" name="price" placeholder="0" id="price">
                     원
                 </label>
 
-                <label for="discount">
+                <label for="discountRate">
                     <p> 상품할인율 </p>
-                    <input type="textbox" name="discount" value="0" id="discount">
+                    <input type="number" name="discountRate" placeholder="0" id="discountRate">
                     %
                 </label>
 
                 <label for="totalPrice" class="totalPrice">
                     <p> 할인적용 후 금액 </p>
-                    <input type="textbox" name="totalPrice" value="0" id="totalPrice">
+                    <input type="text" name="totalPrice" value="0" id="totalPrice">
                     원
                 </label>
 
-                <label for="stock">
+                <label for="stockQuantity">
                     <p> <span>*</span> 재고수량 </p>
-                    <input type="textbox" name="stock" value="0" id="stock">
-                    원
+                    <input type="number" name="stockQuantity" placeholder="0" id="stockQuantity">
+                    개
                 </label>
 
                 <label for="productPicture" class="productPicture">
@@ -84,18 +85,19 @@
                 </label>
 
 
-                <label for="description" class="description">
+                <label for="content" class="description">
                     <p> <span>*</span> 상품 상세정보 </p>
-                    <input type="textbox" name="description" id="description">
+                    <input type="text" name="content" id="content">
                 </label>
 
             </div>
 
             <div class="buttons">
-                <button>취소하기</button>
-                <button>등록하기</button>
+                <button type="button" onclick="location.href='/admin/product'">취소하기</button>
+                <button type="submit">등록하기</button>
             </div>
         </div>
+        </form>
     </section>
 
 
