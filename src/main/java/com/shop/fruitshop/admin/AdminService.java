@@ -18,8 +18,15 @@ public class AdminService implements AdminMapper {
         return adminMapper.findById(id);
     }
 
-    @Override
-    public void addProduct(addProductForm form){
+    @Transactional
+    public void addProductAndImage(addProductForm form){
         adminMapper.addProduct(form);
+        adminMapper.addProductImage(form);
     }
+
+    @Override
+    public void addProduct(addProductForm form){}
+
+    @Override
+    public void addProductImage(addProductForm form){}
 }

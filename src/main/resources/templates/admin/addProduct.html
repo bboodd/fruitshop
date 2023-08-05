@@ -30,7 +30,7 @@
     <div th:insert="~{fragment/admin/header :: copy}"></div>
 
     <section id="admin_product02">
-        <form action="/admin/addProduct" method="post">
+        <form action="/admin/addProduct" method="post" encType="multipart/form-data">
         <div class="inner">
             <div class="title">
                 <h2>상품등록</h2>
@@ -81,7 +81,7 @@
                     <p> <span>*</span> 상품이미지 </p>
                     <div>+ 추가</div>
                     <input type="file" name="productPicture" id="productPicture" accept="image/*">
-                    <img src="./img/이미지위치.png" alt="미리보기 이미지">
+                    <img id="thumbnail" src="./img/이미지위치.png" alt="미리보기 이미지">
                 </label>
 
 

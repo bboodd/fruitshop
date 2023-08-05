@@ -12,10 +12,17 @@
     </select>
 
 <!--    상품 등록   -->
-    <insert id="addProduct" keyProperty="id">
+    <insert id="addProduct">
         INSERT INTO product (category_id, name, price, discount_rate, stock_quantity, content)
         VALUES ((SELECT id FROM category WHERE category_name = #{categoryName}),
                 #{name}, #{price}, #{discountRate}, #{stockQuantity}, #{content})
+    </insert>
+
+<!--    상품 이미지 등록   -->
+    <insert id="addProductImage">
+        INSERT INTO product_image (product_id, origin_name, file_name, file_size)
+        VALUES ((SELECT id FROM product WHERE name = #{name}),
+                #{originName}, #{fileName}, #{fileSize})
     </insert>
 
 

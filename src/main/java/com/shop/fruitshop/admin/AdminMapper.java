@@ -10,5 +10,6 @@ public interface AdminMapper {
     Admin findById(String id);
 
     void addProduct(addProductForm form);
+    void addProductImage(addProductForm form);
 
 }

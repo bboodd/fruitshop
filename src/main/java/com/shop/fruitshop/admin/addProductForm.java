@@ -11,6 +11,9 @@ public class addProductForm {
     private int price;
     private int discountRate = 0;
     private int stockQuantity;
-//    private ProductImage productImage;
     private String content;
+//이미지
+    private String originName;
+    private String fileName;
+    private String fileSize;
 }
