@@ -46,6 +46,14 @@ public class AdminController {
     void noFavicon() {
     }
 
+    @GetMapping("product")
+    public String product(Model model){
+        model.addAttribute("count", adminService.countStatusAll());
+        model.addAttribute("list", adminService.selectProductAll());
+
+        return "admin/product";
+    }
+
     @PostMapping("/login")
     public String login(Admin admin, BindingResult bindingResult, HttpServletRequest request) {
 
@@ -94,10 +102,32 @@ public class AdminController {
         return "admin/product";
     }
 
-    @PostMapping("/imageUploadHandler")
+    @RequestMapping("/imageUploadHandler")
     @ResponseBody
     public String imageUploadHandler(@RequestParam("file") MultipartFile file) throws IOException{
         return fireBaseService.uploadFiles(file, "tinymce_images", file.getOriginalFilename());
+    }
+
+    @RequestMapping("/productStopAndDelete")
+    @ResponseBody
+    public int productStopAndDelete(@RequestBody HashMap<String, Object> param){
+
+        if(param.get("selectedStopId")!=null) {
+
+            return adminService.saleStopOne(param);
+        }
+
+        if(param.get("selectedStopIds")!=null) {
+
+            return adminService.saleStopMany(param);
+        }
+
+        if(param.get("selectedDeleteIds")!=null) {
+
+            return adminService.productDeleteMany(param);
+        }
+
+        return 0;
     }
 
 }

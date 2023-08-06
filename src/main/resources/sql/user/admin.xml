@@ -25,5 +25,63 @@
                 #{originName}, #{fileName}, #{fileSize})
     </insert>
 
+<!--    상품 상태에 따른 개수 조회   -->
+    <select id="countStatusAll" resultType="java.util.Map">
+        SELECT
+            SUM(CASE WHEN status IN (1, 2, 3) THEN 1 ELSE 0 END) AS total_count,
+            SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS status_1_count,
+            SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) AS status_2_count,
+            SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) AS status_3_count
+        FROM
+            product
+    </select>
+
+<!--    전체 상품 리스트 조회   -->
+    <select id="selectProductAll" resultType="java.util.Map">
+        SELECT
+            product.id,
+            CASE product.status
+                WHEN 1 THEN '판매중'
+                WHEN 2 THEN '판매중지'
+                WHEN 3 THEN '품절'
+                END AS status,
+            product.name,
+            product.price,
+            product.discount_rate,
+            DATE_FORMAT(product.created_at, '%Y-%m-%d') AS created_at,
+            DATE_FORMAT(product.updated_at, '%Y-%m-%d') AS updated_at,
+            category.category_name
+        FROM product product
+                 JOIN category category
+                      ON product.category_id = category.id
+        WHERE product.status = 1 or product.status = 2 or product.status = 3
+        ORDER BY product.id DESC
+            LIMIT 10
+    </select>
+
+    <update id="saleStopOne">
+        UPDATE product
+        SET status = 2
+        WHERE id = #{selectedStopId}
+    </update>
+
+    <update id="saleStopMany">
+        UPDATE product
+        SET status = 2
+        WHERE id IN
+        <foreach collection="selectedStopIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="productDeleteMany">
+        UPDATE product
+        SET status = 4
+        WHERE id IN
+        <foreach collection="selectedDeleteIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
 
 </mapper>

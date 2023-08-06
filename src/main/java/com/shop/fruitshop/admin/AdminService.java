@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,4 +32,29 @@ public class AdminService implements AdminMapper {
 
     @Override
     public void addProductImage(addProductForm form){}
+
+    @Override
+    public HashMap<String, Object> countStatusAll() {
+        return adminMapper.countStatusAll();
+    }
+
+    @Override
+    public List<HashMap<String, Object>> selectProductAll(){
+        return adminMapper.selectProductAll();
+    }
+
+    @Override
+    public int saleStopOne(HashMap<String, Object> param){
+        return adminMapper.saleStopOne(param);
+    }
+
+    @Override
+    public int saleStopMany(HashMap<String, Object> param){
+        return adminMapper.saleStopMany(param);
+    }
+
+    @Override
+    public int productDeleteMany(HashMap<String, Object> param){
+        return adminMapper.productDeleteMany(param);
+    }
 }
