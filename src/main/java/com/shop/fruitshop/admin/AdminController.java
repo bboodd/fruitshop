@@ -94,4 +94,10 @@ public class AdminController {
         return "admin/product";
     }
 
+    @PostMapping("/imageUploadHandler")
+    @ResponseBody
+    public String imageUploadHandler(@RequestParam("file") MultipartFile file) throws IOException{
+        return fireBaseService.uploadFiles(file, "tinymce_images", file.getOriginalFilename());
+    }
+
 }
