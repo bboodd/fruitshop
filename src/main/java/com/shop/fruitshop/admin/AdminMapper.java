@@ -18,7 +18,11 @@ public interface AdminMapper {
 
     HashMap<String, Object> countStatusAll();
 
+    int countProducts(HashMap<String, Object> param);
+
     List<HashMap<String, Object>> selectProductAll();
+
+    List<HashMap<String, Object>> selectProductList(HashMap<String, Object> param);
 
     int saleStopOne(HashMap<String, Object> param);
 

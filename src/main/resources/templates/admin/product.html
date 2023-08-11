@@ -59,8 +59,8 @@
                     <span>게시상태</span>
                     <div class="buttons">
                         <button class="status-btn" value="1">판매중</button>
-                        <button class="status-btn" value="1">판매중지</button>
-                        <button class="status-btn" value="1">품절</button>
+                        <button class="status-btn" value="2">판매중지</button>
+                        <button class="status-btn" value="3">품절</button>
                     </div>
                 </div>
                 <div class="sort">
@@ -74,16 +74,16 @@
                 </div>
                 <div class="search">
                     <span>검색</span>
-                    <input type="text" placeholder="상품명 검색" id="search">
+                    <input type="text" placeholder="상품명 검색" id="searchKeyword">
                     <div class="buttons">
-                        <button>검색</button>
+                        <button class="searchBtn">검색</button>
                     </div>
                 </div>
             </div>
 
             <div class="box03">
                 <div class="left">
-                    <span class="margin">검색결과 <span class="bold" id=searchResult th:text="${count.total_count}"></span>건</span>
+                    <span class="margin">검색결과 <span class="bold" id=search_result th:text="${count.total_count}"></span>건</span>
                     <button id="stop_sale">선택 판매중지</button>
                     <button id="product_delete">선택삭제</button>
                 </div>

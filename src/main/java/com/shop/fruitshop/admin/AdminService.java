@@ -39,8 +39,18 @@ public class AdminService implements AdminMapper {
     }
 
     @Override
+    public int countProducts(HashMap<String, Object> param) {
+        return adminMapper.countProducts(param);
+    }
+
+    @Override
     public List<HashMap<String, Object>> selectProductAll(){
         return adminMapper.selectProductAll();
+    }
+
+    @Override
+    public List<HashMap<String, Object>> selectProductList(HashMap<String, Object> param) {
+        return adminMapper.selectProductList(param);
     }
 
     @Override

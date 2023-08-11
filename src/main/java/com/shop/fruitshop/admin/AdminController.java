@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -52,6 +53,24 @@ public class AdminController {
         model.addAttribute("list", adminService.selectProductAll());
 
         return "admin/product";
+    }
+
+    @ResponseBody
+    @PostMapping("/product")
+    public HashMap<String, Object> product(@RequestBody HashMap<String, Object> param){
+
+
+        System.out.println("테스트"+param);
+
+        List<HashMap<String, Object>> data = adminService.selectProductList(param);
+        int count = adminService.countProducts(param);
+
+        HashMap<String,Object> data_count = new HashMap<>();
+
+        data_count.put("data",data);
+        data_count.put("count",count);
+
+        return data_count;
     }
 
     @PostMapping("/login")
