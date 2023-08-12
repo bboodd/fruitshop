@@ -30,5 +30,7 @@ public interface AdminMapper {
 
     int productDeleteMany(HashMap<String, Object> param);
 
+    int productNameCheck(HashMap<String, String> param);
+
 
 }

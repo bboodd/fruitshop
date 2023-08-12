@@ -118,7 +118,7 @@ public class AdminController {
 
         adminService.addProductAndImage(form);
 
-        return "admin/product";
+        return "redirect:/admin/product";
     }
 
     @RequestMapping("/imageUploadHandler")
@@ -147,6 +147,13 @@ public class AdminController {
         }
 
         return 0;
+    }
+
+    @RequestMapping("/productNameCheck")
+    @ResponseBody
+    public int productNameCheck(@RequestBody HashMap<String, String> param){
+
+        return adminService.productNameCheck(param);
     }
 
 }

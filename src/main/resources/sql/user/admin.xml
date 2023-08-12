@@ -139,5 +139,12 @@
         </foreach>
     </update>
 
+<!--    상품 이름 중복 체크   -->
+    <select id="productNameCheck" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+        WHERE name = #{name}
+    </select>
+
 
 </mapper>

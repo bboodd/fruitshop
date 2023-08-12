@@ -40,6 +40,7 @@
                 <label for="name" class="productName">
                     <p> <span>*</span> 상품명</p>
                     <input type="text" name="name" placeholder="상품명을 입력해주세요." id="name">
+                    <p class="wrong__pw" id="productNameCheck"></p>
                 </label>
 
                 <label for="categoryName">
@@ -61,13 +62,13 @@
 
                 <label for="discountRate">
                     <p> 상품할인율 </p>
-                    <input type="number" name="discountRate" placeholder="0" id="discountRate">
+                    <input type="number" name="discountRate" placeholder="0" value=0 id="discountRate">
                     %
                 </label>
 
                 <label for="totalPrice" class="totalPrice">
                     <p> 할인적용 후 금액 </p>
-                    <input type="text" name="totalPrice" value="0" id="totalPrice">
+                    <input type="number" name="totalPrice" value="0" id="totalPrice">
                     원
                 </label>
 
@@ -94,7 +95,7 @@
 
             <div class="buttons">
                 <button type="button" onclick="location.href='/admin/product'">취소하기</button>
-                <button type="submit">등록하기</button>
+                <button type="submit" id="submit">등록하기</button>
             </div>
         </div>
         </form>

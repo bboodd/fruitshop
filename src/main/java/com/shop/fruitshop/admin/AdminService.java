@@ -67,4 +67,9 @@ public class AdminService implements AdminMapper {
     public int productDeleteMany(HashMap<String, Object> param){
         return adminMapper.productDeleteMany(param);
     }
+
+    @Override
+    public int productNameCheck(HashMap<String, String> param){
+        return adminMapper.productNameCheck(param);
+    }
 }
