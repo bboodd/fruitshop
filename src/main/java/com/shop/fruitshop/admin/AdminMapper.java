@@ -2,7 +2,9 @@ package com.shop.fruitshop.admin;
 
 import com.shop.fruitshop.domain.Admin;
 import com.shop.fruitshop.domain.Product;
+import com.shop.fruitshop.domain.ProductImage;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +14,9 @@ public interface AdminMapper {
 
     Admin findById(String id);
 
-    void addProduct(addProductForm form);
+    void addProduct(Product product);
 
-    void addProductImage(addProductForm form);
+    void addProductImage(ProductImage productImage);
 
     HashMap<String, Object> countStatusAll();
 

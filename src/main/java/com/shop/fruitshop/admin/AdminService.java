@@ -2,6 +2,7 @@ package com.shop.fruitshop.admin;
 
 import com.shop.fruitshop.domain.Admin;
 import com.shop.fruitshop.domain.Product;
+import com.shop.fruitshop.domain.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,16 +23,26 @@ public class AdminService implements AdminMapper {
     }
 
     @Transactional
-    public void addProductAndImage(addProductForm form){
-        adminMapper.addProduct(form);
-        adminMapper.addProductImage(form);
+    public void addProductAndImage(Product product){
+        adminMapper.addProduct(product);
+
+        List<ProductImage> images = product.getImages();
+        images.forEach(image -> {
+            image.setProductId(product.getId());
+            adminMapper.addProductImage(image);
+        });
+
     }
 
     @Override
-    public void addProduct(addProductForm form){}
+    public void addProduct(Product product){
+        adminMapper.addProduct(product);
+    }
 
     @Override
-    public void addProductImage(addProductForm form){}
+    public void addProductImage(ProductImage productImage){
+        adminMapper.addProductImage(productImage);
+    }
 
     @Override
     public HashMap<String, Object> countStatusAll() {

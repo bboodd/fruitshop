@@ -2,6 +2,7 @@ package com.shop.fruitshop.admin;
 
 import com.shop.fruitshop.domain.Admin;
 import com.shop.fruitshop.domain.Product;
+import com.shop.fruitshop.domain.ProductImage;
 import com.shop.fruitshop.firebase.FireBaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -59,9 +61,6 @@ public class AdminController {
     @PostMapping("/product")
     public HashMap<String, Object> product(@RequestBody HashMap<String, Object> param){
 
-
-        System.out.println("테스트"+param);
-
         List<HashMap<String, Object>> data = adminService.selectProductList(param);
         int count = adminService.countProducts(param);
 
@@ -96,35 +95,34 @@ public class AdminController {
     }
 
     @PostMapping("/addProduct")
-    public String addProduct(@Valid addProductForm form,
-                             @RequestParam("productPicture") MultipartFile file,
+    @ResponseBody
+    public int addProduct(@Valid Product form,
+                             @RequestParam("file") List<MultipartFile> file,
                              BindingResult bindingResult,
                              Model model) throws IOException{
         if(bindingResult.hasErrors()){
-            return "admin/addProduct";
+            return 1;
         }
 
-        String fileName = form.getName() + "_" + file.getOriginalFilename();
+        String firebaseContent = null;
+        List<ProductImage> images = new ArrayList<>();
 
-        String url = fireBaseService.uploadFiles(file, "image", fileName);
+        for(MultipartFile multipartFile : file){
+            String url = fireBaseService.uploadFiles(multipartFile, "images", multipartFile.getOriginalFilename());
+            firebaseContent = form.getContent().replaceAll("<img[^>]*src=[\"']([^\"^']*)[\"'][^>]*>", "<img src=\"" + url + "\" />");
 
-        String originName = form.getName() + "_" + file.getOriginalFilename();
-        String fileUrl = url;
-        String fileSize = String.valueOf(file.getSize());
-
-        form.setOriginName(originName);
-        form.setFileName(fileUrl);
-        form.setFileSize(fileSize);
-
+            ProductImage image = ProductImage.builder()
+                    .filePath("images")
+                    .fileName(multipartFile.getOriginalFilename())
+                    .url(url)
+                    .build();
+            images.add(image);
+        }
+        form.setContent(firebaseContent);
+        form.setImages(images);
         adminService.addProductAndImage(form);
 
-        return "redirect:/admin/product";
-    }
-
-    @RequestMapping("/imageUploadHandler")
-    @ResponseBody
-    public String imageUploadHandler(@RequestParam("file") MultipartFile file) throws IOException{
-        return fireBaseService.uploadFiles(file, "tinymce_images", file.getOriginalFilename());
+        return 0;
     }
 
     @RequestMapping("/productStopAndDelete")

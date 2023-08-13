@@ -3,6 +3,7 @@ package com.shop.fruitshop.domain;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class Product {
@@ -16,4 +17,5 @@ public class Product {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<ProductImage> images;
 }

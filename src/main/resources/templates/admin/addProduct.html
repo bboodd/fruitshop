@@ -43,14 +43,14 @@
                     <p class="wrong__pw" id="productNameCheck"></p>
                 </label>
 
-                <label for="categoryName">
+                <label for="categoryId">
                     <p> <span>*</span> 분류</p>
-                    <select name="categoryName" id="categoryName">
+                    <select name="categoryId" id="categoryId">
                         <p>분류</p>
-                        <option value="봄과일">봄과일</option>
-                        <option value="여름과일">여름과일</option>
-                        <option value="가을과일">가을과일</option>
-                        <option value="겨울과일">겨울과일</option>
+                        <option value="1">봄과일</option>
+                        <option value="2">여름과일</option>
+                        <option value="3">가을과일</option>
+                        <option value="4">겨울과일</option>
                     </select>
                 </label>
 
@@ -81,7 +81,7 @@
                 <label for="productPicture" class="productPicture">
                     <p> <span>*</span> 상품이미지 </p>
                     <div>+ 추가</div>
-                    <input type="file" name="productPicture" id="productPicture" accept="image/*">
+                    <input type="file" name="file" id="productPicture" accept="image/*">
                     <img id="thumbnail" src="./img/이미지위치.png" alt="미리보기 이미지">
                 </label>
 
@@ -99,9 +99,17 @@
             </div>
         </div>
         </form>
+        <div class="txt04" style="display: none;">
+            <div class="inner">
+                <h4>알림</h4>
+                <h5>상품 등록이 완료되었습니다.
+                    <a onclick="window.location.href = '/admin/product'">확인</a>
+                </h5>
+
+            </div>
+
+        </div>
     </section>
-
-
 </body>
 
 </html>
