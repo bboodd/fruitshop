@@ -73,7 +73,6 @@
                       ON product.category_id = category.id
         WHERE product.status = 1 or product.status = 2 or product.status = 3
         ORDER BY product.id DESC
-            LIMIT 10
     </select>
 
 <!--    선택 상품 리스트 조회   -->
@@ -94,6 +93,7 @@
         FROM product product
                  JOIN category category
                       ON product.category_id = category.id
+        WHERE product.status = 1 or product.status = 2 or product.status = 3
         <where>
             <if test="selectedStatus != ''">
                 product.status = #{selectedStatus}
@@ -107,9 +107,6 @@
 
         </where>
         ORDER BY product.id DESC
-        <if test="selectedTab != ''">
-            LIMIT #{selectedTab}
-        </if>
     </select>
 
 

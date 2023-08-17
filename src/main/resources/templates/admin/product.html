@@ -89,11 +89,11 @@
                 </div>
 
                 <div class="right">
-                    <select name="howmany" id="howmany">
-                        <option value="10개씩 보기">10개씩 보기</option>
-                        <option value="30개씩 보기">30개씩 보기</option>
-                        <option value="50개씩 보기">50개씩 보기</option>
-                        <option value="100개씩 보기">100개씩 보기</option>
+                    <select name="pageSize" id="pageSize">
+                        <option value="10">10개씩 보기</option>
+                        <option value="30">30개씩 보기</option>
+                        <option value="50">50개씩 보기</option>
+<!--                        <option value="100개씩 보기">100개씩 보기</option>-->
                     </select>
 
                     <button>
@@ -126,7 +126,7 @@
                         </tr>
                     </thead>
                     <tbody id="product_list">
-                        <tr th:each="product : ${list}">
+                        <tr th:each="product : ${list.list}">
                             <td>
                                 <input type="checkbox" id="product_status" th:value="${product.id}">
                             </td>
@@ -152,27 +152,27 @@
                 </table>
             </div>
 
-            <div class="pagination">
-                <a href="#" class="prev">
-                    <span class="material-symbols-outlined">
+            <div class="pagination" id="pagination">
+                <a>
+                    <button class="material-symbols-outlined" id="prev">
                         chevron_left
-                    </span>
+                    </button>
                 </a>
 
-                <p class="numbers">
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">
-                        <span class="bold">4</span>
-                    </a>
-                    <a href="#">5</a>
+                <p class="numbers" id="numbers">
+                    <button th:each="i : ${list.navigatepageNums}"
+                       th:text="${i}"
+                       th:class="${i == list.pageNum} ? 'active'"
+                        th:style="${i == list.pageNum} ? ${'background-color:#333; color: #fff'}"
+                        th:value="${i}"
+                       name="pageNum" id="pageNum">
+                    </button>
                 </p>
 
-                <a href="#" class="next">
-                    <span class="material-symbols-outlined">
+                <a>
+                    <button class="material-symbols-outlined" name="next" id="next" th:value="${list.pages}">
                         chevron_right
-                    </span>
+                    </button>
                 </a>
             </div>
         </div>

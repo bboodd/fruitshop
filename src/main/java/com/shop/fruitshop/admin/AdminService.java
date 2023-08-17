@@ -1,5 +1,7 @@
 package com.shop.fruitshop.admin;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shop.fruitshop.domain.Admin;
 import com.shop.fruitshop.domain.Product;
 import com.shop.fruitshop.domain.ProductImage;
@@ -59,9 +61,21 @@ public class AdminService implements AdminMapper {
         return adminMapper.selectProductAll();
     }
 
+    public PageInfo<HashMap<String, Object>> selectProductAllWithPaging(int pageNum, int pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<HashMap<String, Object>> list = new PageInfo<>(adminMapper.selectProductAll());
+        return list;
+    }
+
     @Override
     public List<HashMap<String, Object>> selectProductList(HashMap<String, Object> param) {
         return adminMapper.selectProductList(param);
+    }
+
+    public PageInfo<HashMap<String, Object>> selectProductListWithPaging(HashMap<String, Object> param){
+        PageHelper.startPage((Integer) param.get("pageNum"), (Integer) param.get("pageSize"));
+        PageInfo<HashMap<String, Object>> list = new PageInfo<>(adminMapper.selectProductList(param));
+        return list;
     }
 
     @Override

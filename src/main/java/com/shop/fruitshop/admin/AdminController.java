@@ -1,5 +1,6 @@
 package com.shop.fruitshop.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.shop.fruitshop.domain.Admin;
 import com.shop.fruitshop.domain.Product;
 import com.shop.fruitshop.domain.ProductImage;
@@ -50,9 +51,11 @@ public class AdminController {
     }
 
     @GetMapping("product")
-    public String product(Model model){
+    public String product(@RequestParam(required = false, defaultValue = "1") int pageNum,
+                          @RequestParam(required = false, defaultValue = "10") int pageSize,
+                          Model model){
         model.addAttribute("count", adminService.countStatusAll());
-        model.addAttribute("list", adminService.selectProductAll());
+        model.addAttribute("list", adminService.selectProductAllWithPaging(pageNum, pageSize));
 
         return "admin/product";
     }
@@ -61,7 +64,7 @@ public class AdminController {
     @PostMapping("/product")
     public HashMap<String, Object> product(@RequestBody HashMap<String, Object> param){
 
-        List<HashMap<String, Object>> data = adminService.selectProductList(param);
+        PageInfo<HashMap<String, Object>> data = adminService.selectProductListWithPaging(param);
         int count = adminService.countProducts(param);
 
         HashMap<String,Object> data_count = new HashMap<>();
