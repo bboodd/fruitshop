@@ -93,8 +93,10 @@
         FROM product product
                  JOIN category category
                       ON product.category_id = category.id
-        WHERE product.status = 1 or product.status = 2 or product.status = 3
         <where>
+            <if test="selectedStatus == ''">
+                product.status = 1 or product.status = 2 or product.status = 3
+            </if>
             <if test="selectedStatus != ''">
                 product.status = #{selectedStatus}
             </if>
@@ -141,5 +143,17 @@
         WHERE name = #{name}
     </select>
 
+<!--    id로 상품 찾기   -->
+    <select id="findProductById">
+        SELECT id, category_id, name, price, discount_rate, stock_quantity, content
+        FROM product
+        WHERE id = #{id}
+    </select>
 
+<!--    id로 메인 이미지 찾기-->
+    <select id="findMainImageById">
+        SELECT id, product_id, file_path, file_name, url
+        FROM product_image
+        WHERE product_id = #{id} AND file_path = 'mainImages'
+    </select>
 </mapper>

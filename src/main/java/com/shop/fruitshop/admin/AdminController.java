@@ -101,6 +101,7 @@ public class AdminController {
     @ResponseBody
     public int addProduct(@Valid Product form,
                              @RequestParam("file") List<MultipartFile> file,
+                             @RequestParam("mainImage") MultipartFile mainImage,
                              BindingResult bindingResult,
                              Model model) throws IOException{
         if(bindingResult.hasErrors()){
@@ -110,12 +111,22 @@ public class AdminController {
         String firebaseContent = null;
         List<ProductImage> images = new ArrayList<>();
 
+        String mainUrl = fireBaseService.uploadFiles(mainImage, "mainImages", mainImage.getOriginalFilename());
+
+        ProductImage main = ProductImage.builder()
+                .filePath("mainImages")
+                .fileName(mainImage.getOriginalFilename())
+                .url(mainUrl)
+                .build();
+
+        images.add(main);
+
         for(MultipartFile multipartFile : file){
-            String url = fireBaseService.uploadFiles(multipartFile, "images", multipartFile.getOriginalFilename());
+            String url = fireBaseService.uploadFiles(multipartFile, "contentImages", multipartFile.getOriginalFilename());
             firebaseContent = form.getContent().replaceAll("<img[^>]*src=[\"']([^\"^']*)[\"'][^>]*>", "<img src=\"" + url + "\" />");
 
             ProductImage image = ProductImage.builder()
-                    .filePath("images")
+                    .filePath("contentImages")
                     .fileName(multipartFile.getOriginalFilename())
                     .url(url)
                     .build();
@@ -155,6 +166,27 @@ public class AdminController {
     public int productNameCheck(@RequestBody HashMap<String, String> param){
 
         return adminService.productNameCheck(param);
+    }
+
+    //상품수정
+    @GetMapping("product/{id}/edit")
+    public String editProduct(@PathVariable Long id, Model model) {
+        Product product = adminService.findProductById(id);
+        ProductImage mainImage = adminService.findMainImageById(id);
+
+        ProductForm form = ProductForm.builder()
+                .id(product.getId())
+                .categoryId(product.getCategoryId())
+                .price(product.getPrice())
+                .discountRate(product.getDiscountRate())
+                .stockQuantity(product.getStockQuantity())
+                .name(product.getName())
+                .content(product.getContent())
+                .url(mainImage.getUrl())
+                .build();
+
+        model.addAttribute("form", form);
+        return "admin/editProduct";
     }
 
 }

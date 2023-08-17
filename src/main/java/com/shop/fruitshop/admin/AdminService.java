@@ -97,4 +97,14 @@ public class AdminService implements AdminMapper {
     public int productNameCheck(HashMap<String, String> param){
         return adminMapper.productNameCheck(param);
     }
+
+    @Override
+    public Product findProductById(Long id){
+        return adminMapper.findProductById(id);
+    }
+
+    @Override
+    public ProductImage findMainImageById(Long id) {
+        return adminMapper.findMainImageById(id);
+    }
 }

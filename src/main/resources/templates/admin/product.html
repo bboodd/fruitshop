@@ -141,7 +141,9 @@
                             <td>23</td>
                             <td th:text="${product.created_at}"></td>
                             <td>
-                                <button>수정</button>
+                                <button th:onclick="|location.href='@{/admin/product/{id}/edit(id=${product.id})}'|"
+                                        type="button">수정
+                                </button>
                             </td>
                             <td>
                                 <span th:if="${product.status == '판매중지'}" th:text="${product.updated_at}"></span>

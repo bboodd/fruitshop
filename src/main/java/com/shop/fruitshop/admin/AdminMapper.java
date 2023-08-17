@@ -34,5 +34,9 @@ public interface AdminMapper {
 
     int productNameCheck(HashMap<String, String> param);
 
+    Product findProductById(Long id);
+
+    ProductImage findMainImageById(Long id);
+
 
 }

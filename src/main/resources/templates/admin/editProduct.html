@@ -25,27 +25,29 @@
 
 <body>
 
-    <!-- HEADER -->
+<!-- HEADER -->
 
-    <div th:insert="~{fragment/admin/header :: copy}"></div>
+<div th:insert="~{fragment/admin/header :: copy}"></div>
 
-    <section id="admin_product02">
-        <form action="/admin/addProduct" method="post" encType="multipart/form-data">
+<section id="admin_product02">
+    <form th:object="${form}" method="post" encType="multipart/form-data">
+        <!-- id -->
+        <input type="hidden" th:field="*{id}" />
         <div class="inner">
             <div class="title">
                 <h2>상품등록</h2>
             </div>
 
             <div class="admin_product02__wrap">
-                <label for="name" class="productName">
+                <label th:for="name" class="productName">
                     <p> <span>*</span> 상품명</p>
-                    <input type="text" name="name" placeholder="상품명을 입력해주세요." id="name">
+                    <input type="text" th:field="*{name}" placeholder="상품명을 입력해주세요.">
                     <p class="wrong__pw" id="productNameCheck"></p>
                 </label>
 
-                <label for="categoryId">
+                <label th:for="categoryId">
                     <p> <span>*</span> 분류</p>
-                    <select name="categoryId" id="categoryId">
+                    <select th:field="*{categoryId}">
                         <p>분류</p>
                         <option value="1">봄과일</option>
                         <option value="2">여름과일</option>
@@ -54,15 +56,15 @@
                     </select>
                 </label>
 
-                <label for="price">
+                <label th:for="price">
                     <p> <span>*</span> 상품금액</p>
-                    <input type="number" name="price" placeholder="0" id="price">
+                    <input type="number" th:field="*{price}" placeholder="0">
                     원
                 </label>
 
-                <label for="discountRate">
+                <label th:for="discountRate">
                     <p> 상품할인율 </p>
-                    <input type="number" name="discountRate" placeholder="0" value=0 id="discountRate">
+                    <input type="number" th:field="*{discountRate}" placeholder="0" value=0>
                     %
                 </label>
 
@@ -72,23 +74,23 @@
                     원
                 </label>
 
-                <label for="stockQuantity">
+                <label th:for="stockQuantity">
                     <p> <span>*</span> 재고수량 </p>
-                    <input type="number" name="stockQuantity" placeholder="0" id="stockQuantity">
+                    <input type="number" th:field="*{stockQuantity}" placeholder="0">
                     개
                 </label>
 
-                <label for="productPicture" class="productPicture">
+                <label th:for="productPicture" class="productPicture">
                     <p> <span>*</span> 상품이미지 </p>
                     <div>+ 추가</div>
                     <input type="file" name="file" id="productPicture" accept="image/*">
-                    <img id="thumbnail" src="./img/이미지위치.png" alt="미리보기 이미지">
+                    <img id="thumbnail" th:src="*{url}" alt="미리보기 이미지" height="108px" width="108px">
                 </label>
 
 
-                <label for="content" class="description">
+                <label th:for="content" class="description">
                     <p> <span>*</span> 상품 상세정보 </p>
-                    <input type="text" name="content" id="content">
+                    <input type="text" th:field="*{content}">
                 </label>
 
             </div>
@@ -98,18 +100,18 @@
                 <button type="submit" id="submit">등록하기</button>
             </div>
         </div>
-        </form>
-        <div class="txt04" style="display: none;">
-            <div class="inner">
-                <h4>알림</h4>
-                <h5>상품 등록이 완료되었습니다.
-                    <a onclick="window.location.href = '/admin/product'">확인</a>
-                </h5>
-
-            </div>
+    </form>
+    <div class="txt04" style="display: none;">
+        <div class="inner">
+            <h4>알림</h4>
+            <h5>상품 등록이 완료되었습니다.
+                <a onclick="window.location.href = '/admin/product'">확인</a>
+            </h5>
 
         </div>
-    </section>
+
+    </div>
+</section>
 </body>
 
 </html>

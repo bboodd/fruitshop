@@ -125,7 +125,8 @@ $(function() {
             <td>23</td>
             <td>${res.data.data.list[i].created_at}</td>
             <td>
-                <button>수정</button>
+                <button onclick="location.href='/admin/product/${res.data.data.list[i].id}/edit'" type="button">수정
+                </button>
             </td>
             <td>
                 ${res.data.data.list[i].status == '판매중지' ? res.data.data.list[i].updated_at : `<button id="stop" value="${res.data.data.list[i].id}">중지</button>`}

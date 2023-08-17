@@ -1,6 +1,7 @@
 
 const imageFiles = [];
 const formData = new FormData();
+let mainImage = new Blob();
 $(function(){
 
     let nameCheck = false, imageCheck = false, priceCheck = false, stockCheck = false, contentCheck = false;
@@ -61,13 +62,17 @@ $(function(){
     $("#productPicture").on("change", (e) => {
 
         let file = e.target.files[0];
+        mainImage = e.target.files[0];
 
-        if(!valideImageType(file)) {
+        console.log(file);
+        console.log(mainImage);
+
+        if(!valideImageType(mainImage)) {
             console.warn("invalide image file type");
             return;
         }
 
-        imageFiles.push(file);
+        // imageFiles.push(file);
 
         $("#thumbnail").attr("src", window.URL.createObjectURL(file)).width(108).height(108);
         imageCheck = true;
@@ -115,6 +120,7 @@ $(function(){
         for (const file of imageFiles){
             formData.append("file", file);
         }
+        formData.append("mainImage", mainImage);
         formData.append("name", $("#name").val());
         formData.append("categoryId", $("#categoryId").val());
         formData.append("price", $("#price").val());
