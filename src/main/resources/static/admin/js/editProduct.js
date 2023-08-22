@@ -33,6 +33,16 @@ $(function(){
                     $("#productNameCheck").text("");
                     $("#name").attr('class', 'NoClass');
                     nameCheck = true;
+                } else if(res.data === 1){
+                    if(!$("#id").val()){
+                        $("#productNameCheck").text("이미 있는 상품 이름입니다.");
+                        $("#name").attr('class', 'wrong__pw__input');
+                        nameCheck = false;
+                    } else{
+                        $("#productNameCheck").text("");
+                        $("#name").attr('class', 'NoClass');
+                        nameCheck = true;
+                    }
                 } else {
                     $("#productNameCheck").text("이미 있는 상품 이름입니다.");
                     $("#name").attr('class', 'wrong__pw__input');
@@ -85,7 +95,7 @@ $(function(){
         // reader.readAsDataURL(file);
     });
 
-    $(document).on('click', '#submit', (e)=> {
+    $(document).on('click', '#modify', (e)=> {
 
         e.preventDefault();
 
@@ -99,10 +109,10 @@ $(function(){
             $('#name').focus();
             return false;
         }
-        if(!imageCheck){
-            $('#productPicture').focus();
-            return false;
-        }
+        // if(!imageCheck){
+        //     $('#productPicture').focus();
+        //     return false;
+        // }
         //가격 수량 내용
         // if(!$('#price').val()){
         //     $('#price').focus();
@@ -117,10 +127,12 @@ $(function(){
         //     return false;
         // }
 
+
         for (const file of imageFiles){
             formData.append("file", file);
         }
         formData.append("mainImage", mainImage);
+        formData.append("id", $("#id").val());
         formData.append("name", $("#name").val());
         formData.append("categoryId", $("#categoryId").val());
         formData.append("price", $("#price").val());
@@ -131,20 +143,22 @@ $(function(){
 
         axios({
             method: 'post',
-            url: '/admin/addProduct',
+            url: '/admin/editProduct',
             data: formData,
             headers: {'Content-Type': 'multipart/form-data'}
         }).then(res => {
             if(!res.data){
                 $(".txt04").show();
             } else{
-                alert("상품 등록 실패");
+                alert("상품 수정 실패");
             }
         }).catch(err => {
             console.log("업로드 에러 : ", err);
         });
 
     });
+
+
 });
 
 

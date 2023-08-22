@@ -16,7 +16,11 @@ public interface AdminMapper {
 
     void addProduct(Product product);
 
+    void editProduct(Product product);
+
     void addProductImage(ProductImage productImage);
+
+    void editProductImage(ProductImage productImage);
 
     HashMap<String, Object> countStatusAll();
 
@@ -36,7 +40,11 @@ public interface AdminMapper {
 
     Product findProductById(Long id);
 
+    //product id로 이미지 가져오기
     ProductImage findMainImageById(Long id);
+
+    //product id로 내용 이미지리스트 가져오기
+    List<ProductImage> findContentImageById(Long id);
 
 
 }

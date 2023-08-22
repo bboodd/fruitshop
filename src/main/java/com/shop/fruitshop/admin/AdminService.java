@@ -36,14 +36,35 @@ public class AdminService implements AdminMapper {
 
     }
 
+    @Transactional
+    public void editProductAndAddImage(Product product){
+        adminMapper.editProduct(product);
+
+        List<ProductImage> images = product.getImages();
+        images.forEach(image -> {
+            adminMapper.addProductImage(image);
+        });
+
+    }
+
     @Override
     public void addProduct(Product product){
         adminMapper.addProduct(product);
     }
 
     @Override
+    public void editProduct(Product product) {
+        adminMapper.editProduct(product);
+    }
+
+    @Override
     public void addProductImage(ProductImage productImage){
         adminMapper.addProductImage(productImage);
+    }
+
+    @Override
+    public void editProductImage(ProductImage productImage) {
+        adminMapper.editProductImage(productImage);
     }
 
     @Override
@@ -106,5 +127,10 @@ public class AdminService implements AdminMapper {
     @Override
     public ProductImage findMainImageById(Long id) {
         return adminMapper.findMainImageById(id);
+    }
+
+    @Override
+    public List<ProductImage> findContentImageById(Long id) {
+        return adminMapper.findContentImageById(id);
     }
 }

@@ -16,12 +16,25 @@
         INSERT INTO product (category_id, name, price, discount_rate, stock_quantity, content)
         VALUES (#{categoryId}, #{name}, #{price}, #{discountRate}, #{stockQuantity}, #{content})
     </insert>
+    
+<!--    상품 수정   -->
+    <update id="editProduct">
+        UPDATE product SET category_id = #{categoryId}, name = #{name}, price = #{price}, discount_rate = #{discountRate},
+                           stock_quantity = #{stockQuantity}, content = #{content}, updated_at = NOW()
+        WHERE id = #{id}
+    </update>
 
 <!--    상품 이미지 등록   -->
     <insert id="addProductImage" keyProperty="id">
         INSERT INTO product_image (product_id, file_name, url, file_path)
         VALUES (#{productId}, #{fileName}, #{url}, #{filePath})
     </insert>
+
+<!--    상품 메인 이미지 수정   -->
+    <update id="editProductImage">
+        UPDATE product_image SET file_name = #{fileName}, url = #{url}
+        WHERE id = #{id}
+    </update>
 
 <!--    상품 상태에 따른 개수 조회   -->
     <select id="countStatusAll" resultType="java.util.Map">
@@ -155,5 +168,12 @@
         SELECT id, product_id, file_path, file_name, url
         FROM product_image
         WHERE product_id = #{id} AND file_path = 'mainImages'
+    </select>
+
+<!--    id로 내용 이미지 찾기   -->
+    <select id="findContentImageById" resultType="com.shop.fruitshop.domain.ProductImage">
+        SELECT *
+        FROM product_image
+        WHERE product_id = #{id} AND file_path = 'contentImages'
     </select>
 </mapper>

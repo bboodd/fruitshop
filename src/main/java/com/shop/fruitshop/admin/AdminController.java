@@ -102,8 +102,7 @@ public class AdminController {
     public int addProduct(@Valid Product form,
                              @RequestParam("file") List<MultipartFile> file,
                              @RequestParam("mainImage") MultipartFile mainImage,
-                             BindingResult bindingResult,
-                             Model model) throws IOException{
+                             BindingResult bindingResult) throws IOException{
         if(bindingResult.hasErrors()){
             return 1;
         }
@@ -139,6 +138,92 @@ public class AdminController {
         return 0;
     }
 
+    //상품수정
+    @GetMapping("product/{id}/edit")
+    public String editProduct(@PathVariable Long id, Model model) {
+
+        Product product = adminService.findProductById(id);
+        ProductImage mainImage = adminService.findMainImageById(id);
+
+        ProductForm form = ProductForm.builder()
+                .id(product.getId())
+                .categoryId(product.getCategoryId())
+                .price(product.getPrice())
+                .discountRate(product.getDiscountRate())
+                .stockQuantity(product.getStockQuantity())
+                .name(product.getName())
+                .content(product.getContent())
+                .url(mainImage.getUrl())
+                .build();
+
+        model.addAttribute("form", form);
+        return "admin/editProduct";
+    }
+
+    @PostMapping("/editProduct")
+    @ResponseBody
+    public int editProduct(@Valid Product form,
+                           @RequestParam("id") Long id,
+                           @RequestParam(value = "file", required = false) List<MultipartFile> file,
+                           @RequestParam(value = "mainImage", required = false) MultipartFile mainImage,
+                           BindingResult bindingResult) throws IOException{
+
+        if(bindingResult.hasErrors()){
+            return 1;
+        }
+
+        String firebaseContent = null;
+        List<ProductImage> images = new ArrayList<>();
+
+        //메인 이미지 교체
+        if(mainImage == null || mainImage.isEmpty()){
+            System.out.println("mainImage is empty");
+        } else {
+            ProductImage beforeMain = adminService.findMainImageById(id);
+
+            String mainUrl = fireBaseService.uploadFiles(mainImage, "mainImages", mainImage.getOriginalFilename());
+
+            ProductImage afterMain = ProductImage.builder()
+                    .id(beforeMain.getId())
+                    .fileName(mainImage.getOriginalFilename())
+                    .url(mainUrl)
+                    .build();
+
+            adminService.editProductImage(afterMain);
+        }
+
+        //내용 이미지 추가
+        if(file == null || file.isEmpty()){
+            System.out.println("file is empty");
+        } else {
+            for(MultipartFile multipartFile : file){
+                String url = fireBaseService.uploadFiles(multipartFile, "contentImages", multipartFile.getOriginalFilename());
+                firebaseContent = form.getContent().replaceAll("<img[^>]*src=[\"']([^\"^']*)[\"'][^>]*>", "<img src=\"" + url + "\" />");
+
+                ProductImage image = ProductImage.builder()
+                        .productId(id)
+                        .filePath("contentImages")
+                        .fileName(multipartFile.getOriginalFilename())
+                        .url(url)
+                        .build();
+                images.add(image);
+            }
+            form.setContent(firebaseContent);
+            form.setImages(images);
+
+            adminService.editProductAndAddImage(form);
+
+            return 0;
+        }
+
+        adminService.editProduct(form);
+
+        //내용 이미지 삭제 -> 파이어베이스도 삭제해야하나?? 상품처럼 삭제상태? 그냥삭제?
+//        String content = form.getContent();
+
+        return 0;
+    }
+
     @RequestMapping("/productStopAndDelete")
     @ResponseBody
     public int productStopAndDelete(@RequestBody HashMap<String, Object> param){
@@ -166,27 +251,6 @@ public class AdminController {
     public int productNameCheck(@RequestBody HashMap<String, String> param){
 
         return adminService.productNameCheck(param);
-    }
-
-    //상품수정
-    @GetMapping("product/{id}/edit")
-    public String editProduct(@PathVariable Long id, Model model) {
-        Product product = adminService.findProductById(id);
-        ProductImage mainImage = adminService.findMainImageById(id);
-
-        ProductForm form = ProductForm.builder()
-                .id(product.getId())
-                .categoryId(product.getCategoryId())
-                .price(product.getPrice())
-                .discountRate(product.getDiscountRate())
-                .stockQuantity(product.getStockQuantity())
-                .name(product.getName())
-                .content(product.getContent())
-                .url(mainImage.getUrl())
-                .build();
-
-        model.addAttribute("form", form);
-        return "admin/editProduct";
     }
 
 }
