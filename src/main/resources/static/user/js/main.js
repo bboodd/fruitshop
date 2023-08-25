@@ -60,6 +60,60 @@ $(function() {
 
     const userId = parseInt($("#userId").val());
 
+    $(document).on('click', '#like_x', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e.target.dataset.value);
+
+       if($("#userId").val()) {
+
+           let productId = parseInt(e.target.dataset.value);
+
+           axios({
+               method: 'post',
+               url: '/addLike',
+               data: {
+                   userId: userId,
+                   productId: productId,
+               },
+               dataType: 'JSON',
+               headers: { 'Content-Type': 'application/json' }
+           }).then(res => {
+               $(e.target).attr('class','material-icons red__heart')
+               $(e.target).attr('id','like_o')
+           }).catch(error => {
+               console.error(error);
+           });
+       }
+    });
+
+    $(document).on('click', '#like_o', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e.target.dataset.value);
+
+        if($("#userId").val()) {
+
+            let productId = parseInt(e.target.dataset.value);
+
+            axios({
+                method: 'post',
+                url: '/deleteLike',
+                data: {
+                    userId: userId,
+                    productId: productId,
+                },
+                dataType: 'JSON',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(res => {
+                $(e.target).attr('class','material-symbols-outlined')
+                $(e.target).attr('id','like_x')
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+    });
+
     function fetchData() {
         axios({
             method: 'post',
@@ -87,8 +141,10 @@ $(function() {
                         
                         <div class="icons">
                             <span class="${res.data.data.list[i].like_id != 0 ? 'material-icons red__heart' : 'material-symbols-outlined'}"
-                                  value="${res.data.data.list[i].id}" id="${res.data.data.list[i].like_id != 0 ? "like_o" : "like_x"}">favorite</span>
-                            <span class="material-symbols-outlined" value="${res.data.data.list[i].id}" id="cart">shopping_cart</span>
+                                  data-value="${res.data.data.list[i].id}" id="${res.data.data.list[i].like_id != 0 ? "like_o" : "like_x"}"
+                                  onclick="location.href='javascript:void(0)'">favorite</span>
+                            <span class="material-symbols-outlined" data-value="${res.data.data.list[i].id}" id="cart"
+                                  onclick="location.href='javascript:void(0)'">shopping_cart</span>
                         </div>
                         
                         <div class="txt">

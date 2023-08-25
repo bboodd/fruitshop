@@ -152,8 +152,10 @@
 
                     <div class="icons">
 
-                        <span th:if="${product.like_id == 0}" class="material-symbols-outlined" th:value="${product.id}" id="like_x">favorite</span>
-                        <span th:unless="${product.like_id == 0}" class="material-icons red__heart" th:value="${product.id}" id="like_o">favorite</span>
+                        <span th:if="${product.like_id == 0}" class="material-symbols-outlined" th:data-value="${product.id}" id="like_x"
+                              onclick="location.href='javascript:void(0)'">favorite</span>
+                        <span th:unless="${product.like_id == 0}" class="material-icons red__heart" th:data-value="${product.id}" id="like_o"
+                              onclick="location.href='javascript:void(0)'">favorite</span>
 
                         <span class="material-symbols-outlined" th:value="${product.id}" id="cart">shopping_cart</span>
                     </div>

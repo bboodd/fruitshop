@@ -148,10 +148,12 @@
 
                     <div class="icons">
 <!--                        <a href="/user/login">-->
-                            <span class="material-symbols-outlined" th:value="${product.id}" id="like_x">favorite</span>
+                            <span class="material-symbols-outlined" th:data-value="${product.id}" id="like_x"
+                                  onclick="location.href='javascript:void(0)'">favorite</span>
 <!--                        </a>-->
 <!--                        <a href="/user/login">-->
-                            <span class="material-symbols-outlined" th:value="${product.id}" id="cart">shopping_cart</span>
+                            <span class="material-symbols-outlined" th:data-value="${product.id}" id="cart"
+                                  onclick="location.href='javascript:void(0)'">shopping_cart</span>
 <!--                        </a>-->
                     </div>
 

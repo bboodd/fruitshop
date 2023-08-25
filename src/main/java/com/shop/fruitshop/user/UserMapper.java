@@ -30,5 +30,9 @@ public interface UserMapper {
     //product + url +like 전부 가져오기 메인페이지
     List<HashMap<String, Object>> selectProductAndUrlAndLikeAll(Long id);
 
+    void addLike(HashMap<String, Object> param);
+
+    void deleteLike(HashMap<String, Object> param);
+
 
 }

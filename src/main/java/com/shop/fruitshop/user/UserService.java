@@ -92,5 +92,13 @@ public class UserService implements UserMapper {
         return list;
     }
 
+    @Override
+    public void addLike(HashMap<String, Object> param) {
+        userMapper.addLike(param);
+    }
 
+    @Override
+    public void deleteLike(HashMap<String, Object> param) {
+        userMapper.deleteLike(param);
+    }
 }

@@ -115,4 +115,15 @@
         WHERE product.status = 1
         ORDER BY product.id DESC
     </select>
+
+    <!--    찜 추가   -->
+    <insert id="addLike">
+        INSERT INTO likes(user_id, product_id)
+        VALUES (#{userId}, #{productId})
+    </insert>
+    <!--    찜 삭제   -->
+    <delete id="deleteLike">
+        DELETE FROM likes
+        WHERE user_id = #{userId} AND product_id = #{productId}
+    </delete>
 </mapper>

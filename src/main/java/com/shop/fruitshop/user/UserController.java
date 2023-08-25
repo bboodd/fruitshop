@@ -55,6 +55,18 @@ public class UserController {
         return data_count;
     }
 
+    @ResponseBody
+    @PostMapping("/addLike")
+    public void addLike(@RequestBody HashMap<String, Object> param){
+        userService.addLike(param);
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteLike")
+    public void deleteLike(@RequestBody HashMap<String, Object> param){
+        userService.deleteLike(param);
+    }
+
     @GetMapping("user/{pathName}")
     public String path(@PathVariable String pathName) {
         return "user/"+pathName;
