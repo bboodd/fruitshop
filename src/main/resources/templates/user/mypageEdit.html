@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프룻프룻 쇼핑몰</title>
+
+    <!--Open Graph-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="프룻프룻 Shopping Mall" />
+    <meta property="og:title" content="프룻프룻 Shopping Mall" />
+    <meta property="og:description" content="프룻프룻 Shopping Mall 입니다." />
+    <meta property="og:image" content="./img/openGraph.png" />
+    <meta property="og:url" content="https://prpr-shopping-mall.co.kr" />
+
+    <!--파비콘-->
+    <link rel="icon" href="./favicon.ico" />
+
+    <th:block th:insert="~{includes/library}"></th:block>
+    <th:block th:insert="~{includes/style}"></th:block>
+    <th:block th:insert="~{includes/scripts}"></th:block>
+</head>
+
+<body>
+
+<div th:insert="~{fragment/user/header.html :: copy}"></div>
+
+    <div id="mypageEdit">
+        <div class="inner">
+
+            <h2> 마이페이지 </h2>
+
+            <div class="tab__menu">
+                <a href="#">
+                    <div class="history">
+                        <p>구매내역</p>
+                    </div>
+                </a>
+
+
+                <a href="#">
+                    <div class="delivery">
+                        <p>배송지관리</p>
+                    </div>
+                </a>
+
+
+                <a href="#">
+                    <div class="memberInfo">
+                        <p>회원정보</p>
+                    </div>
+                </a>
+
+            </div>
+
+
+            <div class="txt_box">
+                <p>회원정보 수정</p>
+                <span>회원정보 수정 페이지로 이동 시 정보를 안전하게 <br>
+                    보고하기 위해 현재 비밀번호 확인이 필요합니다.</span>
+            </div>
+
+            <label for="pwConfirm">
+                <p>비밀번호 확인</p>
+                <input type="textbox" name="pwConfirm" value="비밀번호를 입력해주세요." id="pwConfirm">
+            </label>
+
+
+
+            <!-- 비밀번호가 일치하지 않을 때 -->
+            <label for="pwConfirm" class="wrong" style="display: none;">
+                <p>비밀번호 확인</p>
+                <input type="textbox" name="pwConfirm" value="비밀번호를 입력해주세요." id="pwConfirm">
+                <span>비밀번호가 일치하지 않습니다.</span>
+            </label>
+
+
+            <div class="button">
+                <button>
+                    <a href="#">확인</a>
+                </button>
+
+                <span>
+                    <a href="#">비밀번호 찾기</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+
+<div th:insert="~{fragment/user/footer.html :: copy}"></div>
+
+</body>
+
+</html>

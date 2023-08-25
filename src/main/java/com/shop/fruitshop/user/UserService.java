@@ -1,5 +1,7 @@
 package com.shop.fruitshop.user;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,39 @@ public class UserService implements UserMapper {
 
     @Override
     public int changePassword(String email, String newPassword){ return userMapper.changePassword(email, newPassword);}
+
+    @Override
+    public List<HashMap<String, Object>> selectProductAndUrlAll(){
+        return userMapper.selectProductAndUrlAll();
+    }
+
+    public PageInfo<HashMap<String, Object>> selectProductAndUrlAllWithPaging(int pageNum, int pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<HashMap<String, Object>> list = new PageInfo<>(userMapper.selectProductAndUrlAll());
+        return list;
+    }
+
+    @Override
+    public List<HashMap<String, Object>> selectProductAndUrlList(HashMap<String, Object> param) {
+        return userMapper.selectProductAndUrlList(param);
+    }
+
+    public PageInfo<HashMap<String, Object>> selectProductAndUrlListWithPaging(HashMap<String, Object> param){
+        PageHelper.startPage((Integer) param.get("pageNum"), (Integer) param.get("pageSize"));
+        PageInfo<HashMap<String, Object>> list = new PageInfo<>(userMapper.selectProductAndUrlList(param));
+        return list;
+    }
+
+    @Override
+    public List<HashMap<String, Object>> selectProductAndUrlAndLikeAll(Long id){
+        return userMapper.selectProductAndUrlAndLikeAll(id);
+    }
+
+    public PageInfo<HashMap<String, Object>> selectProductAndUrlAndLikeAllWithPaging(Long id, int pageNum, int pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<HashMap<String, Object>> list = new PageInfo<>(userMapper.selectProductAndUrlAndLikeAll(id));
+        return list;
+    }
 
 
 }

@@ -56,6 +56,16 @@ body{
   font: 500 16px/2 "Nanum Gothic";
 }
 
+.wrong{
+  color: red;
+  font: normal 11px/1 "Nanum Gothic";
+  margin-top: 7px;
+}
+
+.wrong__input{
+  border: 1px solid red;
+}
+
 
 #admin_product {
   width: 85%;

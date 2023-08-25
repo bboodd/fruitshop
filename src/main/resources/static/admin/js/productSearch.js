@@ -8,7 +8,6 @@ $(function() {
 
     $(document).on('change', '#pageSize', () => {
         pageSize = parseInt($('#pageSize option:selected').val());
-        console.log(pageSize);
         fetchData();
     });
 
@@ -59,7 +58,6 @@ $(function() {
 
     $(document).on('click', '#searchBtn', () => {
         searchKeyword = $('#searchKeyword').val();
-        console.log(searchKeyword);
         fetchData();
     });
 
@@ -120,16 +118,16 @@ $(function() {
             <td>${res.data.data.list[i].name}</td>
             <td>${res.data.data.list[i].price}</td>
             <td>${res.data.data.list[i].discount_rate}</td>
-            <td>269</td>
-            <td>135</td>
-            <td>23</td>
+            <td>null</td>
+            <td>null</td>
+            <td>null</td>
             <td>${res.data.data.list[i].created_at}</td>
             <td>
                 <button onclick="location.href='/admin/product/${res.data.data.list[i].id}/edit'" type="button">수정
                 </button>
             </td>
             <td>
-                ${res.data.data.list[i].status == '판매중지' ? res.data.data.list[i].updated_at : `<button id="stop" value="${res.data.data.list[i].id}">중지</button>`}
+                ${res.data.data.list[i].status == '판매중지' ? res.data.data.list[i].updated_at : `<button id="stop_one" value="${res.data.data.list[i].id}">중지</button>`}
             </td>
         </tr>    
     `;
@@ -142,7 +140,7 @@ $(function() {
                 const html2 =`
 
 
-                <button value="${res.data.data.navigatepageNums[i]}" 
+                <button id="pageNum" value="${res.data.data.navigatepageNums[i]}" 
                 class="${res.data.data.pageNum == res.data.data.navigatepageNums[i]? 'active' : 'NoClass'}"
                 style="${res.data.data.pageNum == res.data.data.navigatepageNums[i]? 'background-color:#333; color: #fff' : 'background-color:none; color: none'}">
                 ${res.data.data.navigatepageNums[i]}</button>

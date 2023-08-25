@@ -1,3 +1,134 @@
+$(function() {
+
+    let selectedCategory = '';
+    let searchKeyword = '';
+    let pageNum = 1;
+    let pageSize = 9;
+
+    $(document).on('click', '.category-btn', (e) => {
+        $(e.target).css({
+            backgroundColor : "#333",
+            color: "#fff"
+        });
+        $('.category-btn').not($(e.target)).css({
+            backgroundColor : 'buttonface',
+            color: "#000"
+        });
+
+        if(selectedCategory === e.target.value){
+            $(e.target).css({
+                backgroundColor : 'buttonface',
+                color: "#000"
+            });
+            selectedCategory = '';
+            fetchData();
+        } else{
+            selectedCategory = e.target.value;
+            fetchData();
+        }
+    });
+
+    $(document).on('click', '#searchBtn', () => {
+        searchKeyword = $('#searchKeyword').val();
+        console.log(searchKeyword);
+        fetchData();
+    });
+
+    $(document).on('click', '#prev', (e) => {
+        e.preventDefault();
+
+        if(pageNum > 1){
+            pageNum-=1;
+            fetchData();
+        }
+    });
+
+    $(document).on('click', '#next', (e) => {
+        e.preventDefault();
+
+        if(pageNum < $("#next").data('value')){
+            pageNum+=1;
+            fetchData();
+        }
+    });
+
+    $(document).on('click', '#pageNum', (e) => {
+        pageNum = parseInt(e.target.dataset.value);
+        console.log(pageNum);
+        fetchData();
+    });
+
+    const userId = parseInt($("#userId").val());
+
+    function fetchData() {
+        axios({
+            method: 'post',
+            url: '/product',
+            data: {
+                selectedCategory: selectedCategory,
+                searchKeyword: searchKeyword,
+                pageSize: pageSize,
+                pageNum: pageNum,
+                userId: userId
+            },
+            dataType: 'JSON',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => {
+            // 응답 데이터를 처리하는 부분입니다
+            console.log(res.data);
+
+            $("#product_list").empty(); // 기존 데이터를 모두 제거
+
+            for (let i = 0; i < res.data.data.list.length; i++) {
+                let html = `
+                <li>
+                    <a href="/user/product/${res.data.data.list[i].id}/detail">
+                        <img src="${res.data.data.list[i].url}">
+                        
+                        <div class="icons">
+                            <span class="${res.data.data.list[i].like_id != 0 ? 'material-icons red__heart' : 'material-symbols-outlined'}"
+                                  value="${res.data.data.list[i].id}" id="${res.data.data.list[i].like_id != 0 ? "like_o" : "like_x"}">favorite</span>
+                            <span class="material-symbols-outlined" value="${res.data.data.list[i].id}" id="cart">shopping_cart</span>
+                        </div>
+                        
+                        <div class="txt">
+                            <div class="title">
+                                <span>${res.data.data.list[i].name}</span>
+                            </div>
+                            
+                            <div class="price">
+                                    ${res.data.data.list[i].price}원
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                `;
+                $("#product_list").append(html);
+            }
+            $("#numbers").empty();
+
+            let html2=``;
+
+            for(let i=0;i<res.data.data.navigatepageNums.length;i++){
+                let html2 =`
+                
+            <a id="pageNum" data-value="${res.data.data.navigatepageNums[i]}"
+               class="${res.data.data.pageNum == res.data.data.navigatepageNums[i]? 'active' : 'NoClass'}"
+               style="${res.data.data.pageNum == res.data.data.navigatepageNums[i]? 'font-weight:bold;' : 'font-weight:normal;'}" 
+               href='javascript:void(0)'
+               >${res.data.data.navigatepageNums[i]}</a>
+            `;
+                $("#numbers").append(html2);
+            }
+
+
+            $("#next").data('value',res.data.data.pages);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+})
+
 
 new Swiper('.promotion .swiper', {
     slidesPerView: 1, // 한 번에 보여 줄 슬라이드 개수

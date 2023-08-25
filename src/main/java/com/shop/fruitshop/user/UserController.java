@@ -1,5 +1,6 @@
 package com.shop.fruitshop.user;
 
+import com.github.pagehelper.PageInfo;
 import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
@@ -26,18 +26,47 @@ public class UserController {
     private final UserService userService;
     private final PasswordEncoder pwEncoder;
 
-    @GetMapping("{pathName}")
+
+    @GetMapping("/")
+    public String index(@SessionAttribute(name = "loginUser", required = false) User loginUser,
+                        @RequestParam(required = false, defaultValue = "1") int pageNum,
+                        @RequestParam(required = false, defaultValue = "9") int pageSize,
+                        Model model) {
+        if (loginUser == null) {
+            model.addAttribute("list", userService.selectProductAndUrlAllWithPaging(pageNum, pageSize));
+            return "index";
+        }
+
+        model.addAttribute("user", loginUser);
+        model.addAttribute("list", userService.selectProductAndUrlAndLikeAllWithPaging(loginUser.getId(), pageNum, pageSize));
+        return "loginIndex";
+    }
+
+    @ResponseBody
+    @PostMapping("/product")
+    public HashMap<String, Object> product(@RequestBody HashMap<String, Object> param){
+
+        PageInfo<HashMap<String, Object>> data = userService.selectProductAndUrlListWithPaging(param);
+
+        HashMap<String,Object> data_count = new HashMap<>();
+
+        data_count.put("data",data);
+
+        return data_count;
+    }
+
+    @GetMapping("user/{pathName}")
     public String path(@PathVariable String pathName) {
         return "user/"+pathName;
     }
 
-    @GetMapping("favicon.ico")
+    @GetMapping("user/favicon.ico")
     @ResponseBody
     void noFavicon() {
     }
 
     //회원가입
-    @PostMapping("/join")
+    @PostMapping("/user/join")
     public String join(@Valid User user,
                        BindingResult bindingResult,
                        @RequestParam(required = false) List<String> termStatus,
@@ -62,7 +91,7 @@ public class UserController {
     }
 
     //로그인
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public String login(@Valid UserLoginForm form,
                         BindingResult bindingResult,
                         Model model,
@@ -98,7 +127,7 @@ public class UserController {
     }
 
     //로그아웃
-    @RequestMapping("/logout")
+    @RequestMapping("/user/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -108,7 +137,7 @@ public class UserController {
     }
 
     //이메일 중복 체크
-    @RequestMapping("emailCheck")
+    @RequestMapping("user/emailCheck")
     @ResponseBody
     public int emailCheck(@RequestBody HashMap<String, String> param){
 
@@ -116,14 +145,14 @@ public class UserController {
     }
 
     //닉네임 중복 체크
-    @RequestMapping("nicknameCheck")
+    @RequestMapping("user/nicknameCheck")
     @ResponseBody
     public int nicknameCheck(@RequestBody HashMap<String, String> param){
 
         return userService.nicknameCheck(param);
     }
 
-    @RequestMapping("/changePassword")
+    @RequestMapping("/user/changePassword")
     @ResponseBody
     public int changePassword(@RequestBody HashMap<String, String> param){
 

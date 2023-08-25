@@ -53,7 +53,16 @@ $(function(){
     });
 
     $(document).on('blur', '#price', (e) => {
-        $('#totalPrice').val(e.target.value);
+        if(!$("#price").val()){
+            $("#priceCheck").text("상품 가격을 입력해주세요.");
+            $("#price").attr('class', 'wrong__input');
+            priceCheck = false;
+        } else {
+            $("#priceCheck").text("");
+            $("#price").attr('class', 'NoClass');
+            priceCheck = true;
+            $('#totalPrice').val(e.target.value);
+        }
     })
 
     $(document).on('blur', '#discountRate', (e) => {
@@ -66,6 +75,18 @@ $(function(){
         price = $('#price').val();
         discount = e.target.value;
         $('#totalPrice').val(price*(1-(discount/100)));
+    });
+
+    $(document).on('blur', '#stockQuantity', (e) => {
+        if(!e.target.value){
+            $("#stockQuantityCheck").text("상품 수량을 입력해주세요.");
+            $("#stockQuantity").attr('class', 'wrong__input');
+            stockCheck = false;
+        } else {
+            $("#stockQuantityCheck").text("");
+            $("#stockQuantity").attr('class', 'NoClass');
+            stockCheck = true;
+        }
     });
 
 
@@ -95,37 +116,48 @@ $(function(){
         // reader.readAsDataURL(file);
     });
 
+    $(document).on('blur', '#content', (e) => {
+        if(!e.target.value){
+            $("#contentCheck").text("상품 상세내용을 입력해주세요.");
+            $("#content").attr('class', 'wrong__input');
+            contentCheck = false;
+        } else {
+            $("#contentCheck").text("");
+            $("#content").attr('class', 'NoClass');
+            contentCheck = true;
+        }
+    });
+
     $(document).on('click', '#modify', (e)=> {
 
         e.preventDefault();
 
         //입력값 유효성 검사 - 이름, 할인, 이미지
 
-        if(!$('#discountRate').val()){
-            $('#discountRate').focus();
-            return false;
+        if($('#discountRate').val() == ''){
+            $('#discountRate').val(0);
         }
         if(!nameCheck){
             $('#name').focus();
             return false;
         }
-        // if(!imageCheck){
-        //     $('#productPicture').focus();
-        //     return false;
-        // }
-        //가격 수량 내용
-        // if(!$('#price').val()){
-        //     $('#price').focus();
-        //     return false;
-        // }
-        // if(!$('#stockQuantity').val()){
-        //     $('#stockQuantity').focus();
-        //     return false;
-        // }
-        // if(!$('#content').val()){
-        //     $('#content').focus();
-        //     return false;
-        // }
+        if(!imageCheck){
+            $('#productPicture').focus();
+            return false;
+        }
+        if(!priceCheck){
+            $('#price').focus();
+            return false;
+        }
+        if(!stockCheck){
+            $('#stockQuantity').focus();
+            return false;
+        }
+        if(!contentCheck){
+            $('#content').focus();
+            return false;
+        }
+
 
 
         for (const file of imageFiles){
