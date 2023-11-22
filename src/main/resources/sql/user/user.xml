@@ -53,6 +53,7 @@
             product.name,
             FORMAT(product.price, 0) AS price,
             product.discount_rate,
+            product.stock_quantity,
             DATE_FORMAT(product.created_at, '%Y-%m-%d') AS created_at,
             DATE_FORMAT(product.updated_at, '%Y-%m-%d') AS updated_at,
             category.category_name,
@@ -67,22 +68,23 @@
     <!--    메인 페이지 선택 상품 리스트 조회   -->
     <select id="selectProductAndUrlList" resultType="java.util.Map">
         SELECT
-
-            product.id,
-            product.status,
-            product.name,
-            FORMAT(product.price, 0) AS price,
-            product.discount_rate,
-            DATE_FORMAT(product.created_at, '%Y-%m-%d') AS created_at,
-            DATE_FORMAT(product.updated_at, '%Y-%m-%d') AS updated_at,
-            category.category_name,
-            (SELECT url FROM product_image WHERE product_id = product.id AND file_path = 'mainImages') AS url,
-            <if test="userId != ''">
-                ifnull((SELECT id FROM likes WHERE product_id = product.id AND user_id = #{userId}),0) AS like_id
-            </if>
+        product.id,
+        product.status,
+        product.name,
+        FORMAT(product.price, 0) AS price,
+        product.discount_rate,
+        product.stock_quantity,
+        DATE_FORMAT(product.created_at, '%Y-%m-%d') AS created_at,
+        DATE_FORMAT(product.updated_at, '%Y-%m-%d') AS updated_at,
+        category.category_name,
+        (SELECT url FROM product_image WHERE product_id = product.id AND file_path = 'mainImages') AS url,
+        <if test="userId != ''">
+            ifnull((SELECT id FROM likes WHERE product_id = product.id AND user_id = #{userId} limit 1),0) AS like_id,
+            ifnull((SELECT amount FROM cart WHERE product_id = product.id AND user_id = #{id} limit 1), 0) AS amount
+        </if>
         FROM product product
-            JOIN category category
-                ON product.category_id = category.id
+        JOIN category category
+        ON product.category_id = category.id
         <where>
             product.status = 1
             <if test="selectedCategory != ''">
@@ -104,11 +106,13 @@
             product.name,
             FORMAT(product.price, 0) AS price,
             product.discount_rate,
+            product.stock_quantity,
             DATE_FORMAT(product.created_at, '%Y-%m-%d') AS created_at,
             DATE_FORMAT(product.updated_at, '%Y-%m-%d') AS updated_at,
             category.category_name,
             (SELECT url FROM product_image WHERE product_id = product.id AND file_path = 'mainImages') AS url,
-            ifnull((SELECT id FROM likes WHERE product_id = product.id AND user_id = #{id}),0) AS like_id
+            ifnull((SELECT id FROM likes WHERE product_id = product.id AND user_id = #{id} limit 1), 0) AS like_id,
+            ifnull((SELECT amount FROM cart WHERE product_id = product.id AND user_id = #{id} limit 1), 0) AS cart_amount
         FROM product product
                  JOIN category category
                       ON product.category_id = category.id
@@ -126,4 +130,69 @@
         DELETE FROM likes
         WHERE user_id = #{userId} AND product_id = #{productId}
     </delete>
+
+    <!--    찜 카운트   -->
+    <select id="countUserLike" resultType="int">
+        SELECT COUNT(*)
+        FROM likes
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--    장바구니 카운트   -->
+    <select id="countUserCart" resultType="int">
+        SELECT COUNT(*)
+        FROM cart
+        WHERE user_id = #{userId}
+    </select>
+
+<!--    장바구니 추가   -->
+    <insert id="addCart">
+        INSERT INTO cart(user_id, product_id, amount)
+        VALUES (#{userId}, #{productId}, #{amount})
+    </insert>
+
+<!--    장바구니 삭제   -->
+    <delete id="deleteCart">
+        DELETE FROM cart
+        WHERE user_id = #{userId} AND product_id = #{productId}
+    </delete>
+
+<!--    장바구니 상품 수량 변경   -->
+    <update id="updateCart">
+        UPDATE cart
+        SET amount = #{amount}
+        WHERE user_id = #{userId} AND product_id = #{productId}
+    </update>
+
+<!--    장바구니에 상품이 이미 들어있는지 체크   -->
+    <select id="checkCart" resultType="int">
+        SELECT COUNT(*)
+        FROM cart
+        WHERE user_id = #{userId} AND product_id = #{productId}
+    </select>
+
+<!--    장바구니에 담긴 상품 수량 찾기    -->
+    <select id="countCartAmount" resultType="int">
+        SELECT amount
+        FROM cart
+        WHERE user_id = #{userId} AND product_id = #{productId}
+    </select>
+
+<!--    상품 상세정보 가져오기   -->
+    <select id="findProductDetail" resultType="com.shop.fruitshop.user.DetailDto">
+        SELECT id AS product_id, name, price, discount_rate, stock_quantity, content,
+               (SELECT url FROM product_image WHERE product_id = #{productId} AND file_path = 'mainImages') AS url,
+               <if test="userId != ''">
+                   ifnull((SELECT id FROM likes WHERE product_id = #{productId} AND user_id = #{userId} limit 1),0) AS like_id
+               </if>
+        FROM product
+        WHERE id = #{productId}
+    </select>
+
+<!--    상품 수량 가져오기    -->
+    <select id="getMaxAmount" resultType="int">
+        SELECT stock_quantity
+        FROM product
+        WHERE id = #{productId}
+    </select>
 </mapper>

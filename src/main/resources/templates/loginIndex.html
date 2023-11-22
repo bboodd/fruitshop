@@ -21,6 +21,7 @@
     <th:block th:insert="~{includes/style}"></th:block>
     <th:block th:insert="~{includes/scripts}"></th:block>
 
+    <script defer src="/user/js/main.js"></script>
 </head>
 
 <body>
@@ -106,19 +107,19 @@
 
             <!-- 장바구니 -->
             <li class="right__cart">
-                <a href="#">
+                <a href="/user/cart">
                     <span class="material-symbols-outlined">shopping_cart</span>
                     <p>장바구니</p>
-                    <div class="cart__count">5</div>
+                    <div class="cart__count" id="countCart" th:text="${cartCount}"></div>
                 </a>
             </li>
 
             <!-- 찜 -->
             <li class="right__favorite">
-                <a href="#">
+                <a href="#" onclick="return false;">
                     <span class="material-icons">favorite</span>
                     <p>찜</p>
-                    <div class="favorite__count">3</div>
+                    <div class="favorite__count" id="countLike" th:text="${likeCount}"></div>
                 </a>
 
                 <div class="line"></div>
@@ -157,8 +158,20 @@
                         <span th:unless="${product.like_id == 0}" class="material-icons red__heart" th:data-value="${product.id}" id="like_o"
                               onclick="location.href='javascript:void(0)'">favorite</span>
 
-                        <span class="material-symbols-outlined" th:value="${product.id}" id="cart">shopping_cart</span>
+                        <span class="material-symbols-outlined" th:data-value="${product.id}" id="shoppingCart">shopping_cart</span>
                     </div>
+
+                    <!-- 장바구니 클릭 시 수량 증감버튼 -->
+                    <div id="cartCount" class="cart" style="display: none;">
+                        <div class="inner">
+                            <button id="plus" th:data-value="${product.id}">+</button>
+                            <input id="amount" type="text" th:value="${product.cart_amount}" readonly>
+                            <button id="minus" th:data-value="${product.id}">-</button>
+                        </div>
+                        <input id="stock" type="hidden" th:value="${product.stock_quantity}">
+                    </div>
+<!--                    지금 상품 최대 수량 어디다 숨겨놓을건지, 장바구니 추가했을 때 change로 받아서 할건지(개수입력) or +,-로 할건지, -->
+
 
                     <div class="txt">
                         <div class="title">

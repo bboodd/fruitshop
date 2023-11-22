@@ -1,5 +1,6 @@
 package com.shop.fruitshop.user;
 
+import com.shop.fruitshop.domain.Product;
 import com.shop.fruitshop.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,6 +34,25 @@ public interface UserMapper {
     void addLike(HashMap<String, Object> param);
 
     void deleteLike(HashMap<String, Object> param);
+
+    int countUserLike(HashMap<String, Object> param);
+
+    int countUserCart(HashMap<String, Object> param);
+
+    void addCart(HashMap<String, Object> param);
+
+    void deleteCart(HashMap<String, Object> param);
+
+    void updateCart(HashMap<String, Object> param);
+
+    int countCartAmount(HashMap<String, Object> param);
+
+    int checkCart(HashMap<String, Object> param);
+
+    DetailDto findProductDetail(HashMap<String, Object> param);
+
+    int getMaxAmount(HashMap<String, Object> param);
+
 
 
 }

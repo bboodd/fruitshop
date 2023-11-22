@@ -1,6 +1,9 @@
 package com.shop.fruitshop.user;
 
 import com.github.pagehelper.PageInfo;
+import com.shop.fruitshop.admin.ProductForm;
+import com.shop.fruitshop.domain.Product;
+import com.shop.fruitshop.domain.ProductImage;
 import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +41,11 @@ public class UserController {
             return "index";
         }
 
+        HashMap<String,Object> data_count = new HashMap<>();
+        data_count.put("userId", loginUser.getId());
+
+        model.addAttribute("likeCount", userService.countUserLike(data_count));
+        model.addAttribute("cartCount", userService.countUserCart(data_count));
         model.addAttribute("user", loginUser);
         model.addAttribute("list", userService.selectProductAndUrlAndLikeAllWithPaging(loginUser.getId(), pageNum, pageSize));
         return "loginIndex";
@@ -57,14 +66,16 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/addLike")
-    public void addLike(@RequestBody HashMap<String, Object> param){
+    public int addLike(@RequestBody HashMap<String, Object> param){
         userService.addLike(param);
+        return userService.countUserLike(param);
     }
 
     @ResponseBody
     @PostMapping("/deleteLike")
-    public void deleteLike(@RequestBody HashMap<String, Object> param){
+    public int deleteLike(@RequestBody HashMap<String, Object> param){
         userService.deleteLike(param);
+        return userService.countUserLike(param);
     }
 
     @GetMapping("user/{pathName}")
@@ -174,7 +185,78 @@ public class UserController {
         return userService.changePassword(param.get("email"), encodePw);
     }
 
+    @ResponseBody
+    @PostMapping("/addCart")
+    public int addCart(@RequestBody HashMap<String, Object> param){
 
+        if(userService.checkCart(param) != 0){
+            int addAmount = (int)param.get("amount");
+            int defaultAmount = userService.countCartAmount(param);
+            param.put("amount", addAmount+defaultAmount);
+            userService.updateCart(param);
+            return userService.countUserCart(param);
+        }
 
+        userService.addCart(param);
+
+        return userService.countUserCart(param);
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteCart")
+    public int deleteCart(@RequestBody HashMap<String, Object> param){
+        userService.deleteCart(param);
+        return userService.countUserCart(param);
+    }
+
+    @ResponseBody
+    @PostMapping("/updateCart")
+    public void updateCart(@RequestBody HashMap<String, Object> param){
+
+        int maxAmount = userService.getMaxAmount(param);
+        int addAmount = (int) param.get("amount");
+
+        if(addAmount <= maxAmount ){
+            userService.updateCart(param);
+        }
+    }
+
+    @GetMapping("user/cart")
+    public String cart(){
+        return "user/cart";
+    }
+
+    @GetMapping("user/product/{productId}/detail")
+    public String detail(@PathVariable long productId,
+                         @SessionAttribute(name = "loginUser", required = false) User loginUser,
+                         Model model){
+
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("productId", productId);
+        if(loginUser != null){
+            param.put("userId", loginUser.getId());
+
+            if(userService.checkCart(param) != 0){
+                model.addAttribute("cartAmount", userService.countCartAmount(param));
+            }
+        }
+
+        DetailDto detail = userService.findProductDetail(param);
+
+        int afterDiscount =(int) (detail.getPrice() * ((double)1 - ((double)detail.getDiscountRate() / 100)));
+        detail.setAfterDiscount(afterDiscount);
+
+        if(loginUser != null){
+            HashMap<String, Object> userId = new HashMap<>();
+            userId.put("userId", loginUser.getId());
+            model.addAttribute("userId", loginUser.getId());
+            model.addAttribute("likeCount", userService.countUserLike(userId));
+            model.addAttribute("cartCount", userService.countUserCart(userId));
+            model.addAttribute("userName", loginUser.getNickname());
+        }
+        model.addAttribute("detail", detail);
+
+        return "user/detail";
+    }
 
 }

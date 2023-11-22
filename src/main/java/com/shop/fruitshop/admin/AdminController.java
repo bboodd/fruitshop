@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.shop.fruitshop.domain.Admin;
 import com.shop.fruitshop.domain.Product;
 import com.shop.fruitshop.domain.ProductImage;
+import com.shop.fruitshop.domain.User;
 import com.shop.fruitshop.firebase.FireBaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,14 +28,14 @@ import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin")
 @Slf4j
 public class AdminController {
 
     private final AdminService adminService;
     private final FireBaseService fireBaseService;
+    private final DecimalFormat formatter = new DecimalFormat("###,###");
 
-    @GetMapping("{pathName}")
+    @GetMapping("admin/{pathName}")
     public String path(@PathVariable String pathName,
                        @SessionAttribute(name = "loginAdmin", required = false) Admin loginAdmin,
                        Model model) {
@@ -45,12 +47,12 @@ public class AdminController {
         return "admin/"+pathName;
     }
 
-    @GetMapping("favicon.ico")
+    @GetMapping("admin/favicon.ico")
     @ResponseBody
     void noFavicon() {
     }
 
-    @GetMapping("product")
+    @GetMapping("admin/product")
     public String product(@RequestParam(required = false, defaultValue = "1") int pageNum,
                           @RequestParam(required = false, defaultValue = "10") int pageSize,
                           Model model){
@@ -61,7 +63,7 @@ public class AdminController {
     }
 
     @ResponseBody
-    @PostMapping("/product")
+    @PostMapping("/admin//product")
     public HashMap<String, Object> product(@RequestBody HashMap<String, Object> param){
 
         PageInfo<HashMap<String, Object>> data = adminService.selectProductListWithPaging(param);
@@ -75,7 +77,7 @@ public class AdminController {
         return data_count;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/admin//login")
     public String login(Admin admin, BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()){
@@ -97,7 +99,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/admin//addProduct")
     @ResponseBody
     public int addProduct(@Valid Product form,
                              @RequestParam("file") List<MultipartFile> file,
@@ -139,7 +141,7 @@ public class AdminController {
     }
 
     //상품수정
-    @GetMapping("product/{id}/edit")
+    @GetMapping("admin/product/{id}/edit")
     public String editProduct(@PathVariable Long id, Model model) {
 
         Product product = adminService.findProductById(id);
@@ -160,7 +162,7 @@ public class AdminController {
         return "admin/editProduct";
     }
 
-    @PostMapping("/editProduct")
+    @PostMapping("/admin//editProduct")
     @ResponseBody
     public int editProduct(@Valid Product form,
                            @RequestParam("id") Long id,
@@ -224,7 +226,7 @@ public class AdminController {
         return 0;
     }
 
-    @RequestMapping("/productStopAndDelete")
+    @RequestMapping("/admin//productStopAndDelete")
     @ResponseBody
     public int productStopAndDelete(@RequestBody HashMap<String, Object> param){
 
@@ -246,7 +248,7 @@ public class AdminController {
         return 0;
     }
 
-    @RequestMapping("/productNameCheck")
+    @RequestMapping("/admin//productNameCheck")
     @ResponseBody
     public int productNameCheck(@RequestBody HashMap<String, String> param){
 

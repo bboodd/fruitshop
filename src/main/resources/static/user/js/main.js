@@ -5,6 +5,9 @@ $(function() {
     let pageNum = 1;
     let pageSize = 9;
 
+
+    const userId = parseInt($("#userId").val());
+
     $(document).on('click', '.category-btn', (e) => {
         $(e.target).css({
             backgroundColor : "#333",
@@ -58,9 +61,7 @@ $(function() {
         fetchData();
     });
 
-    const userId = parseInt($("#userId").val());
-
-    $(document).on('click', '#like_x', (e) => {
+    $(document).off('click', '#like_x').on('click', '#like_x', (e) => {
         e.preventDefault();
         e.stopPropagation();
         console.log(e.target.dataset.value);
@@ -81,13 +82,16 @@ $(function() {
            }).then(res => {
                $(e.target).attr('class','material-icons red__heart')
                $(e.target).attr('id','like_o')
+
+               $("#countLike").empty();
+               $("#countLike").append(res.data);
            }).catch(error => {
                console.error(error);
            });
        }
     });
 
-    $(document).on('click', '#like_o', (e) => {
+    $(document).off('click', '#like_o').on('click', '#like_o', (e) => {
         e.preventDefault();
         e.stopPropagation();
         console.log(e.target.dataset.value);
@@ -108,11 +112,144 @@ $(function() {
             }).then(res => {
                 $(e.target).attr('class','material-symbols-outlined')
                 $(e.target).attr('id','like_x')
+
+                $("#countLike").empty();
+                $("#countLike").append(res.data);
             }).catch(error => {
                 console.error(error);
             });
         }
     });
+
+    $(document).off('click', '#shoppingCart').on('click', '#shoppingCart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if($("#userId").val()){
+            if($(e.target).closest('li').hasClass('cart__click')){
+                $(e.target).closest('li').attr('class', 'NoClass');
+                $(e.target).closest('div').next().css({"display":"none"});
+            }else {
+                $(e.target).closest('li').attr('class', 'cart__click');
+                $(e.target).closest('div').next().css({"display":""});
+            }
+        }
+    });
+
+    $(document).on('click', '#cartCount', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    $(document).off('click', '#plus').on('click', '#plus', (e) => {
+
+        const amount = parseInt($(e.target).next().val());
+        const max = parseInt($(e.target).closest('div').next().val());
+        if(amount < max){
+            if(amount === 0){
+            //     insert
+                if($("#userId").val()) {
+
+                    let productId = parseInt(e.target.dataset.value);
+
+                    axios({
+                        method: 'post',
+                        url: '/addCart',
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                            amount: amount + 1
+                        },
+                        dataType: 'JSON',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(res => {
+                        $("#countCart").empty();
+                        $("#countCart").append(res.data);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
+            } else{
+            //     update
+                if($("#userId").val()) {
+
+                    let productId = parseInt(e.target.dataset.value);
+
+                    axios({
+                        method: 'post',
+                        url: '/updateCart',
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                            amount: amount + 1
+                        },
+                        dataType: 'JSON',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(res => {
+                        console.log(res.data);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
+            }
+            $(e.target).next().val(amount+1);
+        }
+
+    });
+
+    $(document).off('click', '#minus').on('click', '#minus', (e) => {
+
+        amount = parseInt($(e.target).prev().val());
+        if(amount > 0){
+            if(amount === 1){
+            //     delete
+                if($("#userId").val()) {
+
+                    let productId = parseInt(e.target.dataset.value);
+
+                    axios({
+                        method: 'post',
+                        url: '/deleteCart',
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                        },
+                        dataType: 'JSON',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(res => {
+                        $("#countCart").empty();
+                        $("#countCart").append(res.data);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
+            } else{
+            //     update
+                if($("#userId").val()) {
+
+                    let productId = parseInt(e.target.dataset.value);
+
+                    axios({
+                        method: 'post',
+                        url: '/updateCart',
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                            amount: amount - 1
+                        },
+                        dataType: 'JSON',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(res => {
+                        console.log(res.data);
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
+            }
+            $(e.target).prev().val(amount-1);
+        };
+    });
+
+
 
     function fetchData() {
         axios({
@@ -143,8 +280,16 @@ $(function() {
                             <span class="${res.data.data.list[i].like_id != 0 ? 'material-icons red__heart' : 'material-symbols-outlined'}"
                                   data-value="${res.data.data.list[i].id}" id="${res.data.data.list[i].like_id != 0 ? "like_o" : "like_x"}"
                                   onclick="location.href='javascript:void(0)'">favorite</span>
-                            <span class="material-symbols-outlined" data-value="${res.data.data.list[i].id}" id="cart"
+                            <span class="material-symbols-outlined" data-value="${res.data.data.list[i].id}" id="shoppingCart"
                                   onclick="location.href='javascript:void(0)'">shopping_cart</span>
+                        </div>
+                        
+                        <div id="cartCount" class="cart" style="display: none;">
+                            <div class="inner">
+                                <button id="plus" data-value="${res.data.data.list[i].id}">+</button>
+                                <input id="amount" type="text" value="${res.data.data.list[i].amount}" readonly>
+                                <button id="minus" data-value="${res.data.data.list[i].id}">-</button>
+                            </div>
                         </div>
                         
                         <div class="txt">
