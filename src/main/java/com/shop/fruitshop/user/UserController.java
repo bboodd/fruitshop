@@ -221,11 +221,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("user/cart")
-    public String cart(){
-        return "user/cart";
-    }
-
     @GetMapping("user/product/{productId}/detail")
     public String detail(@PathVariable long productId,
                          @SessionAttribute(name = "loginUser", required = false) User loginUser,
@@ -257,6 +252,27 @@ public class UserController {
         model.addAttribute("detail", detail);
 
         return "user/detail";
+    }
+
+    @GetMapping("user/cart")
+    public String cart(@SessionAttribute(name = "loginUser", required = false) User loginUser,
+                       Model model){
+        if(loginUser == null){
+            return "user/login";
+        }
+
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("userId", loginUser.getId());
+
+        model.addAttribute("userId", loginUser.getId());
+        model.addAttribute("count", userService.countUserCart(param));
+        model.addAttribute("cartList", userService.findCartByUserId(loginUser.getId()) !=
+                null ? userService.findCartByUserId(loginUser.getId()) : new CartDto());
+        model.addAttribute("totalSum", userService.findCartTotalPrice(loginUser.getId()) !=
+                null ? userService.findCartTotalPrice(loginUser.getId()) : new TotalDto());
+
+
+        return "user/cart";
     }
 
 }

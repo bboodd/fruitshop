@@ -9,16 +9,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetailDto {
+public class CartDto {
 
+    private Long cartId;
     private Long userId;
     private Long productId;
+    private int amount;
     private String name;
     private int price;
     private int discountRate;
     private int stockQuantity;
-    private String content;
     private String url;
-    private int likeId;
-    private int afterDiscount;
+    private int total;
+    private int totalPrice;
+    private int totalDiscount;
 }

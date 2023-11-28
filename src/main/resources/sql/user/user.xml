@@ -195,4 +195,24 @@
         FROM product
         WHERE id = #{productId}
     </select>
+
+<!--    유저 아이디로 장바구니 상품들 가져오기   -->
+    <select id="findCartByUserId" resultType="com.shop.fruitshop.user.CartDto">
+        SELECT cart.id AS cart_id, product.id AS product_id, cart.amount, product.name, product.price, product.discount_rate, product.stock_quantity,
+               (SELECT url FROM product_image WHERE product_id = product.id AND file_path = 'mainImages') AS url
+        FROM cart cart
+            JOIN product product
+                ON cart.product_id = product.id
+        WHERE cart.user_id = #{userId}
+    </select>
+
+<!--    장바구니에 들어있는 상품 가격 총 합 구하기-->
+    <select id="findCartTotalPrice" resultType="com.shop.fruitshop.user.TotalDto">
+        SELECT SUM(product.price * cart.amount) AS price, SUM((product.price * (1-product.discount_rate/100)) * cart.amount) AS total,
+               SUM((product.price * (product.discount_rate/100)) * cart.amount) AS discount
+        FROM cart cart
+            JOIN product product
+                ON cart.product_id = product.id
+        WHERE cart.user_id = #{userId}
+    </select>
 </mapper>

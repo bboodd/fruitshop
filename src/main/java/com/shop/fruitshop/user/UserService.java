@@ -147,4 +147,14 @@ public class UserService implements UserMapper {
     public int getMaxAmount(HashMap<String, Object> param){
         return userMapper.getMaxAmount(param);
     }
+
+    @Override
+    public List<CartDto> findCartByUserId(Long userId){
+        return userMapper.findCartByUserId(userId);
+    }
+
+    @Override
+    public TotalDto findCartTotalPrice(Long userId){
+        return userMapper.findCartTotalPrice(userId);
+    }
 }

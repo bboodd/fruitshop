@@ -3222,6 +3222,16 @@
 #cart .inner table tr td .td_wrap .txt span button:nth-of-type(2) {
   width: 30px;
 }
+#cart .inner table tr td .td_wrap .txt span input{
+  width: 35px;
+  height: 25px;
+  border: none;
+  text-align: center;
+  font: 800 14px/1 "Nanum Gothic";
+  color: #252525;
+  background-color: transparent;
+  border: 1px solid #333;
+}
 #cart .inner table tr td .td_wrap .price {
   display: flex;
   align-items: center;

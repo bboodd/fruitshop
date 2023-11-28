@@ -19,12 +19,15 @@
 
     <th:block th:insert="~{includes/library}"></th:block>
     <th:block th:insert="~{includes/style}"></th:block>
-    <th:block th:insert="~{includes/scripts}"></th:block>
+<!--    <th:block th:insert="~{includes/scripts}"></th:block>-->
+    <script src="/user/js/cart.js"></script>
 </head>
 
 <body>
 
 <div th:insert="~{fragment/user/header.html :: copy}"></div>
+
+<input id="userId" type="hidden" th:value="${userId}">
 
     <div id="cart">
         <div class="inner">
@@ -33,7 +36,7 @@
 
             <div class="txt">
                 <div class="left">
-                    <span>전체 <span class="orange">5</span>개</span>
+                    <span>전체 <span id="count" th:text="${count}" class="orange"></span>개</span>
                 </div>
 
                 <div class="right">
@@ -55,139 +58,36 @@
                     <th scope="col">상품별 할인</th>
                 </tr>
 
-                <tr>
+                <tr th:each="cart : ${cartList}">
                     <td>
                         <input type="checkbox">
                     </td>
                     <td>
                         <div class="td_wrap">
-                            <img src="/user/img/마이페이지-망고스틴.png" alt="망고스틴">
+                            <img th:src="${cart.url}">
 
                             <div class="txt">
-                                <span>열대과일 생과 망고스틴 5kg</span>
+                                <span th:text="${cart.name}"></span>
+                                <input id="amount" th:value="${cart.amount}" type="hidden">
                                 <span>
-                                    <button>+</button>
-                                    <button>2</button>
-                                    <button>-</button>
+                                    <button id="plus" th:data-value="${cart.productId}">+</button>
+                                    <button th:text="${cart.amount}"></button>
+                                    <button id="minus" th:data-value="${cart.productId}">-</button>
                                 </span>
+                                <input id="max" th:value="${cart.stockQuantity}" type="hidden">
                             </div>
 
                             <div class="price">
-                                <span>50,000원</span>
-                                <button>x</button>
+                                <span data-th-text="${#numbers.formatInteger(cart.price, 3, 'COMMA') + '원'}"></span>
+                                <input id="price" th:value="${cart.price}" type="hidden">
+                                <input id="discount" th:value="${cart.discountRate}" type="hidden">
+                                <button id="delete" th:data-value="${cart.productId}">x</button>
                             </div>
                         </div>
                     </td>
-                    <td>100,000원</td>
-                    <td>10%</td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <div class="td_wrap">
-                            <img src="/user/img/마이페이지-망고스틴.png" alt="망고스틴">
-
-                            <div class="txt">
-                                <span>열대과일 생과 망고스틴 5kg</span>
-                                <span>
-                                    <button>+</button>
-                                    <button>2</button>
-                                    <button>-</button>
-                                </span>
-                            </div>
-
-                            <div class="price">
-                                <span>50,000원</span>
-                                <button>x</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>100,000원</td>
-                    <td>10%</td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <div class="td_wrap">
-                            <img src="/user/img/마이페이지-망고스틴.png" alt="망고스틴">
-
-                            <div class="txt">
-                                <span>열대과일 생과 망고스틴 5kg</span>
-                                <span>
-                                    <button>+</button>
-                                    <button>2</button>
-                                    <button>-</button>
-                                </span>
-                            </div>
-
-                            <div class="price">
-                                <span>50,000원</span>
-                                <button>x</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>100,000원</td>
-                    <td>10%</td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <div class="td_wrap">
-                            <img src="/user/img/마이페이지-망고스틴.png" alt="망고스틴">
-
-                            <div class="txt">
-                                <span>열대과일 생과 망고스틴 5kg</span>
-                                <span>
-                                    <button>+</button>
-                                    <button>2</button>
-                                    <button>-</button>
-                                </span>
-                            </div>
-
-                            <div class="price">
-                                <span>50,000원</span>
-                                <button>x</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>100,000원</td>
-                    <td>10%</td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <div class="td_wrap">
-                            <img src="/user/img/마이페이지-망고스틴.png" alt="망고스틴">
-
-                            <div class="txt">
-                                <span>열대과일 생과 망고스틴 5kg</span>
-                                <span>
-                                    <button>+</button>
-                                    <button>2</button>
-                                    <button>-</button>
-                                </span>
-                            </div>
-
-                            <div class="price">
-                                <span>50,000원</span>
-                                <button>x</button>
-                            </div>
-                        </div>
-                    </td>
-                    <td>100,000원</td>
-                    <td>10%</td>
+                    <td id="productTotal" data-th-text="${#numbers.formatInteger((cart.price*cart.amount), 3, 'COMMA') + '원'}"></td>
+                    <td th:text="${cart.discountRate} + '%'"></td>
+                    <input id="discountRate" th:value="${cart.discountRate}" type="hidden">
                 </tr>
 
                 <tr class="lastTr">
@@ -207,7 +107,8 @@
                     </td>
 
                     <td>
-                        <span>160,000원</span>
+                        <span id="totalPrice" data-th-text="${#numbers.formatInteger(totalSum.price, 3, 'COMMA') + '원'}"></span>
+                        <input id="totalSumPrice" th:value="${totalSum.price}" type="hidden">
                     </td>
                 </tr>
 
@@ -217,7 +118,8 @@
                     </td>
 
                     <td>
-                        <span>-4,500원</span>
+                        <span id="totalDiscount" data-th-text="${'-' + #numbers.formatInteger(totalSum.discount, 3, 'COMMA') + '원'}" ></span>
+                        <input id="totalSumDiscount" th:value="${totalSum.discount}" type="hidden">
                     </td>
                 </tr>
 
@@ -229,7 +131,9 @@
                     </td>
 
                     <td>
-                        <span>무료</span>
+                        <span class="delivery" th:if="${totalSum.total >= 50000}">무료</span>
+                        <span class="delivery" th:unless="${totalSum.total >= 50000}">3000원</span>
+
                     </td>
                 </tr>
 
@@ -243,7 +147,9 @@
                     </td>
 
                     <td class="lastTotalPrice">
-                        <span class="orange">115,500원</span>
+                        <span id="t1" class="orange" th:if="${totalSum.total >= 50000}" data-th-text="${#numbers.formatInteger(totalSum.total, 3, 'COMMA') + '원'}"></span>
+                        <span id="t2" class="orange" th:unless="${totalSum.total >= 50000}" data-th-text="${#numbers.formatInteger(totalSum.total + 3000, 3, 'COMMA') + '원'}"></span>
+                        <input id="totalSumTotal" th:value="${totalSum.total}" type="hidden">
                     </td>
                 </tr>
             </table>

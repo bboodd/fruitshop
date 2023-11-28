@@ -53,6 +53,10 @@ public interface UserMapper {
 
     int getMaxAmount(HashMap<String, Object> param);
 
+    List<CartDto> findCartByUserId(Long userId);
+
+    TotalDto findCartTotalPrice(Long userId);
+
 
 
 }

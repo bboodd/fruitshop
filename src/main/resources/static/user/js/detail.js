@@ -114,6 +114,12 @@ $(function() {
         }
     });
 
-    $('#stay').on('click', () => $('#cartModal').hide());
-    $('#stay2').on('click', () => $('#maxModal').hide());
+    $('#stay').on('click', () => {
+        $('#cartModal').hide();
+        $("#amount").val(1);
+    });
+    $('#stay2').on('click', () => {
+        $('#maxModal').hide();
+        $("#amount").val(1);
+    });
 })

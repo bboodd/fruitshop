@@ -41,7 +41,8 @@
 
             <li class="item">
                 <div class="item__name red">
-                    <a href="/user/cart">장바구니</a>
+                    <a th:if="${session.loginUser == null}" href="/user/login">장바구니</a>
+                    <a th:unless="${session.loginUser == null}" href="/user/cart">장바구니</a>
                     <span class="material-icons">
                             shopping_cart
                         </span>
