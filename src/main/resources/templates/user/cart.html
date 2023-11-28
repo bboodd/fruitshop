@@ -51,7 +51,7 @@
             <table>
                 <tr class="title">
                     <th>
-                        <input type="checkbox" checked>
+                        <input id="checkAll" type="checkbox" checked>
                     </th>
                     <th scope="col">상품정보</th>
                     <th scope="col">상품금액</th>
@@ -60,7 +60,7 @@
 
                 <tr th:each="cart : ${cartList}">
                     <td>
-                        <input type="checkbox">
+                        <input name="check" type="checkbox" checked>
                     </td>
                     <td>
                         <div class="td_wrap">
@@ -107,7 +107,8 @@
                     </td>
 
                     <td>
-                        <span id="totalPrice" data-th-text="${#numbers.formatInteger(totalSum.price, 3, 'COMMA') + '원'}"></span>
+                        <span th:if="${totalSum.price == 0}">0원</span>
+                        <span th:unless="${totalSum.price == 0}" id="totalPrice" data-th-text="${#numbers.formatInteger(totalSum.price, 3, 'COMMA') + '원'}"></span>
                         <input id="totalSumPrice" th:value="${totalSum.price}" type="hidden">
                     </td>
                 </tr>
@@ -118,7 +119,8 @@
                     </td>
 
                     <td>
-                        <span id="totalDiscount" data-th-text="${'-' + #numbers.formatInteger(totalSum.discount, 3, 'COMMA') + '원'}" ></span>
+                        <span th:if="${totalSum.discount == 0}">0원</span>
+                        <span th:unless="${totalSum.discount == 0}" id="totalDiscount" data-th-text="${'-' + #numbers.formatInteger(totalSum.discount, 3, 'COMMA') + '원'}" ></span>
                         <input id="totalSumDiscount" th:value="${totalSum.discount}" type="hidden">
                     </td>
                 </tr>
@@ -132,7 +134,7 @@
 
                     <td>
                         <span class="delivery" th:if="${totalSum.total >= 50000}">무료</span>
-                        <span class="delivery" th:unless="${totalSum.total >= 50000}">3000원</span>
+                        <span class="delivery" th:unless="${totalSum.total >= 50000}" th:text="${totalSum.total == 0 ? '0원' : '3000원'}"></span>
 
                     </td>
                 </tr>
@@ -147,15 +149,16 @@
                     </td>
 
                     <td class="lastTotalPrice">
-                        <span id="t1" class="orange" th:if="${totalSum.total >= 50000}" data-th-text="${#numbers.formatInteger(totalSum.total, 3, 'COMMA') + '원'}"></span>
-                        <span id="t2" class="orange" th:unless="${totalSum.total >= 50000}" data-th-text="${#numbers.formatInteger(totalSum.total + 3000, 3, 'COMMA') + '원'}"></span>
+                        <span class="orange" id="total" th:if="${totalSum.total != 0}" data-th-text="${totalSum.total >= 50000 ? #numbers.formatInteger(totalSum.total, 3, 'COMMA') + '원' :
+                        #numbers.formatInteger(totalSum.total + 3000, 3, 'COMMA') + '원'}"></span>
+                        <span class="orange" th:unless="${totalSum.total != 0}">0원</span>
                         <input id="totalSumTotal" th:value="${totalSum.total}" type="hidden">
                     </td>
                 </tr>
             </table>
 
             <div class="buttons">
-                <button>쇼핑계속하기</button>
+                <button onclick="location.href='/'">쇼핑계속하기</button>
                 <button>구매하기</button>
             </div>
         </div>
