@@ -11,6 +11,7 @@ $(function () {
         let price = parseInt($(e.target).closest('div').next().find('input').val());
         let discount = parseInt($(e.target).closest('div').next().find('input').next().val());
         const productTotal = $(e.target).closest('td').next();
+        let check = $(e.target).closest('td').prev();
 
         if(amountVal<max){
 
@@ -44,7 +45,7 @@ $(function () {
                     $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
                 }
                 else{
-                    $('.delivery').html("3000원");
+                    $('.delivery').html("3,000원");
                     let temp = parseInt($('#totalSumTotal').val()) + 3000
                     $('#total').html(temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
                 };
@@ -96,7 +97,7 @@ $(function () {
                     $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
                 }
                 else{
-                    $('.delivery').html("3000원");
+                    $('.delivery').html("3,000원");
                     let temp = parseInt($('#totalSumTotal').val()) + 3000;
                     $('#total').html(temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
                 };
@@ -148,7 +149,7 @@ $(function () {
                 $('#total').html("0원");
             }
             else{
-                $('.delivery').html("3000원");
+                $('.delivery').html("3,000원");
                 let temp = parseInt($('#totalSumTotal').val()) + 3000;
                 $('#total').html(temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
             };
@@ -160,18 +161,44 @@ $(function () {
 //     체크박스 구현
 
     $(document).on('click', '#checkAll', () => {
-        if($("#checkAll").is(":checked")) $("input[name=check]").prop("checked", true);
+        if($("#checkAll").is(":checked")) {
+            $("input[name=check]").prop("checked", true);
+
+            $('#totalPrice').html($('#totalSumPrice').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
+
+            $('#totalDiscount').html("-"+$('#totalSumDiscount').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
+
+            if(parseInt($('#totalSumTotal').val()) >= 50000) {
+                $('.delivery').html("0원");
+            } else{
+                $('.delivery').html("3,000원");
+            }
+
+            $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
+        }
         else {
             $("input[name=check]").prop("checked", false);
+
+            $('#totalPrice').html("0원");
+
+            $('#totalDiscount').html("-0원");
+
+            $('.delivery').html("0원");
+
+            $('#total').html("0원");
 
         }
     })
 
-    $(document).on('click', 'input[name=check]', () => {
+    $(document).on('click', 'input[name=check]', (e) => {
         let total = $("input[name=check]").length;
         let checked = $("input[name=check]:checked").length;
 
-        if(total != checked) $("#checkAll").prop("checked", false);
-        else $("#checkAll").prop("checked", true);
+        if(total != checked) {
+            $("#checkAll").prop("checked", false);
+        }
+        else {
+            $("#checkAll").prop("checked", true);
+        }
     })
 })

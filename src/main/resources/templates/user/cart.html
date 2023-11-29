@@ -134,7 +134,7 @@
 
                     <td>
                         <span class="delivery" th:if="${totalSum.total >= 50000}">무료</span>
-                        <span class="delivery" th:unless="${totalSum.total >= 50000}" th:text="${totalSum.total == 0 ? '0원' : '3000원'}"></span>
+                        <span class="delivery" th:unless="${totalSum.total >= 50000}" th:text="${totalSum.total == 0 ? '0원' : '3,000원'}"></span>
 
                     </td>
                 </tr>
