@@ -59,8 +59,13 @@
                 </tr>
 
                 <tr th:each="cart : ${cartList}">
-                    <td>
-                        <input name="check" type="checkbox" checked>
+                    <td class="cart_info_td">
+                        <input class="cart_checkbox" name="check" type="checkbox" checked>
+                        <input type="hidden" class="individual_productId_input" th:value="${cart.productId}">
+                        <input type="hidden" class="individual_productPrice_input" th:value="${cart.price}">
+                        <input type="hidden" class="individual_productDiscountRate_input" th:value="${cart.discountRate}">
+                        <input type="hidden" class="individual_productCartAmount_input" th:value="${cart.amount}">
+                        <input type="hidden" class="individual_productQuantity_input" th:value="${cart.stockQuantity}">
                     </td>
                     <td>
                         <div class="td_wrap">
@@ -68,26 +73,21 @@
 
                             <div class="txt">
                                 <span th:text="${cart.name}"></span>
-                                <input id="amount" th:value="${cart.amount}" type="hidden">
                                 <span>
-                                    <button id="plus" th:data-value="${cart.productId}">+</button>
+                                    <button id="plus">+</button>
                                     <button th:text="${cart.amount}"></button>
-                                    <button id="minus" th:data-value="${cart.productId}">-</button>
+                                    <button id="minus">-</button>
                                 </span>
-                                <input id="max" th:value="${cart.stockQuantity}" type="hidden">
                             </div>
 
                             <div class="price">
                                 <span data-th-text="${#numbers.formatInteger(cart.price, 3, 'COMMA') + '원'}"></span>
-                                <input id="price" th:value="${cart.price}" type="hidden">
-                                <input id="discount" th:value="${cart.discountRate}" type="hidden">
-                                <button id="delete" th:data-value="${cart.productId}">x</button>
+                                <button id="delete">x</button>
                             </div>
                         </div>
                     </td>
                     <td id="productTotal" data-th-text="${#numbers.formatInteger((cart.price*cart.amount), 3, 'COMMA') + '원'}"></td>
                     <td th:text="${cart.discountRate} + '%'"></td>
-                    <input id="discountRate" th:value="${cart.discountRate}" type="hidden">
                 </tr>
 
                 <tr class="lastTr">
@@ -109,7 +109,6 @@
                     <td>
                         <span th:if="${totalSum.price == 0}">0원</span>
                         <span th:unless="${totalSum.price == 0}" id="totalPrice" data-th-text="${#numbers.formatInteger(totalSum.price, 3, 'COMMA') + '원'}"></span>
-                        <input id="totalSumPrice" th:value="${totalSum.price}" type="hidden">
                     </td>
                 </tr>
 
@@ -121,7 +120,6 @@
                     <td>
                         <span th:if="${totalSum.discount == 0}">0원</span>
                         <span th:unless="${totalSum.discount == 0}" id="totalDiscount" data-th-text="${'-' + #numbers.formatInteger(totalSum.discount, 3, 'COMMA') + '원'}" ></span>
-                        <input id="totalSumDiscount" th:value="${totalSum.discount}" type="hidden">
                     </td>
                 </tr>
 
@@ -152,7 +150,6 @@
                         <span class="orange" id="total" th:if="${totalSum.total != 0}" data-th-text="${totalSum.total >= 50000 ? #numbers.formatInteger(totalSum.total, 3, 'COMMA') + '원' :
                         #numbers.formatInteger(totalSum.total + 3000, 3, 'COMMA') + '원'}"></span>
                         <span class="orange" th:unless="${totalSum.total != 0}">0원</span>
-                        <input id="totalSumTotal" th:value="${totalSum.total}" type="hidden">
                     </td>
                 </tr>
             </table>

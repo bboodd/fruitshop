@@ -4,14 +4,12 @@ $(function () {
 
 
     $(document).on('click', '#plus', (e) => {
-        const amount = $(e.target).closest('span').prev();
-        let productId = parseInt(e.target.dataset.value);
+        let amount = $(e.target).closest('td').prev().find('.individual_productCartAmount_input');
         let amountVal = parseInt(amount.val());
-        let max = parseInt($(e.target).closest('span').next().val());
-        let price = parseInt($(e.target).closest('div').next().find('input').val());
-        let discount = parseInt($(e.target).closest('div').next().find('input').next().val());
-        const productTotal = $(e.target).closest('td').next();
-        let check = $(e.target).closest('td').prev();
+        let price = parseInt($(e.target).closest('td').prev().find('.individual_productPrice_input').val());
+        let discount = parseInt($(e.target).closest('td').prev().find('.individual_productDiscountRate_input').val());
+        let productId = parseInt($(e.target).closest('td').prev().find('.individual_productId_input').val());
+        let max = parseInt($(e.target).closest('td').prev().find('.individual_productQuantity_input').val());
 
         if(amountVal<max){
 
@@ -30,26 +28,9 @@ $(function () {
                 $(e.target).next().html(amountVal+1);
                 amount.val(amountVal + 1);
                 let total = price * (amountVal+1);
-                productTotal.html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                $('#productTotal').html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
 
-                $('#totalSumPrice').val(parseInt($('#totalSumPrice').val()) + price);
-                $('#totalPrice').html($('#totalSumPrice').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-
-                $('#totalSumDiscount').val(parseInt($('#totalSumDiscount').val()) + (price * (discount/100)));
-                $('#totalDiscount').html("-" + $('#totalSumDiscount').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-
-                $('#totalSumTotal').val(parseInt($('#totalSumTotal').val()) + (price * (1-(discount/100))));
-
-                if(parseInt($('#totalSumTotal').val()) >= 50000){
-                    $('.delivery').html("무료");
-                    $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-                }
-                else{
-                    $('.delivery').html("3,000원");
-                    let temp = parseInt($('#totalSumTotal').val()) + 3000
-                    $('#total').html(temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-                };
-
+                setTotalInfo($('.cart_info_td'));
             }).catch(error => {
                 console.error(error);
             });
@@ -57,16 +38,13 @@ $(function () {
     })
 
     $(document).on('click', '#minus', (e) => {
-        const amount = $(e.target).closest('span').prev();
-        let productId = parseInt(e.target.dataset.value);
+        let amount = $(e.target).closest('td').prev().find('.individual_productCartAmount_input');
         let amountVal = parseInt(amount.val());
-        let max = parseInt($(e.target).closest('span').next().val());
-        let price = parseInt($(e.target).closest('div').next().find('input').val());
-        let discount = parseInt($(e.target).closest('div').next().find('input').next().val());
-        const productTotal = $(e.target).closest('td').next();
+        let price = parseInt($(e.target).closest('td').prev().find('.individual_productPrice_input').val());
+        let discount = parseInt($(e.target).closest('td').prev().find('.individual_productDiscountRate_input').val());
+        let productId = parseInt($(e.target).closest('td').prev().find('.individual_productId_input').val());
 
         if(amountVal>1){
-
             axios({
                 method: 'post',
                 url: '/updateCart',
@@ -82,26 +60,9 @@ $(function () {
                 $(e.target).prev().html(amountVal-1);
                 amount.val(amountVal - 1);
                 let total = price * (amountVal-1);
-                productTotal.html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
+                $('#productTotal').html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
 
-                $('#totalSumPrice').val(parseInt($('#totalSumPrice').val()) - price);
-                $('#totalPrice').html($('#totalSumPrice').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-
-                $('#totalSumDiscount').val(parseInt($('#totalSumDiscount').val()) - (price * (discount/100)));
-                $('#totalDiscount').html("-" + $('#totalSumDiscount').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-
-                $('#totalSumTotal').val(parseInt($('#totalSumTotal').val()) - (price * (1-(discount/100))));
-
-                if(parseInt($('#totalSumTotal').val()) >= 50000){
-                    $('.delivery').html("무료");
-                    $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-                }
-                else{
-                    $('.delivery').html("3,000원");
-                    let temp = parseInt($('#totalSumTotal').val()) + 3000;
-                    $('#total').html(temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-                };
-
+                setTotalInfo($('.cart_info_td'));
             }).catch(error => {
                 console.error(error);
             });
@@ -110,12 +71,6 @@ $(function () {
 
     $(document).on('click', '#delete', (e) => {
         const productId = parseInt(e.target.dataset.value);
-
-        let amount = parseInt($(e.target).closest('div').prev().find('input').val());
-        const price = parseInt($(e.target).prev().prev().val());
-        const discount = parseInt($(e.target).prev().val());
-
-        console.log(amount + " " + price + " " + discount);
 
         axios({
             method: 'post',
@@ -130,29 +85,7 @@ $(function () {
             $(e.target).closest('tr').html("");
             $('#count').text(parseInt($('#count').text()) - 1);
 
-
-            $('#totalSumPrice').val(parseInt($('#totalSumPrice').val()) - (price * amount));
-            $('#totalPrice').html($('#totalSumPrice').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-
-            $('#totalSumDiscount').val(parseInt($('#totalSumDiscount').val()) - ((price * (discount/100)) * amount));
-            $('#totalDiscount').html("-" + $('#totalSumDiscount').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-
-            $('#totalSumTotal').val(parseInt($('#totalSumTotal').val()) - ((price * (1-(discount/100))) * amount));
-
-            if(parseInt($('#totalSumTotal').val()) >= 50000){
-
-                $('.delivery').html("무료");
-                $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-            }
-            else if(parseInt($('#totalSumTotal').val()) == 0){
-                $('.delivery').html("0원");
-                $('#total').html("0원");
-            }
-            else{
-                $('.delivery').html("3,000원");
-                let temp = parseInt($('#totalSumTotal').val()) + 3000;
-                $('#total').html(temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원");
-            };
+            setTotalInfo($('.cart_info_td'));
         }).catch(error => {
             console.error(error);
         });
@@ -163,34 +96,15 @@ $(function () {
     $(document).on('click', '#checkAll', () => {
         if($("#checkAll").is(":checked")) {
             $("input[name=check]").prop("checked", true);
-
-            $('#totalPrice').html($('#totalSumPrice').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
-
-            $('#totalDiscount').html("-"+$('#totalSumDiscount').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
-
-            if(parseInt($('#totalSumTotal').val()) >= 50000) {
-                $('.delivery').html("0원");
-            } else{
-                $('.delivery').html("3,000원");
-            }
-
-            $('#total').html($('#totalSumTotal').val().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원");
         }
         else {
             $("input[name=check]").prop("checked", false);
-
-            $('#totalPrice').html("0원");
-
-            $('#totalDiscount').html("-0원");
-
-            $('.delivery').html("0원");
-
-            $('#total').html("0원");
-
         }
+
+        setTotalInfo($('.cart_info_td'));
     })
 
-    $(document).on('click', 'input[name=check]', (e) => {
+    $(document).on('change', '.cart_checkbox', (e) => {
         let total = $("input[name=check]").length;
         let checked = $("input[name=check]:checked").length;
 
@@ -200,5 +114,54 @@ $(function () {
         else {
             $("#checkAll").prop("checked", true);
         }
+
+        setTotalInfo($('.cart_info_td'));
     })
 })
+
+function setTotalInfo(){
+    let totalPrice = 0;
+    let totalDiscount = 0;
+    let deliveryPrice = 0;
+    let finalTotalPrice = 0;
+
+    $('.cart_info_td').each(function (index, element){
+        if($(element).find('.cart_checkbox').is(":checked") === true){
+            let amount = parseInt($(element).find('.individual_productCartAmount_input').val());
+            let price = parseInt($(element).find('.individual_productPrice_input').val());
+            let discountRate = parseInt($(element).find('.individual_productDiscountRate_input').val());
+
+            totalPrice += price * (1 - (discountRate / 100)) * amount;
+            totalDiscount += price * (discountRate / 100) * amount;
+        }
+    });
+
+    if(totalPrice - totalDiscount >= 50000){
+        deliveryPrice = 0;
+    } else if(totalPrice - totalDiscount == 0){
+        deliveryPrice = 1;
+    } else{
+        deliveryPrice = 3000;
+    }
+
+    if(deliveryPrice === 3000){
+        finalTotalPrice = totalPrice - totalDiscount + deliveryPrice;
+    } else{
+        finalTotalPrice = totalPrice - totalDiscount;
+    }
+
+    $('#totalPrice').text(totalPrice.toLocaleString() + "원");
+
+    $('#totalDiscount').text("-" + totalDiscount.toLocaleString() + "원");
+
+    if(deliveryPrice === 0 ){
+        $('.delivery').text("무료");
+    }else if(deliveryPrice === 1){
+        $('.delivery').text("0원");
+    } else{
+        $('.delivery').text(deliveryPrice.toLocaleString() + "원");
+    }
+
+    $('#total').text(finalTotalPrice.toLocaleString() + "원");
+
+}
