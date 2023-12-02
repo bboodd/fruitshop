@@ -14,9 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +38,13 @@ public class UserController {
     public String index(@SessionAttribute(name = "loginUser", required = false) User loginUser,
                         @RequestParam(required = false, defaultValue = "1") int pageNum,
                         @RequestParam(required = false, defaultValue = "9") int pageSize,
-                        Model model) {
+                        Model model,
+                        HttpServletRequest request) throws IOException {
+
+        //최근 본 상품목록
+
+        model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
+
         if (loginUser == null) {
             model.addAttribute("list", userService.selectProductAndUrlAllWithPaging(pageNum, pageSize));
             return "index";
@@ -224,7 +233,9 @@ public class UserController {
     @GetMapping("user/product/{productId}/detail")
     public String detail(@PathVariable long productId,
                          @SessionAttribute(name = "loginUser", required = false) User loginUser,
-                         Model model){
+                         Model model,
+                         HttpServletResponse response,
+                         HttpServletRequest request) throws IOException {
 
         HashMap<String, Object> param = new HashMap<>();
         param.put("productId", productId);
@@ -250,6 +261,10 @@ public class UserController {
             model.addAttribute("userName", loginUser.getNickname());
         }
         model.addAttribute("detail", detail);
+
+        //최근 본 상품 목록 쿠키 생성
+        String imageUrl = detail.getUrl();
+        userService.createRecentlyProducts(productId, response, request, imageUrl);
 
         return "user/detail";
     }

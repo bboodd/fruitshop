@@ -1,5 +1,7 @@
 package com.shop.fruitshop.user;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shop.fruitshop.domain.Product;
@@ -9,13 +11,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService implements UserMapper {
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+    public static final String RECENT_PRODUCTS = "recentProducts";
+    private static final int MAX_RECENT_PRODUCTS_SIZE = 3;
 
 
     private final UserMapper userMapper;
@@ -156,5 +171,60 @@ public class UserService implements UserMapper {
     @Override
     public TotalDto findCartTotalPrice(Long userId){
         return userMapper.findCartTotalPrice(userId);
+    }
+
+    public void createRecentlyProducts(Long productId, HttpServletResponse response, HttpServletRequest request, String imageUrl) throws IOException {
+        List<RecentProduct> recentProducts = getRecentProductsByCookie(request);
+
+        if(!recentProducts.contains(new RecentProduct(imageUrl, productId))){
+            recentProducts.add(0, new RecentProduct(imageUrl, productId));
+
+            if(recentProducts.size() > MAX_RECENT_PRODUCTS_SIZE){
+                recentProducts.remove(recentProducts.size() - 1);
+            }
+        } else{
+            Iterator<RecentProduct> iterator = recentProducts.iterator();
+            while(iterator.hasNext()){
+                RecentProduct recentProduct = iterator.next();
+
+                if(recentProduct.equals(new RecentProduct(imageUrl, productId))){
+                    recentProducts.remove(recentProduct);
+                    break;
+                }
+            }
+            recentProducts.add(0, new RecentProduct(imageUrl, productId));
+        }
+
+        String recentProductsJson = objectMapper.writeValueAsString(recentProducts);
+        String encodedRecentProductsJson = URLEncoder.encode(recentProductsJson, StandardCharsets.UTF_8.toString());
+
+        Cookie cookie = new Cookie(RECENT_PRODUCTS, encodedRecentProductsJson);
+        cookie.setPath("/");
+        cookie.setMaxAge(24 * 60 * 60);
+        response.addCookie(cookie);
+    }
+
+    public List<RecentProduct> getRecentProductsByCookie(HttpServletRequest request) throws IOException {
+
+        Cookie[] cookies = request.getCookies();
+        String cookieValue = getCookieValue(cookies, RECENT_PRODUCTS);
+
+        if(cookieValue != null){
+            String decodedCookieValue = URLDecoder.decode(cookieValue, StandardCharsets.UTF_8.toString());
+            return objectMapper.readValue(decodedCookieValue, new TypeReference<List<RecentProduct>>() {});
+        }
+
+        return new ArrayList<>();
+    }
+
+    private String getCookieValue(Cookie[] cookies, String cookieName){
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals(cookieName)){
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
