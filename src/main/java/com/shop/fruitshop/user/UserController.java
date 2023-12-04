@@ -266,18 +266,28 @@ public class UserController {
         String imageUrl = detail.getUrl();
         userService.createRecentlyProducts(productId, response, request, imageUrl);
 
+        //최근 본 상품 목록 보여주기
+        model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
+
         return "user/detail";
     }
 
     @GetMapping("user/cart")
     public String cart(@SessionAttribute(name = "loginUser", required = false) User loginUser,
-                       Model model){
+                       Model model,
+                       HttpServletRequest request) throws IOException{
         if(loginUser == null){
             return "user/login";
         }
 
         HashMap<String, Object> param = new HashMap<>();
         param.put("userId", loginUser.getId());
+
+        model.addAttribute("likeCount", userService.countUserLike(param));
+        model.addAttribute("cartCount", userService.countUserCart(param));
+        model.addAttribute("user", loginUser);
+        //최근 본 상품 목록 보여주기
+        model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
 
         model.addAttribute("userId", loginUser.getId());
         model.addAttribute("count", userService.countUserCart(param));
