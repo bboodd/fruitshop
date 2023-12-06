@@ -227,4 +227,9 @@ public class UserService implements UserMapper {
         }
         return null;
     }
+
+    @Override
+    public UserDeliveryVo getUserDeliveryByUserId(Long userId){
+        return userMapper.getUserDeliveryByUserId(userId);
+    }
 }

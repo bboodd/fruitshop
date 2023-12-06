@@ -215,4 +215,11 @@
                 ON cart.product_id = product.id
         WHERE cart.user_id = #{userId}
     </select>
+
+<!--    유저 배송지 구하기   -->
+    <select id="getUserDeliveryByUserId" resultType="com.shop.fruitshop.user.UserDeliveryVo">
+        SELECT user_id, delivery_name, delivery_user_name, phone_number, zipcode, address
+        FROM delivery
+        WHERE user_id = #{userId}
+    </select>
 </mapper>

@@ -1,7 +1,9 @@
 package com.shop.fruitshop.order;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-public class OrderService {
+public interface OrderService {
+
+    public List<OrderPageProductDto> getProducts(List<OrderPageProductDto> orders);
+
 }

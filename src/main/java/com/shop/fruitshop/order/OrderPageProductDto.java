@@ -1,4 +1,4 @@
-package com.shop.fruitshop.user;
+package com.shop.fruitshop.order;
 
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class OrderPageProductDto {
     private int totalPrice;
 
     public void initTotal(){
-        this.totalDiscount = (int) this.price * (this.discountRate / 100) * this.amount;
-        this.totalPrice = (int) this.price * (1 - (this.discountRate / 100)) * this.amount;
+        this.totalDiscount = (int) ((this.price * ((double)this.discountRate / 100)) * this.amount);
+        this.totalPrice = this.price * this.amount;
     }
 }

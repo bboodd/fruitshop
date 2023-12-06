@@ -57,6 +57,8 @@ public interface UserMapper {
 
     TotalDto findCartTotalPrice(Long userId);
 
+    UserDeliveryVo getUserDeliveryByUserId(Long userId);
+
 
 
 }

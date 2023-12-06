@@ -1,4 +1,4 @@
-package com.shop.fruitshop.user;
+package com.shop.fruitshop.order;
 
 import lombok.Data;
 

@@ -4,7 +4,12 @@
 
 <mapper namespace="com.shop.fruitshop.order.OrderMapper">
 
-
+<select id="getProductByProductId" resultType="com.shop.fruitshop.order.OrderPageProductDto">
+    SELECT id AS product_id, name, price, discount_rate,
+           (SELECT url FROM product_image WHERE product_id = #{productId} AND file_path = 'mainImages') AS url
+    FROM product
+    WHERE id = #{productId}
+</select>
 
 
 </mapper>
