@@ -208,10 +208,15 @@
 
             <div class="buttons">
                 <button onclick="location.href='/'">쇼핑계속하기</button>
-                <button>구매하기</button>
+                <button id="buy">구매하기</button>
             </div>
         </div>
     </div>
+
+<!--  주문 form  -->
+<form th:action="@{/order/{userId}(userId = ${userId})}" method="get" class="order_form">
+
+</form>
 
 </body>
 

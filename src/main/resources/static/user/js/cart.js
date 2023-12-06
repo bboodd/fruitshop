@@ -117,6 +117,31 @@ $(function () {
 
         setTotalInfo($('.cart_info_td'));
     })
+
+    $('#buy').on('click', () => {
+        let form_contents = '';
+        let orderNumber = 0;
+
+        $('.cart_info_td').each((index, element) => {
+
+            if($(element).find(".cart_checkbox").is(":checked") === true) {
+
+                let productId = $(element).find(".individual_productId_input").val();
+                let amount = $(element).find(".individual_productCartAmount_input").val();
+
+                let productId_input = "<input name='orders[" + orderNumber + "].productId' type='hidden' value='" + productId + "'>";
+                form_contents += productId_input;
+
+                let amount_input = "<input name='orders[" + orderNumber + "].amount' type='hidden' value='" + amount + "'>";
+                form_contents += amount_input;
+
+                orderNumber++;
+            }
+        });
+
+        $(".order_form").html(form_contents);
+        $(".order_form").submit();
+    })
 })
 
 function setTotalInfo(){
