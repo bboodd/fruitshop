@@ -122,4 +122,15 @@ $(function() {
         $('#maxModal').hide();
         $("#amount").val(1);
     });
+
+    $('#buy').on('click', () => {
+        if($("#userId").val()){
+
+            let amount = $('#amount').val();
+            $(".order_form").find("input[name='orders[0].amount']").val(amount);
+            $(".order_form").submit();
+        } else{
+            $(location).attr("href", "/user/login");
+        }
+    })
 })

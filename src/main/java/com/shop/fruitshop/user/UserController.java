@@ -269,6 +269,7 @@ public class UserController {
         //최근 본 상품 목록 보여주기
         model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
 
+
         return "user/detail";
     }
 
