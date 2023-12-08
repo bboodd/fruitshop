@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프룻프룻 쇼핑몰</title>
+
+    <!--Open Graph-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="프룻프룻 Shopping Mall" />
+    <meta property="og:title" content="프룻프룻 Shopping Mall" />
+    <meta property="og:description" content="프룻프룻 Shopping Mall 입니다." />
+    <meta property="og:image" content="./img/openGraph.png" />
+    <meta property="og:url" content="https://prpr-shopping-mall.co.kr" />
+
+    <!--파비콘-->
+    <link rel="icon" href="./favicon.ico" />
+
+    <th:block th:insert="~{includes/library}"></th:block>
+    <th:block th:insert="~{includes/adminStyle}"></th:block>
+    <th:block th:insert="~{includes/adminScripts}"></th:block>
+    <script src="/admin/js/main.js" type="text/javascript"></script>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div th:insert="~{fragment/admin/header :: copy}"></div>
+
+    <section id="dashboard">
+        <div class="inner">
+            <div class="txt__box">
+                <h3>회원통계</h3>
+
+                <div class="input__box">
+                    <button>지난주</button>
+                    <button>이번주</button>
+
+                    <input type="date" value="2023-07-01">
+                    <span>~</span>
+                    <input type="date" value="2023-07-07">
+
+                    <button>검색</button>
+                </div>
+            </div>
+
+            <div class="chart-wrap">
+
+                <div class="chart-inner">
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <div class="chart__txt">
+                    <div>
+                        전체회원
+                        <p>567</p>
+                    </div>
+
+                    <div>
+                        일 방문자
+                        <p>867</p>
+                    </div>
+
+                    <div>
+                        일 회원가입자
+                        <p>112</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="chart-wrap">
+
+                <div class="chart-inner">
+                    <canvas id="myChart2"></canvas>
+                </div>
+
+                <div class="chart__txt">
+                    <div>
+                        전체회원
+                        <p>567</p>
+                    </div>
+
+                    <div>
+                        일 방문자
+                        <p>867</p>
+                    </div>
+
+                    <div>
+                        일 회원가입자
+                        <p>112</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+</body>
+
+</html>
