@@ -10,5 +10,6 @@ public class UserDeliveryVo {
     private String phoneNumber;
     private int zipcode;
     private String address;
+    private String addressDetail;
     private DeliveryStatus deliveryStatus;
 }
