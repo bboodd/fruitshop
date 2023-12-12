@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,7 +43,10 @@ public class OrderController {
         model.addAttribute("likeCount", userService.countUserLike(map));
         model.addAttribute("cartCount", userService.countUserCart(map));
 
-        model.addAttribute("orderList", orderService.getProducts(opd.getOrders()));
+        List<OrderPageProductDto> orders = orderService.getProducts(opd.getOrders());
+
+        model.addAttribute("orderList", orderService.getProducts(orders));
+        model.addAttribute("total", orderService.getTotal(orders));
         model.addAttribute("deliveryList", userService.getUserDeliveryByUserId(userId));
 
         return "order";

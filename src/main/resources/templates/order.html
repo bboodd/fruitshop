@@ -242,8 +242,12 @@
                     <span class="total02">총 상품금액</span>
                 </td>
 
-                <td>
-                    <span>160,000원</span>
+                <td class="input_total">
+                    <span data-th-text="${#numbers.formatInteger(total.totalPrice, 3, 'COMMA') + '원'}"></span>
+
+                    <input type="hidden" class="individual_total_price" th:value="${total.totalPrice}">
+                    <input type="hidden" class="individual_total_discount" th:value="${total.totalDiscount}">
+                    <input type="hidden" class="individual_final_total_price" th:value="${total.finalTotalPrice}">
                 </td>
             </tr>
 
@@ -253,7 +257,7 @@
                 </td>
 
                 <td>
-                    <span>-4,500원</span>
+                    <span data-th-text="${'-' + #numbers.formatInteger(total.totalDiscount, 3, 'COMMA') + '원'}"></span>
                 </td>
             </tr>
 
@@ -265,7 +269,8 @@
                 </td>
 
                 <td>
-                    <span>무료</span>
+                    <span th:if="${total.delivery == 0}">무료</span>
+                    <span th:unless="${total.delivery == 0}">3000원</span>
                 </td>
             </tr>
 
@@ -279,7 +284,7 @@
                 </td>
 
                 <td class="lastTotalPrice">
-                    <span class="orange">115,500원</span>
+                    <span class="orange" data-th-text="${#numbers.formatInteger(total.finalTotalPrice, 3, 'COMMA') + '원'}"></span>
                 </td>
             </tr>
         </table>

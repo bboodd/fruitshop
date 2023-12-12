@@ -139,6 +139,11 @@ $(function () {
             }
         });
 
+        if(orderNumber === 0){
+            alert("주문할 상품이 없습니다.");
+            return;
+        }
+
         $(".order_form").html(form_contents);
         $(".order_form").submit();
     })
@@ -156,7 +161,7 @@ function setTotalInfo(){
             let price = parseInt($(element).find('.individual_productPrice_input').val());
             let discountRate = parseInt($(element).find('.individual_productDiscountRate_input').val());
 
-            totalPrice += price * (1 - (discountRate / 100)) * amount;
+            totalPrice += price * amount;
             totalDiscount += price * (discountRate / 100) * amount;
         }
     });
