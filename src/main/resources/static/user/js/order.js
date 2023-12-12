@@ -23,10 +23,13 @@ $(function () {
             headers: { 'Content-Type': 'application/json' }
         }).then(res => {
             console.log(res.data);
+            $('#delivery_name').val(res.data.delivery_name);
             $('#delivery_user_name').val(res.data.delivery_user_name);
             $('#phone').val(res.data.phone_number);
             $('#address_zipcode').val(res.data.zipcode);
             $('#address_detail').val(res.data.address + " " + res.data.address_detail);
+            $('#individual_address').val(res.data.address);
+            $('#individual_address_detail').val(res.data.address_detail);
 
         }).catch(error => {
             console.error(error);
@@ -67,6 +70,32 @@ $(function () {
             console.error(error);
         });
     })
+
+    $(document).on('click', '.order_btn', () => {
+
+        $("input[name='deliveryUserName']").val($('#delivery_user_name').val());
+        $("input[name='zipcode']").val($('#address_zipcode').val());
+        $("input[name='phoneNumber']").val($('#phone').val());
+        $("input[name='address']").val($('#individual_address').val());
+        $("input[name='addressDetail']").val($('#individual_address_detail').val());
+        $("input[name='request']").val($('#ask').val());
+        $("input[name='payment']").val('미결제');
+
+        //상품정보
+        let form_contents = '';
+        $('.price').each(function (index, element) {
+            let productId = $(element).find('.individual_productId_input').val();
+            let productAmount = $(element).find('.individual_productAmount_input').val();
+            let productId_input = "<input name='orders[" + index + "].productId' type='hidden' value='" + productId + "'>";
+            form_contents += productId_input;
+            let productAmount_input = "<input name='orders[" + index + "].productAmount' type='hidden' value='" + productAmount + "'>";
+            form_contents += productAmount_input;
+        });
+        $('.order_form').append(form_contents);
+
+        $('.order_form').submit();
+    })
+
 })
 
 /* 다음 주소 연동 */

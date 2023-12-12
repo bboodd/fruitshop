@@ -124,6 +124,7 @@
             <label for="delivery_user_name">
                 <p>이름</p>
                 <input id="delivery_user_name" readonly>
+                <input id="delivery_name" type="hidden">
 <!--                <input type="hidden" th:each="delivery : ${deliveryList}" th:text="${delivery.deliveryUserName}" th:value="${delivery.deliveryId}">-->
             </label>
 
@@ -136,6 +137,8 @@
                 <p>주소</p>
                 <input id="address_zipcode" class="postalCode" readonly>
                 <input id="address_detail" class="postalCode2" readonly>
+                <input id="individual_address" type="hidden">
+                <input id="individual_address_detail" type="hidden">
             </label>
 
             <label for="ask">
@@ -293,7 +296,7 @@
 
         <div class="paymentWrap">
             <p>일반결제
-                <span>115,500원</span>
+                <span data-th-text="${#numbers.formatInteger(total.finalTotalPrice, 3, 'COMMA') + '원'}"></span>
             </p>
 
             <div class="paymentButtons">
@@ -306,10 +309,10 @@
                 <div class="box1">
                     <span>카드 구분</span>
 
-                    <input type="radio" id="개인카드" name="개인카드" value="개인카드">
+                    <input type="radio" id="개인카드" name="개인카드" value="개인카드" readonly>
                     <label for="개인카드">개인카드</label>
 
-                    <input type="radio" id="법인카드" name="법인카드" value="법인카드">
+                    <input type="radio" id="법인카드" name="법인카드" value="법인카드" readonly>
                     <label for="법인카드">법인카드</label>
                 </div>
 
@@ -381,8 +384,19 @@
 
         <div class="buttons">
             <button>결제취소</button>
-            <button>결제하기</button>
+            <button class="order_btn">결제하기</button>
         </div>
+
+        <form class="order_form" action="/order" method="post">
+            <input name="userId" th:value="${userId}" type="hidden">
+            <input name="deliveryUserName" type="hidden">
+            <input name="phoneNumber" type="hidden">
+            <input name="zipcode" type="hidden">
+            <input name="address" type="hidden">
+            <input name="addressDetail" type="hidden">
+            <input name="request" type="hidden">
+            <input name="payment" type="hidden">
+        </form>
 
 
         <!-- 결제취소. 모달 창 -->
