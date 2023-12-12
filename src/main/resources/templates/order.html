@@ -21,6 +21,9 @@
     <th:block th:insert="~{includes/style}"></th:block>
 <!--    <th:block th:insert="~{includes/scripts}"></th:block>-->
     <script src="/user/js/order.js"></script>
+
+    <!-- 다음주소 -->
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 
 <body>
@@ -111,25 +114,28 @@
             <label for="where">
                 <p>배송지 선택</p>
                 <select name="where" id="where">
-                    <option value="우리집(기본배송지)">우리집(기본배송지)</option>
+                    <option value="">==배송지를 선택해주세요==</option>
+                    <option th:each="delivery : ${deliveryList}" th:value="${delivery.deliveryId}" th:text="${delivery.deliveryName}"></option>
+<!--                    hide show 로 배송지 선택시 보이는 값 변경하기 + deliveryDto list로 변경해서 받기-->
                 </select>
-                <button>+ 신규배송지</button>
+                <button id="add_delivery_btn">+ 신규배송지</button>
             </label>
 
-            <label for="name">
+            <label for="delivery_user_name">
                 <p>이름</p>
-                <input type="textbox" name="name" id="name">
+                <input id="delivery_user_name" readonly>
+<!--                <input type="hidden" th:each="delivery : ${deliveryList}" th:text="${delivery.deliveryUserName}" th:value="${delivery.deliveryId}">-->
             </label>
 
             <label for="phone" class="phone">
                 <p>연락처</p>
-                <input type="textbox" name="phone1" id="phone1">
+                <input id="phone" readonly>
             </label>
 
-            <label for="add" class="add">
+            <label for="address_zipcode" class="add">
                 <p>주소</p>
-                <input type="textbox" name="add" id="add" class="postalCode">
-                <input type="textbox" name="add2" id="add2" class="postalCode2">
+                <input id="address_zipcode" class="postalCode" readonly>
+                <input id="address_detail" class="postalCode2" readonly>
             </label>
 
             <label for="ask">
@@ -154,28 +160,27 @@
                 </div>
 
                 <div class="bottom">
-                    <label for="title">
+                    <label for="delivery_name_input">
                         <p>배송지명</p>
-                        <input type="textbox" name="title" id="title">
+                        <input id="delivery_name_input">
                     </label>
 
-                    <label for="name">
+                    <label for="delivery_user_name_input">
                         <p>이름</p>
-                        <input type="textbox" name="name" id="name">
+                        <input id="delivery_user_name_input">
                     </label>
 
-                    <label for="phone" class="phone">
+                    <label for="phone_input" class="phone">
                         <p>연락처</p>
-                        <input type="textbox" name="phone1" id="phone1">
-                        <input type="textbox" name="phone2" id="phone2">
+                        <input id="phone_input">
                     </label>
 
-                    <label for="add" class="add">
+                    <label for="address_input" class="add">
                         <p>주소</p>
-                        <button>우편번호</button>
-                        <input type="textbox" name="add" id="add" class="postalCode">
-                        <input type="textbox" name="add2" id="add2" class="postalCode2">
-                        <input type="textbox" name="add3" id="add3" class="postalCode2">
+                        <button class="address_search_btn" onclick="execution_daum_address()">우편번호</button>
+                        <input id="address_input" class="postalCode" readonly>
+                        <input id="address_input_2" class="postalCode2" readonly>
+                        <input id="address_input_3" class="postalCode2" readonly>
                     </label>
 
 

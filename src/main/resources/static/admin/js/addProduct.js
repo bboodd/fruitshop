@@ -110,7 +110,10 @@ $(function(){
     });
 
     $(document).on('blur', '#content', (e) => {
-        if(!e.target.value){
+
+        let content = tinymce.get('content').getContent();
+
+        if(content === ''){
             $("#contentCheck").text("상품 상세내용을 입력해주세요.");
             $("#content").attr('class', 'wrong__input');
             contentCheck = false;
@@ -121,31 +124,52 @@ $(function(){
         }
     });
 
-    $(document).on('click', '#submit', (e)=> {
-
-        e.preventDefault();
+    $('#submit').on('click', (e)=> {
 
         //입력값 유효성 검사 - 이름, 할인, 이미지
+
+        console.log("nameCheck", nameCheck);
+        console.log("imageCheck", imageCheck);
+        console.log("priceCheck", priceCheck);
+        console.log("stockCheck", stockCheck);
+        console.log("contentCheck", contentCheck);
+        console.log("imageFiles", imageFiles);
+        console.log("mainImage", mainImage);
+        console.log(tinymce.get('content').getContent());
+
 
         if($('#discountRate').val() == ''){
             $('#discountRate').val(0);
         }
         if(!nameCheck){
-            $('#name').focus();
-            return false;
+            if($('#name').val() == '') {
+                $('#name').focus();
+                return false;
+            }
         }
         if(!imageCheck){
-            $('#productPicture').focus();
-            return false;
+            if($('#productPicture').val() === '') {
+                $('#productPicture').focus();
+                return false;
+            }
         }
         if(!priceCheck){
-            $('#price').focus();
-            return false;
+            if($('#price').val() === '') {
+                $('#price').focus();
+                return false;
+            }
         }
         if(!stockCheck){
-            $('#stockQuantity').focus();
-            return false;
+            if($('#stockQuantity').val() === '') {
+                $('#stockQuantity').focus();
+                return false;
+            }
         }
+
+        if(tinymce.get('content').getContent() != ''){
+            contentCheck = true;
+        }
+
         if(!contentCheck){
             $('#content').focus();
             return false;

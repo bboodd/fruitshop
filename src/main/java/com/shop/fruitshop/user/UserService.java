@@ -229,7 +229,19 @@ public class UserService implements UserMapper {
     }
 
     @Override
-    public UserDeliveryVo getUserDeliveryByUserId(Long userId){
+    public List<UserDeliveryVo> getUserDeliveryByUserId(Long userId){
         return userMapper.getUserDeliveryByUserId(userId);
+    }
+
+    @Override
+    public HashMap<String, Object> getDeliveryByDeliveryId(HashMap<String, Object> param) {
+        return userMapper.getDeliveryByDeliveryId(param);
+    }
+
+    @Override
+    public int addDelivery(HashMap<String, Object> param) {
+        userMapper.addDelivery(param);
+        int id = Integer.parseInt(String.valueOf(param.get("id")));
+        return id;
     }
 }

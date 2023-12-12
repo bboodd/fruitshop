@@ -56,7 +56,7 @@ $(function() {
         }
     });
 
-    $(document).on('click', '#searchBtn', () => {
+    $(document).on('click', '.searchBtn', () => {
         searchKeyword = $('#searchKeyword').val();
         fetchData();
     });

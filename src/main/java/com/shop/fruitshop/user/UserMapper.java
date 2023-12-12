@@ -57,7 +57,11 @@ public interface UserMapper {
 
     TotalDto findCartTotalPrice(Long userId);
 
-    UserDeliveryVo getUserDeliveryByUserId(Long userId);
+    List<UserDeliveryVo> getUserDeliveryByUserId(Long userId);
+
+    HashMap<String, Object> getDeliveryByDeliveryId(HashMap<String, Object> param);
+
+    int addDelivery(HashMap<String, Object> param);
 
 
 

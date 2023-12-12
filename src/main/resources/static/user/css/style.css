@@ -3485,13 +3485,13 @@
   border-radius: 5px;
   border: none;
 }
-#payment .inner .delivery__add .delivery__add__inner .bottom .phone input {
-  width: 30%;
-}
-#payment .inner .delivery__add .delivery__add__inner .bottom .phone input:last-child {
-  width: 45%;
-  margin-left: 5%;
-}
+/*#payment .inner .delivery__add .delivery__add__inner .bottom .phone input {*/
+/*  width: 30%;*/
+/*}*/
+/*#payment .inner .delivery__add .delivery__add__inner .bottom .phone input:last-child {*/
+/*  width: 45%;*/
+/*  margin-left: 5%;*/
+/*}*/
 #payment .inner .delivery__add .delivery__add__inner .bottom .add {
   flex-wrap: wrap;
 }

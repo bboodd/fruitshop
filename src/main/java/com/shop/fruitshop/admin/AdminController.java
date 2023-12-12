@@ -63,7 +63,7 @@ public class AdminController {
     }
 
     @ResponseBody
-    @PostMapping("/admin//product")
+    @PostMapping("/admin/product")
     public HashMap<String, Object> product(@RequestBody HashMap<String, Object> param){
 
         PageInfo<HashMap<String, Object>> data = adminService.selectProductListWithPaging(param);
@@ -77,7 +77,7 @@ public class AdminController {
         return data_count;
     }
 
-    @PostMapping("/admin//login")
+    @PostMapping("/admin/login")
     public String login(Admin admin, BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()){
@@ -99,11 +99,11 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/admin//addProduct")
+    @PostMapping("/admin/addProduct")
     @ResponseBody
     public int addProduct(@Valid Product form,
                              @RequestParam("file") List<MultipartFile> file,
-                             @RequestParam("mainImage") MultipartFile mainImage,
+                             @RequestParam(value = "mainImage", required = false) MultipartFile mainImage,
                              BindingResult bindingResult) throws IOException{
         if(bindingResult.hasErrors()){
             return 1;
@@ -162,7 +162,7 @@ public class AdminController {
         return "admin/editProduct";
     }
 
-    @PostMapping("/admin//editProduct")
+    @PostMapping("/admin/editProduct")
     @ResponseBody
     public int editProduct(@Valid Product form,
                            @RequestParam("id") Long id,
@@ -226,7 +226,7 @@ public class AdminController {
         return 0;
     }
 
-    @RequestMapping("/admin//productStopAndDelete")
+    @RequestMapping("/admin/productStopAndDelete")
     @ResponseBody
     public int productStopAndDelete(@RequestBody HashMap<String, Object> param){
 
@@ -248,7 +248,7 @@ public class AdminController {
         return 0;
     }
 
-    @RequestMapping("/admin//productNameCheck")
+    @RequestMapping("/admin/productNameCheck")
     @ResponseBody
     public int productNameCheck(@RequestBody HashMap<String, String> param){
 

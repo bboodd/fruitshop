@@ -218,8 +218,21 @@
 
 <!--    유저 배송지 구하기   -->
     <select id="getUserDeliveryByUserId" resultType="com.shop.fruitshop.user.UserDeliveryVo">
-        SELECT user_id, delivery_name, delivery_user_name, phone_number, zipcode, address, address_detail
+        SELECT id AS delivery_id, user_id, delivery_name, delivery_user_name, phone_number, zipcode, address, address_detail
         FROM delivery
         WHERE user_id = #{userId}
     </select>
+
+<!--    배송지 id로 배송지 정보 가져오기  -->
+    <select id="getDeliveryByDeliveryId" resultType="java.util.HashMap">
+        SELECT id, user_id, delivery_name, delivery_user_name, phone_number, zipcode, address, address_detail
+        FROM delivery
+        WHERE id = #{deliveryId}
+    </select>
+
+<!--    배송지 추가하기   -->
+    <insert id="addDelivery" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO delivery (user_id, delivery_name, delivery_user_name, phone_number, zipcode, address, address_detail)
+        VALUES (#{userId}, #{deliveryName}, #{deliveryUserName}, #{phone}, #{zipcode}, #{address}, #{addressDetail})
+    </insert>
 </mapper>

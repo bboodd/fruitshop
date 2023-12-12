@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,9 +37,16 @@ public class OrderController {
         //최근 본 상품 목록 보여주기
         model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
 
-        model.addAttribute("orderList", orderService.getProducts(opd.getOrders()));
-        model.addAttribute("delivery", userService.getUserDeliveryByUserId(userId));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        model.addAttribute("likeCount", userService.countUserLike(map));
+        model.addAttribute("cartCount", userService.countUserCart(map));
 
-        return "/order";
+        model.addAttribute("orderList", orderService.getProducts(opd.getOrders()));
+        model.addAttribute("deliveryList", userService.getUserDeliveryByUserId(userId));
+
+        return "order";
     }
+
+//    배송지 추가로 받은 정보 db에 인서트 함수 짜야함
 }

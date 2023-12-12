@@ -118,6 +118,7 @@ public class UserController {
         String joinEmail = userService.join(user, termStatus);
 
         re.addFlashAttribute("email", joinEmail);
+        re.addAttribute("email", joinEmail);
 
         return "redirect:/user/joinConfirm?email={email}";
     }
@@ -299,6 +300,18 @@ public class UserController {
 
 
         return "user/cart";
+    }
+
+    @ResponseBody
+    @PostMapping("/selectDelivery")
+    public HashMap<String, Object> selectDelivery(@RequestBody HashMap<String, Object> param){
+        return userService.getDeliveryByDeliveryId(param);
+    }
+
+    @ResponseBody
+    @PostMapping("user/addDelivery")
+    public int addDelivery(@RequestBody HashMap<String, Object> param){
+        return userService.addDelivery(param);
     }
 
 }

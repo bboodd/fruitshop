@@ -110,9 +110,9 @@
                  JOIN category category
                       ON product.category_id = category.id
         <where>
-            <if test="selectedStatus == ''">
-                product.status = 1 or product.status = 2 or product.status = 3
-            </if>
+<!--            <if test="selectedStatus == ''">-->
+<!--                product.status = 1 or product.status = 2 or product.status = 3-->
+<!--            </if>-->
             <if test="selectedStatus != ''">
                 product.status = #{selectedStatus}
             </if>
