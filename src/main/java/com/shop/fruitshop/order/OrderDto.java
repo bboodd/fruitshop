@@ -16,7 +16,7 @@ public class OrderDto {
     private int zipcode;
     private String address;
     private String request;
-    private OrderStatus orderStatus;
+    private OrderStatus status;
     private String addressDetail;
     private String payment;
     private Date orderAt;

@@ -19,7 +19,7 @@
 
     <insert id="addOrder">
         INSERT INTO orders(user_id, delivery_user_name, phone_number, zipcode, address, request, status, payment, address_detail)
-        VALUES (#{userId}, #{deliveryUserName}, #{phnoeNumber}, #{zipcode}, #{address}, #{request}, #{status}, #{payment}, #{addressDetail})
+        VALUES (#{userId}, #{deliveryUserName}, #{phoneNumber}, #{zipcode}, #{address}, #{request}, #{status}, #{payment}, #{addressDetail})
     </insert>
 
     <insert id="addOrderProduct">
@@ -30,13 +30,8 @@
     <update id="reduceStock">
         UPDATE product
         SET stock_quantity = #{stockQuantity}
-        WHERE id = #{productId}
+        WHERE id = #{id}
     </update>
-
-    <delete id="deleteOrderCart">
-        DELETE FROM cart
-        WHERE user_id = #{userId} AND product_id = #{productId}
-    </delete>
 
 
 </mapper>
