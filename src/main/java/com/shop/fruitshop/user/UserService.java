@@ -41,6 +41,11 @@ public class UserService implements UserMapper {
         return userMapper.findByEmail(email);
     }
 
+    @Override
+    public User findById(Long id){
+        return userMapper.findById(id);
+    }
+
     @Transactional
     public String join(User user, List<String> termStatus){
         //유저 조인

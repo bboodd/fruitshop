@@ -59,6 +59,8 @@ public class OrderController {
 
         System.out.println(od);
 
+        orderService.order(od);
+
         return "redirect:/";
     }
 

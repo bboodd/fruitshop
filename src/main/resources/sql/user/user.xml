@@ -24,6 +24,13 @@
         WHERE email = #{email}
     </select>
 
+    <!--    아이디로 회원 찾기    -->
+    <select id="findById" resultType="com.shop.fruitshop.domain.User">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+    </select>
+
 <!--    아이디 중복 체크   -->
     <select id="emailCheck" resultType="int">
         SELECT COUNT(*)

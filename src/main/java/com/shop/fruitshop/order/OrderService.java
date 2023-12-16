@@ -9,4 +9,6 @@ public interface OrderService {
 
     public HashMap<String, Object> getTotal(List<OrderPageProductDto> orders);
 
+    public void order(OrderDto orderDto);
+
 }

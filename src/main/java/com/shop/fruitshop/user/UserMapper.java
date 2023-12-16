@@ -13,6 +13,8 @@ public interface UserMapper {
 
     User findByEmail(String email);
 
+    User findById(Long id);
+
     void joinUser(User user);
 
     void joinUserTerm(@Param("userId") Long userId, @Param("termStatus") String termStatus);
