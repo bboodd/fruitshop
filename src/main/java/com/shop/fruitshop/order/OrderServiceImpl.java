@@ -1,8 +1,10 @@
 package com.shop.fruitshop.order;
 
 import com.shop.fruitshop.admin.AdminMapper;
+import com.shop.fruitshop.domain.OrderStatus;
 import com.shop.fruitshop.domain.Product;
 import com.shop.fruitshop.domain.User;
+import com.shop.fruitshop.exception.NotEnoughStockException;
 import com.shop.fruitshop.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public void order(OrderDto orderDto) {
+    public HashMap<String, Object> order(OrderDto orderDto) {
         //데이터 가져오기
         User user = userMapper.findById(orderDto.getUserId());
 
@@ -91,6 +93,7 @@ public class OrderServiceImpl implements OrderService{
         }
 
         orderDto.setOrders(orderProducts);
+        orderDto.setStatus(OrderStatus.ORDER);
         orderDto.getOrderPriceInfo();
 
         //데이터 삽입
@@ -105,6 +108,10 @@ public class OrderServiceImpl implements OrderService{
             Product product = adminMapper.findProductById(opd.getProductId());
             product.setStockQuantity(product.getStockQuantity() - opd.getAmount());
 
+            if(product.getStockQuantity() < 0){
+                throw new NotEnoughStockException("need more stock");
+            }
+
             orderMapper.reduceStock(product);
         }
 
@@ -115,6 +122,13 @@ public class OrderServiceImpl implements OrderService{
             param.put("userId", orderDto.getUserId());
             userMapper.deleteCart(param);
         }
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("price", orderDto.getOrderFinalPrice());
+        map.put("id", orderDto.getId());
+
+        return map;
 
     }
 }

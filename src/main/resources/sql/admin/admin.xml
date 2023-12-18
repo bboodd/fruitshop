@@ -160,7 +160,7 @@
     </select>
 
 <!--    id로 상품 찾기   -->
-    <select id="findProductById">
+    <select id="findProductById" resultType="com.shop.fruitshop.domain.Product">
         SELECT id, category_id, name, price, discount_rate, stock_quantity, content
         FROM product
         WHERE id = #{id}

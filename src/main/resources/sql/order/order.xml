@@ -17,7 +17,7 @@
         WHERE id = #{productId}
     </select>
 
-    <insert id="addOrder">
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO orders(user_id, delivery_user_name, phone_number, zipcode, address, request, status, payment, address_detail)
         VALUES (#{userId}, #{deliveryUserName}, #{phoneNumber}, #{zipcode}, #{address}, #{request}, #{status}, #{payment}, #{addressDetail})
     </insert>

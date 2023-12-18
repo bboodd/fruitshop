@@ -19,7 +19,7 @@ public class OrderProductDto {
 
     public void initSaleTotal(){
         this.totalPrice = this.price * amount;
-        this.totalDiscount = this.discountRate * this.amount;
+        this.totalDiscount = (int)((this.price * (double)(this.discountRate / 100)) * this.amount);
         this.totalFinalPrice = this.totalPrice - this.totalDiscount;
     }
 }

@@ -88,7 +88,7 @@ $(function () {
             let productAmount = $(element).find('.individual_productAmount_input').val();
             let productId_input = "<input name='orders[" + index + "].productId' type='hidden' value='" + productId + "'>";
             form_contents += productId_input;
-            let productAmount_input = "<input name='orders[" + index + "].productAmount' type='hidden' value='" + productAmount + "'>";
+            let productAmount_input = "<input name='orders[" + index + "].amount' type='hidden' value='" + productAmount + "'>";
             form_contents += productAmount_input;
         });
         $('.order_form').append(form_contents);

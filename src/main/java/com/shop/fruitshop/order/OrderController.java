@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -55,13 +57,20 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public String orderPagePost(OrderDto od, HttpServletRequest request) {
+    public String orderPagePost(OrderDto od, RedirectAttributes re, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return "order";
+        }
 
         System.out.println(od);
 
-        orderService.order(od);
+        HashMap<String, Object> map = orderService.order(od);
 
-        return "redirect:/";
+        re.addFlashAttribute("info", map);
+//        re.addAttribute("price", orderFinalPrice);
+
+        return "redirect:/user/orderSuccess";
     }
 
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프룻프룻 쇼핑몰</title>
+
+    <!--Open Graph-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="프룻프룻 Shopping Mall" />
+    <meta property="og:title" content="프룻프룻 Shopping Mall" />
+    <meta property="og:description" content="프룻프룻 Shopping Mall 입니다." />
+    <meta property="og:image" content="./img/openGraph.png" />
+    <meta property="og:url" content="https://prpr-shopping-mall.co.kr" />
+
+    <!--파비콘-->
+    <link rel="icon" href="./favicon.ico" />
+
+    <th:block th:insert="~{includes/library}"></th:block>
+    <th:block th:insert="~{includes/style}"></th:block>
+    <th:block th:insert="~{includes/scripts}"></th:block>
+</head>
+
+<body>
+
+<div th:insert="~{fragment/user/header.html :: copy}"></div>
+
+    <div id="payment_success">
+        <div class="inner">
+
+            <h2> 주문결제 </h2>
+
+            <div class="txt">
+                <div class="right">
+                    <p>01 장바구니</p>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    <p>02 주문/결제</p>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    <p>03 결제완료</p>
+                </div>
+            </div>
+
+            <table>
+                <tr>
+                    <td colspan="2">주문 결제가 정상적으로 완료되었습니다.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>주문번호</td>
+                    <td>총 결제금액</td>
+                </tr>
+                <tr>
+                    <td rowspan="2" th:text="${info.id}"></td>
+                    <td data-th-text="${#numbers.formatInteger(info.price, 3, 'COMMA') + '원'}"></td>
+                </tr>
+                <tr>
+                    <td>신용카드 | 일시불</td>
+                </tr>
+            </table>
+
+
+
+            <div class="success_button">
+                <a href="/static">
+                    <button>계속 쇼핑하기</button>
+                </a>
+
+                <a href="/static">
+                    <button>구매내역 보기</button>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>
