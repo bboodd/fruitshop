@@ -314,4 +314,29 @@ public class UserController {
         return userService.addDelivery(param);
     }
 
+    @GetMapping("user/mypage")
+    public String mypage(@SessionAttribute(name = "loginUser", required = false) User loginUser,
+                         Model model,
+                         HttpServletRequest request) throws IOException{
+        if(loginUser == null){
+            return "user/login";
+        }
+        return "user/mypage";
+    }
+
+    @GetMapping("user/mypage/delivery")
+    public String mypageDelivery(){
+        return "user/mypage_delivery";
+    }
+
+    @GetMapping("user/mypage/userInfo")
+    public String mypageUserInfo(){
+        return "user/mypageEdit";
+    }
+
+    @GetMapping("user/mypage/userInfo2")
+    public String mypageUserInfo2(){
+        return "user/mypageEdit02";
+    }
+
 }

@@ -26,18 +26,19 @@
 
         <ul class="main-menu">
             <li class="item">
-                <div class="item__name">HOME</div>
-            </li>
-
-            <li class="item">
                 <div class="item__name">
-                    <a href="#">구매내역</a>
+                    <a href="/">HOME</a>
                 </div>
             </li>
 
             <li class="item">
-                <div class="item__name">마이페이지</div>
+                <div class="item__name">
+                    <a th:if="${session.loginUser == null}" href="/user/login">마이페이지</a>
+                    <a th:unless="${session.loginUser == null}" href="/user/mypage">마이페이지</a>
+                </div>
             </li>
+
+
 
             <li class="item">
                 <div class="item__name red">

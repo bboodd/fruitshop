@@ -19,7 +19,8 @@
 
     <th:block th:insert="~{includes/library}"></th:block>
     <th:block th:insert="~{includes/style}"></th:block>
-    <th:block th:insert="~{includes/scripts}"></th:block>
+<!--    <th:block th:insert="~{includes/scripts}"></th:block>-->
+    <script src="/user/js/mypage.js"></script>
 </head>
 
 <body>
@@ -32,21 +33,21 @@
             <h2> 마이페이지 </h2>
 
             <div class="tab__menu">
-                <a href="#">
+                <a href="/user/mypage">
                     <div class="history">
                         <p>구매내역</p>
                     </div>
                 </a>
 
 
-                <a href="#">
+                <a href="/user/mypage/delivery">
                     <div class="delivery">
                         <p>배송지관리</p>
                     </div>
                 </a>
 
 
-                <a href="#">
+                <a href="/user/mypage/userInfo">
                     <div class="memberInfo">
                         <p>회원정보</p>
                     </div>
@@ -103,200 +104,194 @@
 
                 <div class="history__line"></div>
 
-                <div class="history__contents">
-                    <div class="first">
-                        <ul>
-                            <li>
+                <div class="historyContents">
+                    <ul>
+                        <li>
+                            <div class="txt">
+                                <span>12345678</span>
                                 <span>2023. 07. 01</span>
-                                <br>
-                                <span>(13:11:10)</span>
-                            </li>
-                            <li>
-                                <span class="orderNo">주문번호</span>
-                                <br>
-                                <span class="orderNo">23659831</span>
-                            </li>
-                            <li>
+                            </div>
+
+                            <div class="img">
+                                <img src="./img/마이페이지-망고스틴.png" alt="망고스틴">
+                                <div class="img__txt">
+                                    <p>프리미엄 고당도 꿀수박 4kg</p>
+
+                                    <div class="group">
+                                        <span class="orange">50,000원</span>
+                                        <span>구매수량 1개</span>
+                                    </div>
+
+                                    <div class="group2">
+                                        <p>배송지 확인
+                                            <span class="material-symbols-outlined">double_arrow</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <button>재구매</button>
                                 <button>리뷰작성</button>
-                            </li>
-                        </ul>
-                    </div>
+                            </div>
+                        </li>
 
-                    <div class="second">
-                        <p>[주문상품]</p>
-
-                        <ul>
-                            <li>
-                                <img src="../../../../../../Fruit-Publish/Fruit-Publish-master/img/마이페이지-수박.png" alt="">
-                                <span class="product__name">프리미엄 고당도 꿀수박 4kg <br>
-                                    <span>50,000원</span>
-                                </span>
-
-                                <span class="quant">구매수량 1개</span>
-                            </li>
-                            <li>
-                                <img src="../../../../../../Fruit-Publish/Fruit-Publish-master/img/마이페이지-망고스틴.png" alt="">
-                                <span class="product__name">프리미엄 고당도 꿀수박 4kg <br>
-                                    <span>50,000원</span>
-                                </span>
-
-                                <span class="quant">구매수량 1개</span>
-                            </li>
-                            <li>
-                                <img src="../../../../../../Fruit-Publish/Fruit-Publish-master/img/마이페이지-파인애플.png" alt="">
-                                <span class="product__name">프리미엄 고당도 꿀수박 4kg <br>
-                                    <span>50,000원</span>
-                                </span>
-
-                                <span class="quant">구매수량 1개</span>
-                            </li>
-                        </ul>
-
-                        <div class="delivery__info">
-                            <p>[배송정보]</p>
-                            <ul>
-                                <li>
-                                    <span class="delivery__add">배송지</span>
-                                    <span class="delivery__name">홍길동
-                                        <span>010-1234-5678</span>
-                                        <br>
-                                        <span>서울시 강남구 강남로123 강남빌딩 1층</span>
-                                    </span>
-
-                                </li>
-                                <li>
-                                    <span class="delivery__note">배송메모</span>
-                                    <span>문 앞에 놔주세요.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="third">
-                        <p>[결제정보]</p>
-
-                        <ul>
-                            <li>
-                                <span>상품금액
-                                    <span>300,000원</span>
-                                </span>
-
-
-                                <span>할인금액
-                                    <span>-30,000원</span>
-                                </span>
-
-
-                                <span>배송비
-                                    <span>무료</span>
-                                </span>
-
-                            </li>
-                        </ul>
-
-                        <div class="total">
-                            <span class="total__price">총 결제금액</span>
-                            <span>270,000원</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="history__contents">
-                    <div class="first">
-                        <ul>
-                            <li>
+                        <li>
+                            <div class="txt">
+                                <span>12345678</span>
                                 <span>2023. 07. 01</span>
-                                <br>
-                                <span>(13:11:10)</span>
-                            </li>
-                            <li>
-                                <span class="orderNo">주문번호</span>
-                                <br>
-                                <span class="orderNo">23659831</span>
-                            </li>
-                            <li>
+                            </div>
+
+                            <div class="img">
+                                <img src="./img/마이페이지-망고스틴.png" alt="망고스틴">
+                                <div class="img__txt">
+                                    <p>프리미엄 고당도 꿀수박 4kg</p>
+
+                                    <div class="group">
+                                        <span class="orange">50,000원</span>
+                                        <span>구매수량 1개</span>
+                                    </div>
+
+                                    <div class="group2">
+                                        <p>배송지 확인
+                                            <span class="material-symbols-outlined">double_arrow</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <button>재구매</button>
                                 <button>리뷰작성</button>
-                            </li>
-                        </ul>
-                    </div>
+                            </div>
+                        </li>
 
-                    <div class="second">
-                        <p>[주문상품]</p>
+                        <li>
+                            <div class="txt">
+                                <span>12345678</span>
+                                <span>2023. 07. 01</span>
+                            </div>
 
-                        <ul>
-                            <li>
-                                <img src="../../../../../../Fruit-Publish/Fruit-Publish-master/img/마이페이지-수박.png" alt="">
-                                <span class="product__name">프리미엄 고당도 꿀수박 4kg <br>
-                                    <span>50,000원</span>
-                                </span>
+                            <div class="img">
+                                <img src="./img/마이페이지-망고스틴.png" alt="망고스틴">
+                                <div class="img__txt">
+                                    <p>프리미엄 고당도 꿀수박 4kg</p>
 
-                                <span class="quant">구매수량 1개</span>
-                            </li>
-                            <li>
-                                <img src="../../../../../../Fruit-Publish/Fruit-Publish-master/img/마이페이지-망고스틴.png" alt="">
-                                <span class="product__name">프리미엄 고당도 꿀수박 4kg <br>
-                                    <span>50,000원</span>
-                                </span>
+                                    <div class="group">
+                                        <span class="orange">50,000원</span>
+                                        <span>구매수량 1개</span>
+                                    </div>
 
-                                <span class="quant">구매수량 1개</span>
-                            </li>
-                            <li>
-                                <img src="../../../../../../Fruit-Publish/Fruit-Publish-master/img/마이페이지-파인애플.png" alt="">
-                                <span class="product__name">프리미엄 고당도 꿀수박 4kg <br>
-                                    <span>50,000원</span>
-                                </span>
+                                    <div class="group2">
+                                        <p>배송지 확인
+                                            <span class="material-symbols-outlined">double_arrow</span>
+                                        </p>
+                                    </div>
 
-                                <span class="quant">구매수량 1개</span>
-                            </li>
-                        </ul>
+                                </div>
+                            </div>
 
-                        <div class="delivery__info">
-                            <p>[배송정보]</p>
-                            <ul>
-                                <li>
-                                    <span class="delivery__add">배송지</span>
-                                    <span class="delivery__name">홍길동
-                                        <span>010-1234-5678</span>
-                                        <br>
-                                        <span>서울시 강남구 강남로123 강남빌딩 1층</span>
-                                    </span>
+                            <div class="buttons">
+                                <button>재구매</button>
+                                <button>리뷰작성</button>
+                            </div>
+                        </li>
 
-                                </li>
-                                <li>
-                                    <span class="delivery__note">배송메모</span>
-                                    <span>문 앞에 놔주세요.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <li>
+                            <div class="txt">
+                                <span>12345678</span>
+                                <span>2023. 07. 01</span>
+                            </div>
 
-                    <div class="third">
-                        <p>[결제정보]</p>
+                            <div class="img">
+                                <img src="./img/마이페이지-망고스틴.png" alt="망고스틴">
+                                <div class="img__txt">
+                                    <p>프리미엄 고당도 꿀수박 4kg</p>
 
-                        <ul>
-                            <li>
-                                <span>상품금액
-                                    <span>300,000원</span>
-                                </span>
+                                    <div class="group">
+                                        <span class="orange">50,000원</span>
+                                        <span>구매수량 1개</span>
+                                    </div>
 
+                                    <div class="group2">
+                                        <p>배송지 확인
+                                            <span class="material-symbols-outlined">double_arrow</span>
+                                        </p>
+                                    </div>
 
-                                <span>할인금액
-                                    <span>-30,000원</span>
-                                </span>
+                                </div>
+                            </div>
 
+                            <div class="buttons">
+                                <button>재구매</button>
+                                <button>리뷰작성</button>
+                            </div>
+                        </li>
 
-                                <span>배송비
-                                    <span>무료</span>
-                                </span>
+                        <li>
+                            <div class="txt">
+                                <span>12345678</span>
+                                <span>2023. 07. 01</span>
+                            </div>
 
-                            </li>
-                        </ul>
+                            <div class="img">
+                                <img src="./img/마이페이지-망고스틴.png" alt="망고스틴">
+                                <div class="img__txt">
+                                    <p>프리미엄 고당도 꿀수박 4kg</p>
 
-                        <div class="total">
-                            <span class="total__price">총 결제금액</span>
-                            <span>270,000원</span>
-                        </div>
-                    </div>
+                                    <div class="group">
+                                        <span class="orange">50,000원</span>
+                                        <span>구매수량 1개</span>
+                                    </div>
+
+                                    <div class="group2">
+                                        <p>배송지 확인
+                                            <span class="material-symbols-outlined">double_arrow</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <button>재구매</button>
+                                <button>리뷰작성</button>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="txt">
+                                <span>12345678</span>
+                                <span>2023. 07. 01</span>
+                            </div>
+
+                            <div class="img">
+                                <img src="./img/마이페이지-망고스틴.png" alt="망고스틴">
+                                <div class="img__txt">
+                                    <p>프리미엄 고당도 꿀수박 4kg</p>
+
+                                    <div class="group">
+                                        <span class="orange">50,000원</span>
+                                        <span>구매수량 1개</span>
+                                    </div>
+
+                                    <div class="group2">
+                                        <p>배송지 확인
+                                            <span class="material-symbols-outlined">double_arrow</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <button>재구매</button>
+                                <button>리뷰작성</button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -323,12 +318,80 @@
                     </span>
                 </a>
             </div>
+
+
+
+
+
+            <!-- 장바구니에 담겼습니다. 모달 창 -->
+            <div class="txt04" style="display: none;">
+                <div class="inner">
+
+                    <h4>알림</h4>
+
+                    <h5>장바구니에 담겼습니다.</h5>
+
+                    <div class="buttons">
+                        <button>닫기</button>
+                        <button>장바구니로 이동</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 리뷰작성 모달 창 -->
+            <div class="txt05" style="display: none;">
+                <div class="inner">
+
+                    <h4>알림</h4>
+
+                    <h5>상품에 대한 리뷰를 남겨주세요.</h5>
+
+                    <div class="input">
+                        <input type="text" placeholder="10자이상 500자 미만으로 작성해주세요.">
+                        <span>15/500</span>
+                    </div>
+
+                    <div class="buttons">
+                        <button>작성취소</button>
+                        <button>리뷰등록</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 리뷰작성 취소. 모달 창 -->
+            <div class="txt06" style="display: none;">
+                <div class="inner">
+
+                    <h4>알림</h4>
+
+                    <h5>작성중인 내용이 모두 삭제됩니다. <br>
+                        취소 하시겠습니까?
+                    </h5>
+
+                    <div class="buttons">
+                        <button>취소하기</button>
+                        <button>계속작성</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 리뷰작성 완료. 모달 창 -->
+            <div class="txt07" style="display: none;">
+                <div class="inner">
+
+                    <h4>알림</h4>
+
+                    <h5>리뷰 작성이 완료 되었습니다.</h5>
+
+                    <div class="buttons">
+                        <button>확인</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-<div th:insert="~{fragment/user/footer.html :: copy}"></div>
 
 </body>
 

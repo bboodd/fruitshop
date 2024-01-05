@@ -19,7 +19,8 @@
 
     <th:block th:insert="~{includes/library}"></th:block>
     <th:block th:insert="~{includes/style}"></th:block>
-    <th:block th:insert="~{includes/scripts}"></th:block>
+    <!--    <th:block th:insert="~{includes/scripts}"></th:block>-->
+    <script src="/user/js/mypage.js"></script>
 </head>
 
 <body>
@@ -32,21 +33,21 @@
             <h2> 마이페이지 </h2>
 
             <div class="tab__menu">
-                <a href="#">
+                <a href="/user/mypage">
                     <div class="history">
                         <p>구매내역</p>
                     </div>
                 </a>
 
 
-                <a href="#">
+                <a href="/user/mypage/delivery">
                     <div class="delivery">
                         <p>배송지관리</p>
                     </div>
                 </a>
 
 
-                <a href="#">
+                <a href="/user/mypage/userInfo">
                     <div class="memberInfo">
                         <p>회원정보</p>
                     </div>
@@ -181,11 +182,11 @@
 
                     <div class="delivery__add__buttons">
                         <button class="delivery__add__cancel">
-                            <a href="#">작성취소</a>
+                            작성취소
                         </button>
 
                         <button class="delivery__add__confirm">
-                            <a href="#">저장하기</a>
+                            저장하기
                         </button>
                     </div>
                 </div>
@@ -206,9 +207,7 @@
 
 
                     <div class="delivery__add__confirm__buttons">
-                        <button>
-                            <a href="#">확인</a>
-                        </button>
+                        <button>확인</button>
                     </div>
                 </div>
 
@@ -230,11 +229,11 @@
 
                     <div class="delivery__add__calcel__buttons">
                         <button>
-                            <a href="#">취소하기</a>
+                            취소하기
                         </button>
 
                         <button>
-                            <a href="#">계속작성</a>
+                            계속작성
                         </button>
                     </div>
                 </div>
@@ -256,11 +255,11 @@
 
                     <div class="delivery__delete__buttons">
                         <button>
-                            <a href="#">취소하기</a>
+                            취소하기
                         </button>
 
                         <button>
-                            <a href="#">삭제하기</a>
+                            삭제하기
                         </button>
                     </div>
                 </div>
@@ -316,10 +315,6 @@
             </div>
         </div>
     </div>
-
-
-
-<div th:insert="~{fragment/user/footer.html :: copy}"></div>
 
 </body>
 

@@ -19,34 +19,35 @@
 
     <th:block th:insert="~{includes/library}"></th:block>
     <th:block th:insert="~{includes/style}"></th:block>
-    <th:block th:insert="~{includes/scripts}"></th:block>
+    <!--    <th:block th:insert="~{includes/scripts}"></th:block>-->
+    <script src="/user/js/mypage.js"></script>
 </head>
 
 <body>
 
 <div th:insert="~{fragment/user/header.html :: copy}"></div>
 
-    <div id="mypageEdit">
+    <div id="mypageEdit02">
         <div class="inner">
 
             <h2> 마이페이지 </h2>
 
             <div class="tab__menu">
-                <a href="#">
+                <a href="/user/mypage">
                     <div class="history">
                         <p>구매내역</p>
                     </div>
                 </a>
 
 
-                <a href="#">
+                <a href="/user/mypage/delivery">
                     <div class="delivery">
                         <p>배송지관리</p>
                     </div>
                 </a>
 
 
-                <a href="#">
+                <a href="/user/mypage/userInfo">
                     <div class="memberInfo">
                         <p>회원정보</p>
                     </div>
@@ -70,13 +71,12 @@
                 <button>변경</button>
             </label>
 
-            <label for="phone">
+            <label for="phone" class="phone">
                 <p>연락처</p>
                 <input type="textbox" name="phone" id="phone">
-                <button>변경</button>
             </label>
 
-            <div class="change__PW">
+            <div class="change__PW" style="display: none;">
                 <p>비밀번호 변경</p>
                 <div class="button__box">
                     <button>
@@ -84,6 +84,80 @@
                     </button>
                 </div>
             </div>
+
+
+            <!-- 비밀번호 변경하기 버튼 클릭 시 -->
+            <div class="change__PW__button">
+                <div class="button1">
+                    <p>비밀번호 변경</p>
+
+                    <div class="button__box">
+                        <button>비밀번호 변경취소</button>
+
+                        <div class="input__box">
+                            <div class="box01">
+                                <p>비밀번호</p>
+
+                                <div class="input_wrap">
+                                    <input type="text" placeholder="영문, 숫자, 특수문자(8자-20자 이내)">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </div>
+
+                            </div>
+
+                            <div class="box02">
+                                <p>비밀번호 확인</p>
+
+                                <div class="input_wrap">
+                                    <input type="text" placeholder="비밀번호를 한번 더 입력해주세요.">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 비밀번호 변경하기 버튼 클릭 시, 비밀번호 일치하지 않을 때 -->
+            <div class="change__PW__buttonWrong" style="display: none;">
+                <div class="button1">
+                    <p>비밀번호 변경</p>
+
+                    <div class="button__box">
+                        <button>비밀번호 변경취소</button>
+
+                        <div class="input__box">
+                            <div class="box01">
+                                <p>비밀번호</p>
+
+                                <div class="input_wrap">
+                                    <input type="text" placeholder="영문, 숫자, 특수문자(8자-20자 이내)">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </div>
+
+                            </div>
+
+                            <div class="box02">
+                                <p>비밀번호 확인</p>
+
+                                <div class="input_wrap">
+                                    <input type="text" placeholder="비밀번호를 한번 더 입력해주세요.">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </div>
+
+                                <p>비밀번호가 일치하지 않습니다.</p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
             <div class="mypageEdit__button">
                 <button>
@@ -145,10 +219,6 @@
             </div>
         </div>
     </div>
-
-
-<div th:insert="~{fragment/user/footer.html :: copy}"></div>
-
 </body>
 
 </html>
