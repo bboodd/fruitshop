@@ -84,6 +84,8 @@ $(function() {
             const cartAmount = parseInt($('#cartAmount').val());
             const quantity = parseInt($('#quantity').val());
 
+            console.log(amount, quantity, cartAmount);
+
             if(amount+cartAmount <= quantity){
                 axios({
                     method: 'post',

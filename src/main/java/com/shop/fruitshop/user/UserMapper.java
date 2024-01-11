@@ -65,6 +65,8 @@ public interface UserMapper {
 
     int addDelivery(HashMap<String, Object> param);
 
+    List<HashMap<String, Object>> selectUserOrders(Long userId);
+
 
 
 }

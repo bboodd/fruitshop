@@ -285,13 +285,9 @@ public class UserController {
         HashMap<String, Object> param = new HashMap<>();
         param.put("userId", loginUser.getId());
 
-        model.addAttribute("likeCount", userService.countUserLike(param));
-        model.addAttribute("cartCount", userService.countUserCart(param));
-        model.addAttribute("user", loginUser);
-        //최근 본 상품 목록 보여주기
-        model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
+        //aside
+        userService.aside(model, loginUser.getId(), loginUser.getNickname(), request);
 
-        model.addAttribute("userId", loginUser.getId());
         model.addAttribute("count", userService.countUserCart(param));
         model.addAttribute("cartList", userService.findCartByUserId(loginUser.getId()) !=
                 null ? userService.findCartByUserId(loginUser.getId()) : new CartDto());
@@ -321,22 +317,48 @@ public class UserController {
         if(loginUser == null){
             return "user/login";
         }
+
+        userService.aside(model, loginUser.getId(), loginUser.getNickname(), request);
+
+        System.out.println(userService.selectUserOrders(loginUser.getId()));
+
         return "user/mypage";
     }
 
     @GetMapping("user/mypage/delivery")
-    public String mypageDelivery(){
+    public String mypageDelivery(@SessionAttribute(name = "loginUser", required = false) User loginUser,
+                                 Model model,
+                                 HttpServletRequest request) throws IOException{
+
+        //aside
+        userService.aside(model, loginUser.getId(), loginUser.getNickname(), request);
+
         return "user/mypage_delivery";
     }
 
     @GetMapping("user/mypage/userInfo")
-    public String mypageUserInfo(){
+    public String mypageUserInfo(@SessionAttribute(name = "loginUser", required = false) User loginUser,
+                                 Model model,
+                                 HttpServletRequest request) throws IOException{
+        //aside
+        userService.aside(model, loginUser.getId(), loginUser.getNickname(), request);
+
+
         return "user/mypageEdit";
+
     }
 
     @GetMapping("user/mypage/userInfo2")
-    public String mypageUserInfo2(){
+    public String mypageUserInfo2(@SessionAttribute(name = "loginUser", required = false) User loginUser,
+                                  Model model,
+                                  HttpServletRequest request) throws IOException{
+
+        //aside
+        userService.aside(model, loginUser.getId(), loginUser.getNickname(), request);
+
+
         return "user/mypageEdit02";
+
     }
 
 }

@@ -9,6 +9,7 @@ import com.shop.fruitshop.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 
 import javax.servlet.http.Cookie;
@@ -248,5 +249,23 @@ public class UserService implements UserMapper {
         userMapper.addDelivery(param);
         int id = Integer.parseInt(String.valueOf(param.get("id")));
         return id;
+    }
+
+    public void aside(Model model, Long userId, String userName,HttpServletRequest request) throws IOException{
+        //aside
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        model.addAttribute("userId", userId);
+        model.addAttribute("likeCount", countUserLike(map));
+        model.addAttribute("cartCount", countUserCart(map));
+        model.addAttribute("userName", userName);
+
+        //최근 본 상품 목록 보여주기
+        model.addAttribute("recentProducts", getRecentProductsByCookie(request));
+    }
+
+    @Override
+    public List<HashMap<String, Object>> selectUserOrders(Long userId){
+        return userMapper.selectUserOrders(userId);
     }
 }

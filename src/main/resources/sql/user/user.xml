@@ -242,4 +242,26 @@
         INSERT INTO delivery (user_id, delivery_name, delivery_user_name, phone_number, zipcode, address, address_detail)
         VALUES (#{userId}, #{deliveryName}, #{deliveryUserName}, #{phone}, #{zipcode}, #{address}, #{addressDetail})
     </insert>
+
+<!--    mypage 유저 주문 내역 가져오기 -->
+    <select id="selectUserOrders" resultType="java.util.Map">
+        SELECT
+            orders.id,
+            orders.delivery_user_name,
+            orders.phone_number,
+            orders.address,
+            orders.address_detail,
+            orders.request,
+            DATE_FORMAT(orders.order_at, '%Y.%m.%d') AS orders_at,
+            FORMAT(order_product.price, 0) AS price,
+            order_product.amount,
+            (SELECT url FROM product_image WHERE product_id = order_product.product_id AND file_path = 'mainImages') AS url
+        FROM orders orders
+            JOIN order_product order_product
+                ON orders.id = order_product.order_id
+        WHERE orders.user_id = #{userId}
+        ORDER BY orders.order_at DESC
+    </select>
+
+
 </mapper>

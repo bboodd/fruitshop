@@ -37,10 +37,8 @@ public class OrderController {
             return "/user/login";
         }
 
-        model.addAttribute("user", loginUser);
-        model.addAttribute("userId", userId);
-        //최근 본 상품 목록 보여주기
-        model.addAttribute("recentProducts", userService.getRecentProductsByCookie(request));
+        //aside
+        userService.aside(model, loginUser.getId(), loginUser.getNickname(), request);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("userId", userId);
